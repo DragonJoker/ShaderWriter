@@ -1035,6 +1035,12 @@ namespace hlsl
 		case ast::type::Kind::eTaskPayloadIn:
 			result = getTypeName( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType() );
 			break;
+		case ast::type::Kind::eUniformBuffer:
+			result = getTypeName( static_cast< ast::type::UniformBuffer const & >( *type ).getDataType() );
+			break;
+		case ast::type::Kind::eStorageBuffer:
+			result = getTypeName( static_cast< ast::type::StorageBuffer const & >( *type ).getDataType() );
+			break;
 		default:
 			result = getTypeName( type->getKind() );
 			break;

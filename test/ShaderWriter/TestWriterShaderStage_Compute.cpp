@@ -143,7 +143,7 @@ namespace
 		sdwTestBegin( "compute" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
-		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		auto ssbo = writer.declArrayStorageBuffer< UInt >( "ssbo", 0u, 0u, ast::type::MemoryLayout::eStd140, true );
 		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
@@ -172,7 +172,7 @@ namespace
 		sdwTestBegin( "computeTypeless" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
-		ArrayStorageBufferT< Float > ssbo{ writer, "Datas", Float::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		auto ssbo = writer.declArrayStorageBuffer< Float >( "ssbo", 0u, 0u, ast::type::MemoryLayout::eStd140, true );
 		auto img = writer.declStorageImg< WImg2DR >( "img", 1u, 0u );
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
@@ -316,10 +316,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			// Inputs
-			sdw::UniformBuffer voxelizer{ writer
-				, "VoxelUbo"
-				, eVoxelUbo
-				, 0u };
+			sdw::UniformBuffer voxelizer{ writer.declUniformBuffer( "VoxelUbo", eVoxelUbo, 0u ) };
 			auto c3d_voxelTransform = voxelizer.declMember< sdw::Mat4 >( "c3d_voxelTransform" );
 			auto c3d_voxelCenter = voxelizer.declMember< sdw::Vec4 >( "c3d_voxelCenter" );
 			auto c3d_voxelSize = voxelizer.declMember< sdw::Float >( "c3d_voxelSize" );
@@ -437,7 +434,7 @@ namespace
 		{
 			auto writer = ComputeWriter{};
 
-			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer.declUniformBuffer( "Wow", 0u, 0u ) };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
@@ -543,7 +540,7 @@ namespace
 		sdwTestBegin( "subgroupCompute" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
-		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		auto ssbo = writer.declArrayStorageBuffer< UInt >( "ssbo", 0u, 0u, true );
 		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )

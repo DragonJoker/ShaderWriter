@@ -69,7 +69,6 @@ namespace ast
 		SDAST_API void visitCombinedImageDeclStmt( stmt::CombinedImageDecl const * stmt )override;
 		SDAST_API void visitSamplerDeclStmt( stmt::SamplerDecl const * stmt )override;
 		SDAST_API void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )override;
-		SDAST_API void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl const * stmt )override;
 		SDAST_API void visitSimpleStmt( stmt::Simple const * stmt )override;
 		SDAST_API void visitStructureDeclStmt( stmt::StructureDecl const * stmt )override;
 		SDAST_API void visitSwitchCaseStmt( stmt::SwitchCase const * stmt )override;

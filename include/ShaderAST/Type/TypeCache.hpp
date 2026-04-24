@@ -21,10 +21,12 @@ See LICENSE file in root folder
 #include "TypeRayPayload.hpp"
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
+#include "TypeStorageBuffer.hpp"
 #include "TypeStruct.hpp"
 #include "TypeTaskIO.hpp"
 #include "TypeTessellationControlIO.hpp"
 #include "TypeTessellationEvaluationIO.hpp"
+#include "TypeUniformBuffer.hpp"
 
 #include <array>
 #include <functional>
@@ -213,6 +215,8 @@ namespace ast::type
 		SDAST_API IOStructPtr getIOStruct( std::string const & name, ast::EntryPoint entryPoint, var::Flag flag );
 		SDAST_API IOStructPtr getIOStruct( std::string const & name, ast::EntryPoint entryPoint, ast::type::MemoryLayout layout, var::Flag flag, bool explicitLayout = false );
 		SDAST_API ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize, bool explicitLayout = false );
+		SDAST_API StorageBufferPtr getStorageBuffer( std::string const & name, MemoryLayout layout = MemoryLayout::eStd430, bool isArray = false );
+		SDAST_API UniformBufferPtr getUniformBuffer( std::string const & name, MemoryLayout layout = MemoryLayout::eStd140 );
 
 		SDAST_API TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex );
 		SDAST_API ArrayPtr getMemberType( ArrayPtr type, Struct & parent, uint32_t memberIndex );
@@ -577,6 +581,32 @@ namespace ast::type
 			{
 				return getHash( type, domain, partitioning, order, outputVertices );
 			} };
+		TypeCache< StorageBuffer, std::string const &, MemoryLayout, bool > m_storageBuffers{ [this]( std::string name
+				, MemoryLayout layout
+				, bool isArray )
+			{
+				return std::make_unique< StorageBuffer >( *this
+					, std::move( name )
+					, layout, isArray );
+			}
+			, []( std::string const & name
+				, MemoryLayout layout
+				, bool isArray )noexcept
+			{
+				return ast::type::getHash( layout, name, isArray, true );
+			} };
+		TypeCache< UniformBuffer, std::string const &, MemoryLayout > m_uniformBuffers{ [this]( std::string name
+				, MemoryLayout layout )
+			{
+				return std::make_unique< UniformBuffer >( *this
+					, std::move( name )
+					, layout );
+			}
+			, []( std::string const & name
+				, MemoryLayout layout )noexcept
+			{
+				return ast::type::getHash( layout, name, true );
+			} };
 		std::unique_ptr< AccelerationStructure > m_accelerationStructure{ std::make_unique< AccelerationStructure >( *this ) };
 		std::unique_ptr< RayDesc > m_rayDesc{ std::make_unique< RayDesc >( *this ) };
 	};
@@ -672,6 +702,12 @@ namespace ast::type
 			break;
 		case ast::type::Kind::eTaskPayloadIn:
 			traverseType( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eUniformBuffer:
+			traverseType( static_cast< ast::type::UniformBuffer const & >( *type ).getDataType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eStorageBuffer:
+			traverseType( static_cast< ast::type::StorageBuffer const & >( *type ).getDataType(), arrayDim, func );
 			break;
 		case ast::type::Kind::eVoid:
 		case ast::type::Kind::eUndefined:

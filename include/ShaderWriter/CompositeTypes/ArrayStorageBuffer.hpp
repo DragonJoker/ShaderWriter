@@ -13,89 +13,50 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename InstanceT >
-	class ArrayStorageBufferT
+	struct ArrayStorageBufferT
+		: public Value
 	{
 	public:
-		ArrayStorageBufferT( ShaderWriter & writer
-			, std::string instanceName
-			, ast::type::TypePtr dataType
-			, ast::type::MemoryLayout layout
-			, uint32_t bind
-			, uint32_t set
-			, bool enabled );
+		SDW_DeclValue( , ArrayStorageBufferT );
 
 		ArrayStorageBufferT( ShaderWriter & writer
-			, std::string instanceName
-			, ast::type::BaseStructPtr dataType
-			, uint32_t bind
-			, uint32_t set
-			, bool enabled );
-
-		template< typename ... ParamsT >
-		ArrayStorageBufferT( ShaderWriter & writer
-			, std::string instanceName
-			, uint32_t bind
-			, uint32_t set
-			, bool enabled
-			, ParamsT && ... params );
-
-		// From a buffer reference
-		ArrayStorageBufferT( ShaderWriter & writer
-			, std::string instanceName
-			, ast::expr::ExprPtr addressExpr
-			, bool enabled );
-
-		ArrayStorageBufferT(ShaderWriter& writer
-			, std::string instanceName
-			, ast::type::TypePtr dataType
-			, ast::type::MemoryLayout layout
-			, LocationHelper location
-			, bool enabled );
-
-		ArrayStorageBufferT(ShaderWriter& writer
-			, std::string instanceName
-			, ast::type::BaseStructPtr dataType
-			, LocationHelper location
-			, bool enabled );
-
-		template< typename ... ParamsT >
-		ArrayStorageBufferT(ShaderWriter& writer
-			, std::string instanceName
-			, LocationHelper location
-			, bool enabled
-			, ParamsT && ... params );
+			, expr::ExprPtr expr
+			, bool enabled = true );
 
 		ReturnWrapperT< InstanceT > operator[]( uint32_t index )const;
 		ReturnWrapperT< InstanceT > operator[]( UInt32 const & index )const;
 
-		bool isEnabled()const
-		{
-			return m_enabled;
-		}
-
 		template< typename ... ParamsT >
-		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache
+		static type::StorageBufferPtr makeType( type::TypesCache & cache
 			, std::string const & name
-			, ast::type::MemoryLayout layout
-			, bool enabled
+			, type::MemoryLayout layout
 			, ParamsT && ... params );
 
 	private:
-		ShaderWriter & m_writer;
-		ast::ShaderBuilder & m_builder;
-		std::string m_name{};
-		bool m_redeclare{};
-		ast::InterfaceBlock m_interface;
-		ast::SsboInfo m_info;
-		type::BaseStructPtr m_ssboType{};
-		var::VariablePtr m_dataVar{};
-		var::VariablePtr m_ssboVar{};
-		bool m_enabled{};
+		expr::ExprPtr makeMbrSelect( std::string_view name )const;
+
+	private:
+		ShaderBuilder & m_builder;
+		type::StorageBuffer * m_buffer;
+		type::TypePtr m_dataType;
+		var::VariablePtr m_var;
 	};
 
-	SDW_API void registerSsbo( ShaderWriter & writer
+	SDW_API var::VariablePtr registerStorageBuffer( ShaderWriter & writer
 		, std::string name
-		, SsboInfo const & info );
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, var::Flag flag = var::Flag::eStorageBuffer
+		, bool enabled = true );
+	SDW_API type::StorageBufferPtr makeArrayStorageBufferType( type::TypesCache & cache
+		, std::string const & name
+		, type::MemoryLayout layout
+		, Struct const & dataType );
+	SDW_API type::StorageBufferPtr makeArrayStorageBufferType( type::TypesCache & cache
+		, std::string const & name
+		, type::MemoryLayout layout
+		, type::TypePtr dataType );
 }
 
 #include "ArrayStorageBuffer.inl"

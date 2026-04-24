@@ -52,7 +52,7 @@ namespace ast::var
 		eShared = 1ULL << 38,
 	};
 
-	inline bool hasFlag( uint64_t flags, Flag flag )
+	inline bool hasFlag( uint64_t flags, Flag flag )noexcept
 	{
 		return flag == Flag::eNone
 			? false
@@ -62,22 +62,22 @@ namespace ast::var
 	class FlagHolder
 	{
 	public:
-		explicit FlagHolder( Flag flag )
+		explicit FlagHolder( Flag flag )noexcept
 			: m_flags{ uint64_t( flag ) }
 		{
 		}
 
-		explicit FlagHolder( uint64_t flags )
+		explicit FlagHolder( uint64_t flags )noexcept
 			: m_flags{ flags }
 		{
 		}
 
-		uint64_t getFlags()const
+		uint64_t getFlags()const noexcept
 		{
 			return m_flags;
 		}
 
-		void updateFlag( Flag flag, bool set = true )
+		void updateFlag( Flag flag, bool set = true )noexcept
 		{
 			if ( set )
 			{
@@ -89,214 +89,214 @@ namespace ast::var
 			}
 		}
 
-		bool hasFlag( Flag flag )const
+		bool hasFlag( Flag flag )const noexcept
 		{
 			return ast::var::hasFlag( m_flags, flag );
 		}
 
-		bool isParam()const
+		bool isParam()const noexcept
 		{
 			return hasFlag( Flag::eParam )
 				|| hasFlag( Flag::eInputParam )
 				|| hasFlag( Flag::eOutputParam );
 		}
 
-		bool isStatic()const
+		bool isStatic()const noexcept
 		{
 			return hasFlag( Flag::eStatic );
 		}
 
-		bool isInputParam()const
+		bool isInputParam()const noexcept
 		{
 			return hasFlag( Flag::eInputParam );
 		}
 
-		bool isOutputParam()const
+		bool isOutputParam()const noexcept
 		{
 			return hasFlag( Flag::eOutputParam );
 		}
 
-		bool isShaderInput()const
+		bool isShaderInput()const noexcept
 		{
 			return hasFlag( Flag::eShaderInput );
 		}
 
-		bool isShaderOutput()const
+		bool isShaderOutput()const noexcept
 		{
 			return hasFlag( Flag::eShaderOutput );
 		}
 
-		bool isPushConstant()const
+		bool isPushConstant()const noexcept
 		{
 			return hasFlag( Flag::ePushConstant );
 		}
 
-		bool isShaderConstant()const
+		bool isShaderConstant()const noexcept
 		{
 			return hasFlag( Flag::eShaderConstant );
 		}
 
-		bool isSpecialisationConstant()const
+		bool isSpecialisationConstant()const noexcept
 		{
 			return hasFlag( Flag::eSpecialisationConstant );
 		}
 
-		bool isLocale()const
+		bool isLocale()const noexcept
 		{
 			return hasFlag( Flag::eLocale );
 		}
 
-		bool isBuiltin()const
+		bool isBuiltin()const noexcept
 		{
 			return hasFlag( Flag::eBuiltin );
 		}
 
-		bool isUniform()const
+		bool isUniform()const noexcept
 		{
 			return hasFlag( Flag::eUniform );
 		}
 
-		bool isConstant()const
+		bool isConstant()const noexcept
 		{
 			return hasFlag( Flag::eConstant );
 		}
 
-		bool isImplicit()const
+		bool isImplicit()const noexcept
 		{
 			return hasFlag( Flag::eImplicit );
 		}
 
-		bool isFlat()const
+		bool isFlat()const noexcept
 		{
 			return hasFlag( Flag::eFlat );
 		}
 
-		bool isLoopVar()const
+		bool isLoopVar()const noexcept
 		{
 			return hasFlag( Flag::eLoopVar );
 		}
 
-		bool isMember()const
+		bool isMember()const noexcept
 		{
 			return hasFlag( Flag::eMember );
 		}
 
-		bool isNoPerspective()const
+		bool isNoPerspective()const noexcept
 		{
 			return hasFlag( Flag::eNoPerspective );
 		}
 
-		bool isPatchInput()const
+		bool isPatchInput()const noexcept
 		{
 			return hasFlag( Flag::ePatchInput );
 		}
 
-		bool isPatchOutput()const
+		bool isPatchOutput()const noexcept
 		{
 			return hasFlag( Flag::ePatchOutput );
 		}
 
-		bool isCentroid()const
+		bool isCentroid()const noexcept
 		{
 			return hasFlag( Flag::eCentroid );
 		}
 
-		bool isPerSample()const
+		bool isPerSample()const noexcept
 		{
 			return hasFlag( Flag::ePerSample );
 		}
 
-		bool isGeometryStream()const
+		bool isGeometryStream()const noexcept
 		{
 			return hasFlag( Flag::eGeometryStream );
 		}
 
-		bool isBlendIndex()const
+		bool isBlendIndex()const noexcept
 		{
 			return hasFlag( Flag::eBlendIndex );
 		}
 
-		bool isTempVar()const
+		bool isTempVar()const noexcept
 		{
 			return hasFlag( Flag::eTemp );
 		}
 
-		bool isAlias()const
+		bool isAlias()const noexcept
 		{
 			return hasFlag( Flag::eAlias );
 		}
 
-		bool isStorageBuffer()const
+		bool isStorageBuffer()const noexcept
 		{
 			return hasFlag( Flag::eStorageBuffer );
 		}
 
-		bool isIncomingRayPayload()const
+		bool isIncomingRayPayload()const noexcept
 		{
 			return hasFlag( Flag::eIncomingRayPayload );
 		}
 
-		bool isRayPayload()const
+		bool isRayPayload()const noexcept
 		{
 			return hasFlag( Flag::eRayPayload );
 		}
 
-		bool isIncomingCallableData()const
+		bool isIncomingCallableData()const noexcept
 		{
 			return hasFlag( Flag::eIncomingCallableData );
 		}
 
-		bool isCallableData()const
+		bool isCallableData()const noexcept
 		{
 			return hasFlag( Flag::eCallableData );
 		}
 
-		bool isHitAttribute()const
+		bool isHitAttribute()const noexcept
 		{
 			return hasFlag( Flag::eHitAttribute );
 		}
 
-		bool isBufferReference()const
+		bool isBufferReference()const noexcept
 		{
 			return hasFlag( Flag::eBufferReference );
 		}
 
-		bool isPerPrimitive()const
+		bool isPerPrimitive()const noexcept
 		{
 			return hasFlag( Flag::ePerPrimitive );
 		}
 
-		bool isPerView()const
+		bool isPerView()const noexcept
 		{
 			return hasFlag( Flag::ePerView );
 		}
 
-		bool isPerTaskNV()const
+		bool isPerTaskNV()const noexcept
 		{
 			return hasFlag( Flag::ePerTaskNV );
 		}
 
-		bool isPerTask()const
+		bool isPerTask()const noexcept
 		{
 			return hasFlag( Flag::ePerTask );
 		}
 
-		bool isShared()const
+		bool isShared()const noexcept
 		{
 			return hasFlag( Flag::eShared );
 		}
 
-		bool isPatch()const
+		bool isPatch()const noexcept
 		{
 			return isPatchInput() || isPatchOutput();
 		}
 
-		bool isInput()const
+		bool isInput()const noexcept
 		{
 			return isShaderInput() || isPatchInput();
 		}
 
-		bool isOutput()const
+		bool isOutput()const noexcept
 		{
 			return isShaderOutput() || isPatchOutput();
 		}
@@ -305,17 +305,17 @@ namespace ast::var
 		uint64_t m_flags;
 	};
 
-	inline uint64_t operator|( Flag const lhs, Flag const rhs )
+	inline uint64_t operator|( Flag const lhs, Flag const rhs )noexcept
 	{
 		return uint64_t( lhs ) | uint64_t( rhs );
 	}
 
-	inline uint64_t operator|( Flag const lhs, uint64_t const rhs )
+	inline uint64_t operator|( Flag const lhs, uint64_t const rhs )noexcept
 	{
 		return uint64_t( lhs ) | uint64_t( rhs );
 	}
 
-	inline uint64_t operator|( uint64_t const lhs, Flag const rhs )
+	inline uint64_t operator|( uint64_t const lhs, Flag const rhs )noexcept
 	{
 		return uint64_t( lhs ) | uint64_t( rhs );
 	}

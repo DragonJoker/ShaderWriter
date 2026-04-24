@@ -507,7 +507,10 @@ namespace ast
 
 				void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )override
 				{
-					parseBuffer( stmt->getName(), *stmt );
+					Used buffer{ *m_result.vars.get_allocator().getAllocator() };
+					for ( auto & mbr : *stmt->getBuffer()->getDataType() )
+						markType( mbr.type, buffer );
+					m_buffers.try_emplace( stmt->getInstanceName(), std::move( buffer ) );
 				}
 
 				void visitDispatchMeshStmt( stmt::DispatchMesh const * stmt )override
@@ -586,6 +589,14 @@ namespace ast
 					{
 						doSubmit( *expr );
 					}
+				}
+
+				void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )override
+				{
+					Used buffer{ *m_result.vars.get_allocator().getAllocator() };
+					for ( auto & mbr : *stmt->getBuffer()->getDataType() )
+						markType( mbr.type, buffer );
+					m_buffers.try_emplace( stmt->getInstanceName(), std::move( buffer ) );
 				}
 
 				void visitSimpleStmt( stmt::Simple const * stmt )override
@@ -703,7 +714,7 @@ namespace ast
 
 				void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )override
 				{
-					if ( isUsed( stmt->getName() ) )
+					if ( isUsed( stmt->getVariable() ) )
 					{
 						StmtCloner::visitConstantBufferDeclStmt( stmt );
 					}
@@ -871,15 +882,6 @@ namespace ast
 					if ( isUsed( stmt->getVariable() ) )
 					{
 						StmtCloner::visitShaderBufferDeclStmt( stmt );
-					}
-				}
-
-				void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl const * stmt )override
-				{
-					if ( isUsed( stmt->getSsboInstance() )
-						|| isUsed( stmt->getData() ) )
-					{
-						StmtCloner::visitShaderStructBufferDeclStmt( stmt );
 					}
 				}
 

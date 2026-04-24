@@ -7,7 +7,35 @@
 
 namespace
 {
-#define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
+	template< typename T, typename Enable = void >
+	struct CompilerHolderT;
+
+	template< typename T >
+	struct CompilerHolderT< T, std::enable_if_t< !test::isFloat64Type< T > && !test::isInt16Type< T > && !test::isUInt16Type< T > > >
+	{
+		static constexpr test::Compilers value = CurrentCompilers;
+	};
+
+	template< typename T >
+	struct CompilerHolderT< T, std::enable_if_t< test::isFloat64Type< T > || test::isInt16Type< T > || test::isUInt16Type< T > > >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template< typename T >
+	inline constexpr test::Compilers CompilersT = CompilerHolderT< T >::value;
+
+#define DummyMain\
+	writer.implementMain( 32u, [&]( sdw::ComputeIn in )\
+	{\
+		writer.declLocale( "var", value );\
+	} )
+
+#define DummyMainArray\
+	writer.implementMain( 32u, [&]( sdw::ComputeIn in )\
+	{\
+		writer.declLocale( "var", value[0] );\
+	} )
 
 	using T = sdw::SDW_TestType;
 
@@ -15,10 +43,10 @@ namespace
 	{
 		sdwTestBegin( "testUboRaw" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_member";
-			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -34,28 +62,13 @@ namespace
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_member";
-			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -71,22 +84,7 @@ namespace
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
@@ -95,10 +93,10 @@ namespace
 	{
 		sdwTestBegin( "testUboRawArray" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray";
-			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -113,29 +111,14 @@ namespace
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray";
-			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -150,23 +133,8 @@ namespace
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
@@ -175,10 +143,10 @@ namespace
 	{
 		sdwTestBegin( "testUboRawOptionalDisabled" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis";
-			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -196,28 +164,13 @@ namespace
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis";
-			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -235,22 +188,7 @@ namespace
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
@@ -259,10 +197,10 @@ namespace
 	{
 		sdwTestBegin( "testUboRawOptionalDisabledArray" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray";
-			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -279,29 +217,14 @@ namespace
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray";
-			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -318,23 +241,8 @@ namespace
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
@@ -343,10 +251,10 @@ namespace
 	{
 		sdwTestBegin( "testUboRawOptionalEnabled" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn";
-			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -364,28 +272,13 @@ namespace
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn";
-			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -403,22 +296,7 @@ namespace
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
@@ -427,10 +305,10 @@ namespace
 	{
 		sdwTestBegin( "testUboRawOptionalEnabledArray" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray";
-			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -447,29 +325,14 @@ namespace
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray";
-			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -486,23 +349,8 @@ namespace
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
@@ -510,69 +358,40 @@ namespace
 	TEST_F( SDWTest, testUboHelper )
 	{
 #if SDW_EnableStructHelper
+		using UboType = sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > >;
 
 		sdwTestBegin( "testUboHelper" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", 1u, 1u };
-			auto retrieved = bo.template getMember< "member" >();
-			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", 1u, 1u ) };
+			auto value = bo.template getMember< "member" >();
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
-			auto retrieved = bo.template getMember< "member" >();
-			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", { .binding = 1u, .set = 1u } ) };
+			auto value = bo.template getMember< "member" >();
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 
@@ -582,69 +401,40 @@ namespace
 	TEST_F( SDWTest, testUboHelperArray )
 	{
 #if SDW_EnableStructHelper
+		using UboType = sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > >;
 
 		sdwTestBegin( "testUboHelperArray" );
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", 1u, 1u };
-			auto retrieved = bo.template getMember< "member" >();
-			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( retrieved.getType() ) == 4u );
-			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", 1u, 1u ) };
+			auto value = bo.template getMember< "member" >();
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
-			auto retrieved = bo.template getMember< "member" >();
-			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( retrieved.getType() ) == 4u );
-			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", { .binding = 1u, .set = 1u } ) };
+			auto value = bo.template getMember< "member" >();
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			DummyMain;
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			DummyMainArray;
+			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 

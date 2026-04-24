@@ -449,45 +449,20 @@ namespace hlsl
 				}
 			}
 
-			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
+			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
-				auto ssboVar = stmt->getVariable();
-				declareType( ssboVar->getType() );
-				m_adaptationData.ssboList.push_back( ssboVar );
-				m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
-					, ast::var::makeVariable( m_adaptationData.getNextVarId()
-						, ssboVar->getType()
-						, ssboVar->getName() + "Inst" )
-					, ssboVar
+				declareType( stmt->getBuffer() );
+				m_current->addStmt( m_stmtCache.makeConstantBufferDecl( stmt->getVariable()
 					, stmt->getBindingPoint()
 					, stmt->getDescriptorSet() ) );
-				uint32_t mbrIndex = 0u;
-
-				for ( auto & curStmt : *stmt )
-				{
-					AST_Assert( curStmt->getKind() == ast::stmt::Kind::eVariableDecl );
-					auto var = static_cast< ast::stmt::VariableDecl const & >( *curStmt ).getVariable();
-					m_adaptationData.replacedVars.try_emplace( var
-						, m_exprCache.makeMbrSelect( m_exprCache.makeArrayAccess( ssboVar->getType()
-							, m_exprCache.makeIdentifier( m_typesCache
-								, ast::var::makeVariable( m_adaptationData.getNextVarId()
-									, m_typesCache.getArray( ssboVar->getType(), 1u )
-									, ssboVar->getName()
-									, uint64_t( ast::var::Flag::eUniform ) ) )
-							, m_exprCache.makeLiteral( m_typesCache, 0 ) )
-							, mbrIndex
-							, uint64_t( ast::var::Flag::eUniform ) ) );
-					++mbrIndex;
-				}
 			}
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
+			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
-				declareType( stmt->getData()->getType() );
-				m_adaptationData.ssboList.push_back( stmt->getSsboInstance() );
-				m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
-					, stmt->getSsboInstance()
-					, stmt->getData()
+				m_adaptationData.ssboList.push_back( stmt->getVariable() );
+				if ( !stmt->getBuffer()->isArray() )
+					declareType( stmt->getBuffer() );
+				m_current->addStmt( m_stmtCache.makeShaderBufferDecl( stmt->getVariable()
 					, stmt->getBindingPoint()
 					, stmt->getDescriptorSet() ) );
 			}

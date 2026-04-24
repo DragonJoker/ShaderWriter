@@ -519,7 +519,7 @@ namespace
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 		// Shader inputs
-		UniformBuffer hdrConfig{ writer, "BufferHdrConfig", 0u, 0u };
+		UniformBuffer hdrConfig{ writer.declUniformBuffer( "BufferHdrConfig", 0u, 0u ) };
 		auto c3d_exposure = hdrConfig.declMember< Float >( "c3d_exposure" );
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
@@ -681,7 +681,7 @@ namespace
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		// Shader inputs
-		UniformBuffer hdrConfig{ writer, "BufferHdrConfig", 0u, 0u };
+		UniformBuffer hdrConfig{ writer.declUniformBuffer( "BufferHdrConfig", 0u, 0u ) };
 		auto c3d_exposure = hdrConfig.declMember< Float >( "c3d_exposure" );
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
@@ -728,7 +728,7 @@ namespace
 		S.declMember< Int >( "i" );
 		S.end();
 
-		UniformBuffer blockName{ writer, "blockName", 0u, 0u };
+		UniformBuffer blockName{ writer.declUniformBuffer( "blockName", 0u, 0u ) };
 		blockName.declStructMember( "s", S );
 		blockName.declMember< Int >( "cond" );
 		blockName.end();

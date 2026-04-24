@@ -3,26 +3,26 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Stmt/StmtConstantBufferDecl.hpp"
 
+#include "ShaderAST/ShaderLog.hpp"
 #include "ShaderAST/Stmt/StmtVisitor.hpp"
 
 namespace ast::stmt
 {
 	ConstantBufferDecl::ConstantBufferDecl( StmtCache & stmtCache
-		, std::string name
-		, type::MemoryLayout layout
+		, var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Compound{ stmtCache, sizeof( ConstantBufferDecl ), Kind::eConstantBufferDecl }
-		, m_name{ std::move( name ) }
-		, m_layout{ layout }
+		: Stmt{ stmtCache, sizeof( ShaderBufferDecl ), Kind::eConstantBufferDecl }
+		, m_variable{ std::move( variable ) }
+		, m_type{ static_cast< type::UniformBuffer * >( getNonArrayType( m_variable->getType() ) ) }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }
 	{
-	}
-
-	void ConstantBufferDecl::add( VariableDeclPtr decl )
-	{
-		addStmt( std::move( decl ) );
+		if ( type::getArraySize( m_variable->getType() ) != ast::type::NotArray )
+		{
+			AST_Failure( "Constant buffer variable cannot be an array" );
+			AST_Exception( "Constant buffer variable cannot be an array" );
+		}
 	}
 
 	void ConstantBufferDecl::accept( VisitorPtr vis )const

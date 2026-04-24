@@ -386,6 +386,18 @@ namespace ast::type
 
 			auto kind = getNonArrayKindRec( type );
 
+			if ( kind == Kind::eStorageBuffer )
+			{
+				return getPackedSize( *static_cast< StorageBuffer const & >( type ).getDataType()
+					, layout );
+			}
+
+			if ( kind == Kind::eUniformBuffer )
+			{
+				return getPackedSize( *static_cast< StorageBuffer const & >( type ).getDataType()
+					, layout );
+			}
+
 			if ( kind == Kind::eStruct
 				|| kind == Kind::eRayDesc )
 			{
@@ -645,7 +657,7 @@ namespace ast::type
 			: uint32_t( std::distance( m_members.begin(), it ) );
 	}
 
-	std::tuple< uint32_t, uint32_t, bool > Struct::doLookupMember( std::string_view name
+	std::tuple< uint32_t, uint32_t, bool, uint32_t > Struct::doLookupMember( std::string_view name
 		, TypePtr type )
 	{
 		auto it = std::find_if( m_members.begin()
@@ -655,21 +667,25 @@ namespace ast::type
 				return lookup.name == name;
 			} );
 		uint32_t offset{};
+		uint32_t index{};
 
 		if ( it != m_members.end() )
 		{
 			offset = it->offset;
+			index = uint32_t( std::distance( m_members.begin(), it ) );
 		}
 		else
 		{
 			offset = ( m_members.empty()
 				? 0u
 				: m_members.back().offset + m_members.back().size );
+			index = uint32_t( m_members.size() );
 		}
 
 		return std::make_tuple( getSize( type, m_layout )
 			, offset
-			, it != m_members.end() );
+			, it != m_members.end()
+			, index );
 	}
 
 	void Struct::doAddMember( Struct::Member const & member )
@@ -731,10 +747,10 @@ namespace ast::type
 	{
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::declMember( Builtin builtin
+	std::tuple< Struct::Member, bool, uint32_t > BaseStruct::declMember( Builtin builtin
 		, TypePtr type
 		, uint32_t arraySize
-		, uint32_t index
+		, uint32_t builtinIndex
 		, bool enabled )
 	{
 		AST_Assert( getStructType( *type ) == nullptr
@@ -742,24 +758,24 @@ namespace ast::type
 
 		if ( !enabled )
 		{
-			return { Struct::Member{}, false };
+			return { Struct::Member{}, false, 0u };
 		}
 
 		auto mbrType = strct::getMemberType( std::move( type )
 			, arraySize
 			, *this
 			, uint32_t( size() ) );
-		return doCreateMember( mbrType, builtin, index );
+		return doCreateMember( mbrType, builtin, builtinIndex );
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
+	std::tuple< Struct::Member, bool, uint32_t > BaseStruct::declMember( std::string name
 		, TypePtr type
 		, uint32_t arraySize
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return { Struct::Member{}, false };
+			return { Struct::Member{}, false, 0u };
 		}
 
 		auto mbrType = strct::getMemberType( strct::convertToBaseStruct( std::move( type ), getMemoryLayout() )
@@ -769,7 +785,7 @@ namespace ast::type
 		return doCreateMember( mbrType, std::move( name ) );
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::declMember( Builtin builtin
+	std::tuple< Struct::Member, bool, uint32_t > BaseStruct::declMember( Builtin builtin
 		, Kind kind
 		, uint32_t arraySize
 		, uint32_t index
@@ -782,7 +798,7 @@ namespace ast::type
 			, enabled );
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
+	std::tuple< Struct::Member, bool, uint32_t > BaseStruct::declMember( std::string name
 		, Kind kind
 		, uint32_t arraySize
 		, bool enabled )
@@ -809,17 +825,17 @@ namespace ast::type
 		return result;
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::doCreateMember( TypePtr type
+	std::tuple< Struct::Member, bool, uint32_t > BaseStruct::doCreateMember( TypePtr type
 		, std::string name )
 	{
-		auto [size, offset, exists] = doLookupMember( name, type );
+		auto [size, offset, exists, mbrIndex] = doLookupMember( name, type );
 		auto stride = type->getKind() == Kind::eArray
 			? getArrayStride( type, getMemoryLayout() )
 			: 0u;
 
 		if ( exists )
 		{
-			return { getMember( name ), false };
+			return { getMember( name ), false, mbrIndex };
 		}
 
 		Member result{ std::move( type )
@@ -828,25 +844,25 @@ namespace ast::type
 			, size
 			, stride };
 		doAddMember( result );
-		return { result, true };
+		return { result, true, mbrIndex };
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::doCreateMember( TypePtr type
+	std::tuple< Struct::Member, bool, uint32_t > BaseStruct::doCreateMember( TypePtr type
 		, Builtin builtin
-		, uint32_t index )
+		, uint32_t builtinIndex )
 	{
-		auto [size, offset, exists] = doLookupMember( getRealName( builtin, index ), type );
+		auto [size, offset, exists, mbrIndex] = doLookupMember( getRealName( builtin, builtinIndex ), type );
 
 		if ( exists )
 		{
-			return { getMember( builtin, index ), false };
+			return { getMember( builtin, builtinIndex ), false, mbrIndex };
 		}
 
 		Member result{ std::move( type )
 			, builtin
-			, index };
+			, builtinIndex };
 		doAddMember( result );
-		return { result, true };
+		return { result, true, mbrIndex };
 	}
 
 	//*************************************************************************
@@ -862,10 +878,10 @@ namespace ast::type
 	{
 	}
 
-	std::pair< Struct::Member, bool > IOStruct::declMember( Builtin builtin
+	std::tuple< Struct::Member, bool, uint32_t > IOStruct::declMember( Builtin builtin
 		, TypePtr type
 		, uint32_t arraySize
-		, uint32_t index
+		, uint32_t builtinIndex
 		, bool enabled )
 	{
 		AST_Assert( getStructType( *type ) == nullptr
@@ -873,17 +889,17 @@ namespace ast::type
 
 		if ( !enabled )
 		{
-			return { Struct::Member{}, false };
+			return { Struct::Member{}, false, 0u };
 		}
 
 		auto mbrType = strct::getMemberType( std::move( type )
 			, arraySize
 			, *this
 			, uint32_t( size() ) );
-		return doCreateMember( mbrType, builtin, index );
+		return doCreateMember( mbrType, builtin, builtinIndex );
 	}
 
-	std::pair< Struct::Member, bool > IOStruct::declMember( std::string name
+	std::tuple< Struct::Member, bool, uint32_t > IOStruct::declMember( std::string name
 		, TypePtr type
 		, uint32_t arraySize
 		, uint32_t location
@@ -891,7 +907,7 @@ namespace ast::type
 	{
 		if ( !enabled )
 		{
-			return { Struct::Member{}, false };
+			return { Struct::Member{}, false, 0u };
 		}
 
 		auto mbrType = strct::getMemberType( strct::convertToIOStruct( std::move( type ), getEntryPoint(), getFlag(), location )
@@ -901,7 +917,7 @@ namespace ast::type
 		return doCreateMember( mbrType, std::move( name ), location );
 	}
 
-	std::pair< Struct::Member, bool > IOStruct::declMember( Builtin builtin
+	std::tuple< Struct::Member, bool, uint32_t > IOStruct::declMember( Builtin builtin
 		, Kind kind
 		, uint32_t arraySize
 		, uint32_t index
@@ -914,7 +930,7 @@ namespace ast::type
 			, enabled );
 	}
 
-	std::pair< Struct::Member, bool > IOStruct::declMember( std::string name
+	std::tuple< Struct::Member, bool, uint32_t > IOStruct::declMember( std::string name
 		, Kind kind
 		, uint32_t arraySize
 		, uint32_t location
@@ -964,15 +980,15 @@ namespace ast::type
 		return result;
 	}
 
-	std::pair< Struct::Member, bool > IOStruct::doCreateMember( TypePtr type
+	std::tuple< Struct::Member, bool, uint32_t > IOStruct::doCreateMember( TypePtr type
 		, std::string name
 		, uint32_t location )
 	{
-		auto [size, offset, exists] = doLookupMember( name, type );
+		auto [size, offset, exists, mbrIndex] = doLookupMember( name, type );
 
 		if ( exists )
 		{
-			return { getMember( name ), false };
+			return { getMember( name ), false, mbrIndex };
 		}
 
 		Member result{ std::move( type )
@@ -982,25 +998,25 @@ namespace ast::type
 			, 0u
 			, location };
 		doAddMember( result );
-		return { result, true };
+		return { result, true, mbrIndex };
 	}
 
-	std::pair< Struct::Member, bool > IOStruct::doCreateMember( TypePtr type
+	std::tuple< Struct::Member, bool, uint32_t > IOStruct::doCreateMember( TypePtr type
 		, Builtin builtin
-		, uint32_t index )
+		, uint32_t builtinIndex )
 	{
-		auto [size, offset, exists] = doLookupMember( getRealName( builtin, index ), type );
+		auto [size, offset, exists, mbrIndex] = doLookupMember( getRealName( builtin, builtinIndex ), type );
 
 		if ( exists )
 		{
-			return { getMember( builtin, index ), false };
+			return { getMember( builtin, builtinIndex ), false, mbrIndex };
 		}
 
 		Member result{ std::move( type )
 			, builtin
-			, index };
+			, builtinIndex };
 		doAddMember( result );
-		return { result, true };
+		return { result, true, mbrIndex };
 	}
 
 	//*************************************************************************
@@ -1178,6 +1194,14 @@ namespace ast::type
 			{
 				type = static_cast< type::TaskPayloadIn const & >( *type ).getType();
 			}
+			else if ( type->getRawKind() == type::Kind::eUniformBuffer )
+			{
+				type = static_cast< type::UniformBuffer const & >( *type ).getDataType();
+			}
+			else if ( type->getRawKind() == type::Kind::eStorageBuffer )
+			{
+				type = static_cast< type::StorageBuffer const & >( *type ).getDataType();
+			}
 			else
 			{
 				break;
@@ -1284,6 +1308,14 @@ namespace ast::type
 			{
 				type = static_cast< type::TaskPayloadIn const & >( *type ).getType();
 			}
+			else if ( type->getRawKind() == type::Kind::eUniformBuffer )
+			{
+				type = static_cast< type::UniformBuffer const & >( *type ).getDataType();
+			}
+			else if ( type->getRawKind() == type::Kind::eStorageBuffer )
+			{
+				type = static_cast< type::StorageBuffer const & >( *type ).getDataType();
+			}
 			else
 			{
 				break;
@@ -1362,6 +1394,21 @@ namespace ast::type
 		}
 
 		return getArraySize( structType->back().type ) == UnknownArraySize;
+	}
+
+	TypePtr getExplicitLayoutType( TypesCache & typesCache, TypePtr type )
+	{
+		return typesCache.getExplicitLayoutType( type );
+	}
+
+	TypePtr getBasicType( TypesCache & typesCache, Kind kind, bool explicitLayout )
+	{
+		return typesCache.getBasicType( kind, explicitLayout );
+	}
+
+	BaseStructPtr getStruct( TypesCache & typesCache, MemoryLayout layout, std::string const & name, bool explicitLayout )
+	{
+		return typesCache.getStruct( layout, name, explicitLayout );
 	}
 
 	//*************************************************************************

@@ -1529,10 +1529,11 @@ namespace glsl
 			static bool isScopeBeginStatement( StatementType value )
 			{
 				return value == glsl::StatementType::eNone
-					|| value == glsl::StatementType::eStructureMemberDecl
-					|| value == glsl::StatementType::eVariableDecl
-					|| value == glsl::StatementType::eBuiltinVariableDecl
-					|| value == glsl::StatementType::eScopeLine
+					//|| value == glsl::StatementType::eStructureMemberDecl
+					//|| value == glsl::StatementType::eVariableDecl
+					//|| value == glsl::StatementType::eBuiltinVariableDecl
+					//|| value == glsl::StatementType::eVariableBlockDecl
+					//|| value == glsl::StatementType::eScopeLine
 					|| value == glsl::StatementType::eStructureScopeBegin
 					|| value == glsl::StatementType::eFunctionScopeBegin
 					|| value == glsl::StatementType::eLexicalScopeBegin
@@ -1542,12 +1543,11 @@ namespace glsl
 			static bool isScopeEndStatement( StatementType value )
 			{
 				return value == glsl::StatementType::eNone
-					|| value == glsl::StatementType::eStructureDecl
-					|| value == glsl::StatementType::eStructureMemberDecl
-					|| value == glsl::StatementType::eVariableDecl
-					|| value == glsl::StatementType::eVariableBlockDecl
-					|| value == glsl::StatementType::eBuiltinVariableDecl
-					|| value == glsl::StatementType::eScopeLine
+					//|| value == glsl::StatementType::eStructureDecl
+					//|| value == glsl::StatementType::eStructureMemberDecl
+					//|| value == glsl::StatementType::eVariableDecl
+					//|| value == glsl::StatementType::eBuiltinVariableDecl
+					//|| value == glsl::StatementType::eScopeLine
 					|| value == glsl::StatementType::eStructureScopeEnd
 					|| value == glsl::StatementType::eFunctionScopeEnd
 					|| value == glsl::StatementType::eLexicalScopeEnd
@@ -2560,11 +2560,13 @@ namespace glsl
 				m_lastStmtType = type;
 			}
 
-			void doAddSimpleStatement( std::string const & text
+			void doAddSimpleStatement( std::string text
 				, ExprsColumns exprs
 				, ast::stmt::Stmt const & stmt )
 			{
-				doAddStatement( text + ";", std::move( exprs ), m_scopeLines.back(), stmt );
+				if ( !text.empty() )
+					text += ";";
+				doAddStatement( text, std::move( exprs ), m_scopeLines.back(), stmt );
 			}
 
 			void doAddInterruptStatement( std::string const & text
@@ -2797,19 +2799,34 @@ namespace glsl
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
-				if ( !stmt->empty() )
+				if ( !m_config.hasDescriptorSets )
+				{
+					ast::type::BaseStructPtr structType = stmt->getBuffer()->getDataType();
+					for ( auto & mbr : *structType )
+					{
+						std::string text = "uniform ";
+						text += getTypeName( mbr.type ) + " " + mbr.name;
+						text += helpers::getTypeArraySize( mbr.type );
+						doAddSimpleStatement( text, ExprsColumns{}, *stmt );
+					}
+				}
+				else
 				{
 					std::string text = "layout(";
 					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
 					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-					text += ") uniform " + stmt->getName() + "Block";
+					text += ") uniform " + stmt->getInstanceName() + "Block";
 					doAddBlockVariableDeclStatement( std::move( text ), *stmt );
-					doParseScope( *stmt
-						, StatementType::eStructureScopeBegin
-						, StatementType::eStructureMemberDecl
-						, StatementType::eStructureScopeEnd
-						, std::string{}
-						, stmt->getName() );
+					doBeginScope( *stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
+
+					for ( auto & mbr : *stmt->getBuffer()->getDataType() )
+					{
+						std::string member = getTypeName( mbr.type ) + " " + mbr.name;
+						member += helpers::getTypeArraySize( mbr.type );
+						doAddSimpleStatement( member, ExprsColumns{}, *stmt );
+					}
+
+					doEndScope( *stmt, StatementType::eStructureScopeEnd, " " + stmt->getInstanceName() + helpers::getTypeArraySize( stmt->getInstanceType() ) );
 				}
 			}
 
@@ -2844,7 +2861,9 @@ namespace glsl
 			{
 				if ( !stmt->empty() )
 				{
-					std::string text = "layout(push_constant) ";
+					std::string text = m_config.vulkanGlsl
+						? std::string{ "layout(push_constant) " }
+						: std::string{ "layout(std140) " };
 					text += "uniform " + stmt->getName() + "Block";
 					doAddBlockVariableDeclStatement( std::move( text ), *stmt );
 					doParseScope( *stmt
@@ -3357,30 +3376,18 @@ namespace glsl
 				std::string text = "layout(";
 				text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
 				doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-				text += ") buffer " + stmt->getSsboName() + "Buffer";
-				doAddBlockVariableDeclStatement( std::move( text ), *stmt );
-				doParseScope( *stmt
-					, StatementType::eStructureScopeBegin
-					, StatementType::eStructureMemberDecl
-					, StatementType::eStructureScopeEnd
-					, std::string{}
-					, stmt->getSsboName() );
-			}
-
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				std::string text = "layout(";
-				text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
-				doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-				text += ") buffer " + stmt->getSsboName();
+				text += ") buffer " + stmt->getInstanceName() + "Block";
 				doAddBlockVariableDeclStatement( std::move( text ), *stmt );
 				doBeginScope( *stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
-				auto data = stmt->getData();
-				auto arrayType = static_cast< ast::type::Array * >( data->getType() );
-				text = getTypeName( arrayType->getType() ) + " " + data->getName();
-				text += helpers::getTypeArraySize( arrayType );
-				doAddSimpleStatement( text, ExprsColumns{}, *stmt );
-				doEndScope( *stmt, StatementType::eStructureScopeEnd, " " + stmt->getSsboInstance()->getName() );
+
+				for ( auto & mbr : *stmt->getBuffer()->getDataType() )
+				{
+					std::string member = getTypeName( mbr.type ) + " " + mbr.name;
+					member += helpers::getTypeArraySize( mbr.type );
+					doAddSimpleStatement( member, ExprsColumns{}, *stmt );
+				}
+
+				doEndScope( *stmt, StatementType::eStructureScopeEnd, " " + stmt->getInstanceName() + helpers::getTypeArraySize( stmt->getInstanceType() ) );
 			}
 
 			void visitSimpleStmt( ast::stmt::Simple const * stmt )override

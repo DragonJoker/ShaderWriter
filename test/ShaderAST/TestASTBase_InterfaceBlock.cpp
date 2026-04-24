@@ -42,7 +42,7 @@ namespace
 	void testInterfaceBlockT( test::TestCounts & testCounts, type::MemoryLayout layout )
 	{
 		type::TypesCache typesCache;
-		InterfaceBlock block{ typesCache, layout, "test" };
+		type::InterfaceBlock block{ typesCache, layout, "test" };
 		uint32_t count{};
 		std::string name{ "mbr0" };
 		if constexpr ( MbrKindT != type::Kind::eBoolean
@@ -52,8 +52,8 @@ namespace
 		{
 			if ( astOn( "Non array basic kind member declaration" ) )
 			{
-				astCheck( block.registerMember< MbrKindT >( name, type::NotArray ).second )
-				astCheck( !block.registerMember< MbrKindT >( name, type::NotArray ).second )
+				astCheck( std::get< 1 >( block.registerMember< MbrKindT >( name, type::NotArray ) ) )
+				astCheck( !std::get< 1 >( block.registerMember< MbrKindT >( name, type::NotArray ) ) )
 				astCheck( block.hasMember( name ) )
 				astCheck( block.findMember( name ) != type::Struct::NotFound )
 				astCheckNoThrow( block.getMember( name ) )
@@ -62,8 +62,8 @@ namespace
 		}
 		if ( astOn( "Non array basic type member declaration" ) )
 		{
-			astCheck( block.registerMember( name, typesCache.getBasicType( MbrKindT ), type::NotArray ).second )
-			astCheck( !block.registerMember( name, typesCache.getBasicType( MbrKindT ), type::NotArray ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, typesCache.getBasicType( MbrKindT ), type::NotArray ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, typesCache.getBasicType( MbrKindT ), type::NotArray ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )
@@ -71,8 +71,8 @@ namespace
 		}
 		if ( astOn( "Non array basic array member declaration" ) )
 		{
-			astCheck( block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), type::NotArray ).second )
-			astCheck( !block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), type::NotArray ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), type::NotArray ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), type::NotArray ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )
@@ -82,8 +82,8 @@ namespace
 		{
 			auto structType = typesCache.getStruct( layout, "mbr" );
 			structType->declMember( "mbmbr", MbrKindT );
-			astCheck( block.registerMember( name, structType, type::NotArray ).second )
-			astCheck( !block.registerMember( name, structType, type::NotArray ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, structType, type::NotArray ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, structType, type::NotArray ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )
@@ -93,8 +93,8 @@ namespace
 		{
 			auto structType = typesCache.getIOStruct( "iombr", EntryPoint::eCompute, var::Flag::eShaderInput );
 			structType->declMember( "mbmbr", MbrKindT, 1u );
-			astCheck( block.registerMember( name, structType, type::NotArray ).second )
-			astCheck( !block.registerMember( name, structType, type::NotArray ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, structType, type::NotArray ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, structType, type::NotArray ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )
@@ -107,8 +107,8 @@ namespace
 		{
 			if ( astOn( "Static array basic kind member declaration" ) )
 			{
-				astCheck( block.registerMember< MbrKindT >( name, 4u ).second )
-				astCheck( !block.registerMember< MbrKindT >( name, 4u ).second )
+				astCheck( std::get< 1 >( block.registerMember< MbrKindT >( name, 4u ) ) )
+				astCheck( !std::get< 1 >( block.registerMember< MbrKindT >( name, 4u ) ) )
 				astCheck( block.hasMember( name ) )
 				astCheck( block.findMember( name ) != type::Struct::NotFound )
 				astCheckNoThrow( block.getMember( name ) )
@@ -117,8 +117,8 @@ namespace
 		}
 		if ( astOn( "Static array basic type member declaration" ) )
 		{
-			astCheck( block.registerMember( name, typesCache.getBasicType( MbrKindT ), 4u ).second )
-			astCheck( !block.registerMember( name, typesCache.getBasicType( MbrKindT ), 4u ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, typesCache.getBasicType( MbrKindT ), 4u ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, typesCache.getBasicType( MbrKindT ), 4u ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )
@@ -126,8 +126,8 @@ namespace
 		}
 		if ( astOn( "Static array basic array member declaration" ) )
 		{
-			astCheck( block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ).second )
-			astCheck( !block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )
@@ -135,8 +135,8 @@ namespace
 		}
 		if ( astOn( "Static array struct member declaration" ) )
 		{
-			astCheck( block.registerMember( name, typesCache.getStruct( layout, "mbr" ), 4u ).second )
-			astCheck( !block.registerMember( name, typesCache.getStruct( layout, "mbr" ), 4u ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, typesCache.getStruct( layout, "mbr" ), 4u ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, typesCache.getStruct( layout, "mbr" ), 4u ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )
@@ -149,8 +149,8 @@ namespace
 		{
 			if ( astOn( "Dynamic array member declaration" ) )
 			{
-				astCheck( block.registerMember< MbrKindT >( name, type::UnknownArraySize ).second )
-				astCheck( !block.registerMember< MbrKindT >( name, type::UnknownArraySize ).second )
+				astCheck( std::get< 1 >( block.registerMember< MbrKindT >( name, type::UnknownArraySize ) ) )
+				astCheck( !std::get< 1 >( block.registerMember< MbrKindT >( name, type::UnknownArraySize ) ) )
 				astCheck( block.hasMember( name ) )
 				astCheck( block.findMember( name ) != type::Struct::NotFound )
 				astCheckNoThrow( block.getMember( name ) )
@@ -159,8 +159,8 @@ namespace
 		}
 		if ( astOn( "Dynamic array member array declaration" ) )
 		{
-			astCheck( block.registerMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ), type::UnknownArraySize ).second )
-			astCheck( !block.registerMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ), type::UnknownArraySize ).second )
+			astCheck( std::get< 1 >( block.registerMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ), type::UnknownArraySize ) ) )
+			astCheck( !std::get< 1 >( block.registerMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( MbrKindT ), 4u ), 4u ), type::UnknownArraySize ) ) )
 			astCheck( block.hasMember( name ) )
 			astCheck( block.findMember( name ) != type::Struct::NotFound )
 			astCheckNoThrow( block.getMember( name ) )

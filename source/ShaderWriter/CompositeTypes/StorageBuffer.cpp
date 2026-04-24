@@ -7,50 +7,28 @@ See LICENSE file in root folder
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 
+#include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
+
 namespace sdw
 {
 	StorageBuffer::StorageBuffer( ShaderWriter & writer
-		, std::string const & blockName
-		, std::string variableName
-		, uint32_t bind
-		, uint32_t set
-		, ast::type::MemoryLayout layout
+		, expr::ExprPtr expr
 		, bool enabled )
-		: m_writer{ writer }
-		, m_builder{ m_writer.getBuilder() }
-		, m_name{ std::move( variableName ) }
-		, m_interface{ writer.getTypesCache(), layout, blockName }
-		, m_info{ m_interface.getType(), bind, set }
-		, m_redeclare{ m_builder.hasVariable( m_name, false ) }
-		, m_var{ m_redeclare ? m_builder.getVariable( m_name, false ) : m_builder.registerName( m_name, m_interface.getType(), var::Flag::eStorageBuffer ) }
-		, m_stmt{ m_redeclare ? nullptr : getStmtCache( m_writer ).makeShaderBufferDecl( m_var, bind, set ) }
-		, m_enabled{ enabled }
+		: Value{ writer, std::move( expr ), enabled }
+		, m_builder{ writer.getBuilder() }
+		, m_buffer{ static_cast< type::StorageBuffer * >( getNonArrayType( m_expr->getType() ) ) }
 	{
-	}
-
-	void StorageBuffer::end()
-	{
-		if ( isEnabled() && m_stmt )
-		{
-			addStmt( m_builder, std::move( m_stmt ) );
-			m_builder.registerSsbo( m_name, m_info );
-		}
 	}
 
 	StructInstance StorageBuffer::declStructMember( std::string name
 		, Struct const & s
 		, bool enabled )
 	{
-		auto [type, added] = m_interface.registerMember( name, s.getType() );
-		auto var = registerMember( m_writer, m_var, std::move( name ), type );
-
-		if ( isEnabled() && enabled && m_stmt && added )
-		{
-			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
-		}
-
-		return StructInstance{ m_writer
-			, makeExpr( m_writer, var )
+		auto & writer = findWriterMandat( *this );
+		auto [type, added, mbrIndex] = m_buffer->registerMember( name, s.getType() );
+		return StructInstance{ writer
+			, makeMbrSelect( mbrIndex )
 			, isEnabled() && enabled };
 	}
 
@@ -59,16 +37,35 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto [type, added] = m_interface.registerMember( name, s.getType(), dimension );
-		auto var = registerMember( m_writer, m_var, std::move( name ), type );
+		auto & writer = findWriterMandat( *this );
+		auto [type, added, mbrIndex] = m_buffer->registerMember( name, s.getType(), dimension );
+		return Array< StructInstance >{ writer
+			, makeMbrSelect( mbrIndex )
+			, isEnabled() && enabled };
+	}
 
-		if ( isEnabled() && enabled && m_stmt && added )
-		{
-			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
-		}
+	expr::ExprPtr StorageBuffer::makeMbrSelect( uint32_t mbrIndex )const
+	{
+		auto & writer = findWriterMandat( *this );
+		auto ident = findIdentifier( *m_expr );
+		auto mbrType = m_buffer->getDataType()->getMember( mbrIndex );
+		auto mbrVar = registerMember( writer, ident->getVariable(), mbrType.name, mbrType.type );
+		return makeExpr( writer, mbrVar );
+	}
 
-		return Array< StructInstance >{ m_writer
-			, makeExpr( m_writer, var )
-			, isEnabled() && enabled};
+	expr::ExprPtr StorageBuffer::makeMbrSelect( std::string_view name )const
+	{
+		auto & writer = findWriterMandat( *this );
+		auto ident = findIdentifier( *m_expr );
+		auto mbrVar = getMemberVariable( writer, ident->getVariable(), name );
+		return makeExpr( writer, mbrVar );
+	}
+
+	ast::type::StorageBufferPtr StorageBuffer::makeType( ast::type::TypesCache & cache
+		, std::string const & name
+		, ast::type::MemoryLayout layout
+		, bool isArray )
+	{
+		return cache.getStorageBuffer( name, layout, isArray );
 	}
 }

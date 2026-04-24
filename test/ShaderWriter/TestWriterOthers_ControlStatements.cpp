@@ -102,14 +102,14 @@ namespace
 		sdwTestBegin( "testSwitchI8" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::Int8 >( "t" );
 		auto u = ubo.declMember< sdw::Int8 >( "u" );
 		auto v = ubo.declMember< sdw::Int8 >( "v" );
 		auto w = ubo.declMember< sdw::Int8 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::Int8 >( "x" );
 		ssbo.end();
 
@@ -145,14 +145,14 @@ namespace
 		sdwTestBegin( "testSwitchU8" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::UInt8 >( "t" );
 		auto u = ubo.declMember< sdw::UInt8 >( "u" );
 		auto v = ubo.declMember< sdw::UInt8 >( "v" );
 		auto w = ubo.declMember< sdw::UInt8 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::UInt8 >( "x" );
 		ssbo.end();
 
@@ -188,14 +188,14 @@ namespace
 		sdwTestBegin( "testSwitchI16" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::Int16 >( "t" );
 		auto u = ubo.declMember< sdw::Int16 >( "u" );
 		auto v = ubo.declMember< sdw::Int16 >( "v" );
 		auto w = ubo.declMember< sdw::Int16 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::Int16 >( "x" );
 		ssbo.end();
 
@@ -231,14 +231,14 @@ namespace
 		sdwTestBegin( "testSwitchU16" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::UInt16 >( "t" );
 		auto u = ubo.declMember< sdw::UInt16 >( "u" );
 		auto v = ubo.declMember< sdw::UInt16 >( "v" );
 		auto w = ubo.declMember< sdw::UInt16 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::UInt16 >( "x" );
 		ssbo.end();
 
@@ -274,14 +274,14 @@ namespace
 		sdwTestBegin( "testSwitchI32" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::Int32 >( "t" );
 		auto u = ubo.declMember< sdw::Int32 >( "u" );
 		auto v = ubo.declMember< sdw::Int32 >( "v" );
 		auto w = ubo.declMember< sdw::Int32 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::Int32 >( "x" );
 		ssbo.end();
 
@@ -317,14 +317,14 @@ namespace
 		sdwTestBegin( "testSwitchU32" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::UInt32 >( "t" );
 		auto u = ubo.declMember< sdw::UInt32 >( "u" );
 		auto v = ubo.declMember< sdw::UInt32 >( "v" );
 		auto w = ubo.declMember< sdw::UInt32 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::UInt32 >( "x" );
 		ssbo.end();
 
@@ -360,14 +360,14 @@ namespace
 		sdwTestBegin( "testSwitchI64" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::Int64 >( "t" );
 		auto u = ubo.declMember< sdw::Int64 >( "u" );
 		auto v = ubo.declMember< sdw::Int64 >( "v" );
 		auto w = ubo.declMember< sdw::Int64 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::Int64 >( "x" );
 		ssbo.end();
 
@@ -403,14 +403,14 @@ namespace
 		sdwTestBegin( "testSwitchU64" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto t = ubo.declMember< sdw::UInt64 >( "t" );
 		auto u = ubo.declMember< sdw::UInt64 >( "u" );
 		auto v = ubo.declMember< sdw::UInt64 >( "v" );
 		auto w = ubo.declMember< sdw::UInt64 >( "w" );
 		ubo.end();
 
-		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer ssbo{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto x = ssbo.declMember< sdw::UInt64 >( "x" );
 		ssbo.end();
 

@@ -125,87 +125,87 @@ namespace ast::type
 			return findMember( builtin, index ) != NotFound;
 		}
 
-		std::string const & getName()const
+		std::string const & getName()const noexcept
 		{
 			return m_name;
 		}
 
-		size_t size()const
+		size_t size()const noexcept
 		{
 			return m_members.size();
 		}
 
-		bool empty()const
+		bool empty()const noexcept
 		{
 			return m_members.empty();
 		}
 
-		auto begin()const
+		auto begin()const noexcept
 		{
 			return m_members.begin();
 		}
 
-		auto end()const
+		auto end()const noexcept
 		{
 			return m_members.end();
 		}
 
-		auto front()const
+		auto front()const noexcept
 		{
 			return m_members.front();
 		}
 
-		auto back()const
+		auto back()const noexcept
 		{
 			return m_members.back();
 		}
 
-		MemoryLayout getMemoryLayout()const
+		MemoryLayout getMemoryLayout()const noexcept
 		{
 			return m_layout;
 		}
 
-		uint64_t getFlag()const
+		uint64_t getFlag()const noexcept
 		{
 			return uint64_t( m_flag );
 		}
 
-		bool isShaderInput()const
+		bool isShaderInput()const noexcept
 		{
 			return hasFlag( getFlag(), var::Flag::eShaderInput );
 		}
 
-		bool isShaderOutput()const
+		bool isShaderOutput()const noexcept
 		{
 			return hasFlag( getFlag(), var::Flag::eShaderOutput );
 		}
 
-		bool isPatchInput()const
+		bool isPatchInput()const noexcept
 		{
 			return hasFlag( getFlag(), var::Flag::ePatchInput );
 		}
 
-		bool isPatchOutput()const
+		bool isPatchOutput()const noexcept
 		{
 			return hasFlag( getFlag(), var::Flag::ePatchOutput );
 		}
 
-		bool isInput()const
+		bool isInput()const noexcept
 		{
 			return isShaderInput() || isPatchInput();
 		}
 
-		bool isOutput()const
+		bool isOutput()const noexcept
 		{
 			return isShaderOutput() || isPatchOutput();
 		}
 
-		bool isPerTaskNV()const
+		bool isPerTaskNV()const noexcept
 		{
 			return hasFlag( getFlag(), var::Flag::ePerTaskNV );
 		}
 
-		bool isPerTask()const
+		bool isPerTask()const noexcept
 		{
 			return hasFlag( getFlag(), var::Flag::ePerTask );
 		}
@@ -215,13 +215,13 @@ namespace ast::type
 			return m_entryPoint;
 		}
 
-		virtual bool isIOStruct()const
+		virtual bool isIOStruct()const noexcept
 		{
 			return false;
 		}
 
 	protected:
-		std::tuple< uint32_t, uint32_t, bool > doLookupMember( std::string_view name
+		std::tuple< uint32_t, uint32_t, bool, uint32_t > doLookupMember( std::string_view name
 			, TypePtr type );
 		void doAddMember( Member const & member );
 
@@ -253,28 +253,28 @@ namespace ast::type
 			, std::string name
 			, bool explicitLayout );
 
-		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( Builtin builtin
 			, TypePtr type
 			, uint32_t arraySize
 			, uint32_t index = UndefinedIndex
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, TypePtr type
 			, uint32_t arraySize
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( Builtin builtin
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t index = UndefinedIndex
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize
 			, bool enabled = true );
 
 		SDAST_API IOStructPtr getIOStruct( EntryPoint entryPoint, var::Flag flag, uint32_t baseLocation )const;
 
-		std::pair< Member, bool > declMember( std::string name
+		std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, TypePtr type
 			, bool enabled = true )
 		{
@@ -284,7 +284,7 @@ namespace ast::type
 				, enabled );
 		}
 
-		std::pair< Member, bool > declMember( std::string name
+		std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, Kind kind
 			, bool enabled = true )
 		{
@@ -295,9 +295,9 @@ namespace ast::type
 		}
 
 	private:
-		std::pair< Member, bool > doCreateMember( TypePtr type
+		std::tuple< Member, bool, uint32_t > doCreateMember( TypePtr type
 			, std::string name );
-		std::pair< Member, bool > doCreateMember( TypePtr type
+		std::tuple< Member, bool, uint32_t > doCreateMember( TypePtr type
 			, Builtin builtin
 			, uint32_t index );
 	};
@@ -313,22 +313,22 @@ namespace ast::type
 			, var::Flag flag
 			, bool explicitLayout = false );
 
-		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( Builtin builtin
 			, TypePtr type
 			, uint32_t arraySize
 			, uint32_t index = UndefinedIndex
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, TypePtr type
 			, uint32_t arraySize
 			, uint32_t location
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( Builtin builtin
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t index = UndefinedIndex
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
+		SDAST_API std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t location
@@ -339,7 +339,7 @@ namespace ast::type
 		SDAST_API static std::string getNameSuffix( ast::EntryPoint entryPoint
 			, var::Flag flag );
 
-		std::pair< Member, bool > declMember( std::string name
+		std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, TypePtr type
 			, uint32_t location
 			, bool enabled = true )
@@ -351,7 +351,7 @@ namespace ast::type
 				, enabled );
 		}
 
-		std::pair< Member, bool > declMember( std::string name
+		std::tuple< Member, bool, uint32_t > declMember( std::string name
 			, Kind kind
 			, uint32_t location
 			, bool enabled = true )
@@ -363,16 +363,16 @@ namespace ast::type
 				, enabled );
 		}
 
-		bool isIOStruct()const override
+		bool isIOStruct()const noexcept override
 		{
 			return true;
 		}
 
 	private:
-		std::pair< Member, bool > doCreateMember( TypePtr type
+		std::tuple< Member, bool, uint32_t > doCreateMember( TypePtr type
 			, std::string name
 			, uint32_t location );
-		std::pair< Member, bool > doCreateMember( TypePtr type
+		std::tuple< Member, bool, uint32_t > doCreateMember( TypePtr type
 			, Builtin builtin
 			, uint32_t index );
 
@@ -418,6 +418,87 @@ namespace ast::type
 	SDAST_API uint32_t getArrayStride( TypePtr type
 		, MemoryLayout layout );
 	SDAST_API bool hasRuntimeArray( TypePtr type );
+	SDAST_API TypePtr getExplicitLayoutType( TypesCache & typesCache, TypePtr type );
+	SDAST_API TypePtr getBasicType( TypesCache & typesCache, Kind kind, bool explicitLayout );
+	SDAST_API BaseStructPtr getStruct( TypesCache & typesCache, MemoryLayout layout, std::string const & name, bool explicitLayout );
+
+	struct InterfaceBlock
+	{
+		InterfaceBlock( TypesCache & typesCache
+			, MemoryLayout layout
+			, std::string const & name )
+			: m_type{ getType( typesCache, layout, name ) }
+		{
+		}
+
+		explicit InterfaceBlock( BaseStructPtr dataType )
+			: m_type{ std::move( dataType ) }
+		{
+		}
+
+		std::string const & getName()const noexcept
+		{
+			return m_type->getName();
+		}
+
+		template< Kind Kind >
+		std::tuple< TypePtr, bool, uint32_t > registerMember( std::string name
+			, uint32_t arraySize = ast::type::NotArray )
+		{
+			static_assert( Kind != Kind::eBoolean, "Can't put a boolean type inside an interface block" );
+			static_assert( Kind != Kind::eVec2B, "Can't put a boolean type inside an interface block" );
+			static_assert( Kind != Kind::eVec3B, "Can't put a boolean type inside an interface block" );
+			static_assert( Kind != Kind::eVec4B, "Can't put a boolean type inside an interface block" );
+			return registerMember( std::move( name )
+				, getBasicType( m_type->getTypesCache(), Kind, true )
+				, arraySize );
+		}
+
+		std::tuple< TypePtr, bool, uint32_t > registerMember( std::string name
+			, TypePtr type
+			, uint32_t arraySize = ast::type::NotArray )
+		{
+			auto [mbr, added, index] = m_type->declMember( std::move( name )
+				, getExplicitLayoutType( m_type->getTypesCache(), type )
+				, arraySize );
+			return { mbr.type, added, index };
+		}
+
+		uint32_t findMember( std::string_view name )const
+		{
+			return m_type->findMember( name );
+		}
+
+		bool hasMember( std::string_view name )const
+		{
+			return m_type->hasMember( name );
+		}
+
+		TypePtr getMember( std::string_view name )const
+		{
+			return m_type->getMember( name ).type;
+		}
+
+		TypePtr getMember( uint32_t index )const
+		{
+			return m_type->getMember( index ).type;
+		}
+
+		BaseStructPtr getType()const noexcept
+		{
+			return m_type;
+		}
+
+		static BaseStructPtr getType( TypesCache & typesCache
+			, MemoryLayout layout
+			, std::string const & name )
+		{
+			return getStruct( typesCache, layout, name, true );
+		}
+
+	private:
+		BaseStructPtr m_type{};
+	};
 }
 
 #endif

@@ -868,39 +868,6 @@ namespace
 		astTestEnd()
 	}
 
-	TEST( Base, BoInfo )
-	{
-		astTestBegin( "testBoInfo" );
-		if ( astOn( "Base construction" ) )
-		{
-			type::TypesCache typesCache;
-			BoInfo block{ typesCache
-				, type::MemoryLayout::eStd430
-				, "test"
-				, 12u
-				, 18u };
-			astCheckEqual( block.binding.binding, 12u )
-			astCheckEqual( block.binding.set, 18u )
-			astBeginRequire( block.type != nullptr )
-				astCheckEqual( block.type->getName(), "test" )
-			astEndRequire
-		}
-		if ( astOn( "Existing struct construction" ) )
-		{
-			type::TypesCache typesCache;
-			auto structType = typesCache.getStruct( type::MemoryLayout::eStd430, "test" );
-			BoInfo block{ structType
-				, 12u
-				, 18u };
-			astCheckEqual( block.binding.binding, 12u )
-			astCheckEqual( block.binding.set, 18u )
-			astBeginRequire( block.type != nullptr )
-				astCheckEqual( block.type->getName(), "test" )
-			astEndRequire
-		}
-		astTestEnd()
-	}
-
 	TEST( Base, AccStructInfo )
 	{
 		astTestBegin( "testAccStructInfo" );
@@ -958,7 +925,8 @@ namespace
 			{
 				astCheck( shader.getSsbos().empty() )
 				astCheckThrowEx( shader.getSsboInfo( "invalid" ), std::out_of_range )
-				shader.registerSsbo( "ssbo", SsboInfo{ structType, 0u, set } );
+				auto ssboType = typesCache.getStorageBuffer( "mySSBO" );
+				shader.registerSsbo( "ssbo", SsboInfo{ ssboType, { 0u, set } } );
 				astCheck( !shader.getSsbos().empty() )
 				astCheckNoThrow( shader.getSsboInfo( "ssbo" ) )
 				++set;
@@ -967,7 +935,8 @@ namespace
 			{
 				astCheck( shader.getUbos().empty() )
 				astCheckThrowEx( shader.getUboInfo( "invalid" ), std::out_of_range )
-				shader.registerUbo( "ubo", UboInfo{ structType, 0u, set } );
+				auto uboType = typesCache.getUniformBuffer( "myUBO" );
+				shader.registerUbo( "ubo", UboInfo{ uboType, { 0u, set } } );
 				astCheck( !shader.getUbos().empty() )
 				astCheckNoThrow( shader.getUboInfo( "ubo" ) )
 				++set;
@@ -976,7 +945,7 @@ namespace
 			{
 				astCheck( shader.getPcbs().empty() )
 				astCheckThrowEx( shader.getPcbInfo( "invalid" ), std::out_of_range )
-				shader.registerPcb( "pcb", InterfaceBlock{ structType } );
+				shader.registerPcb( "pcb", PcbInfo{ structType } );
 				astCheck( !shader.getPcbs().empty() )
 				astCheckNoThrow( shader.getPcbInfo( "pcb" ) )
 			}
@@ -984,7 +953,7 @@ namespace
 			{
 				astCheck( shader.getShaderRecords().empty() )
 				astCheckThrowEx( shader.getShaderRecordInfo( "invalid" ), std::out_of_range )
-				shader.registerShaderRecord( "record", ShaderRecordInfo{ structType, 0u, set } );
+				shader.registerShaderRecord( "record", ShaderRecordInfo{ structType, { 0u, set } } );
 				astCheck( !shader.getShaderRecords().empty() )
 				astCheckNoThrow( shader.getShaderRecordInfo( "record" ) )
 				++set;
@@ -1471,12 +1440,12 @@ namespace
 			ShaderBuilder builder{ ShaderStage::eCompute };
 			auto const & shader = builder.getShader();
 			auto & typesCache = builder.getTypesCache();
-			auto structType = typesCache.getStruct( type::MemoryLayout::eStd430, "myStruct" );
-			structType->declMember( "mbr", type::Kind::eInt32 );
+			auto ssboType = typesCache.getStorageBuffer( "myStruct" );
+			ssboType->registerMember( "mbr", typesCache.getInt32() );
 
 			astCheck( shader.getSsbos().empty() )
 			astCheckThrowEx( shader.getSsboInfo( "invalid" ), std::out_of_range )
-			builder.registerSsbo( "ssbo", SsboInfo{ structType, 10u, 1u } );
+			builder.registerSsbo( "ssbo", SsboInfo{ ssboType, { 10u, 1u } } );
 			astCheck( !shader.getSsbos().empty() )
 			astCheckNoThrow( shader.getSsboInfo( "ssbo" ) )
 		}
@@ -1485,12 +1454,12 @@ namespace
 			ShaderBuilder builder{ ShaderStage::eCompute };
 			auto const & shader = builder.getShader();
 			auto & typesCache = builder.getTypesCache();
-			auto structType = typesCache.getStruct( type::MemoryLayout::eStd430, "myStruct" );
-			structType->declMember( "mbr", type::Kind::eInt32 );
+			auto uboType = typesCache.getUniformBuffer( "myStruct" );
+			uboType->registerMember( "mbr", typesCache.getInt32() );
 
 			astCheck( shader.getUbos().empty() )
 			astCheckThrowEx( shader.getUboInfo( "invalid" ), std::out_of_range )
-			builder.registerUbo( "ubo", UboInfo{ structType, 10u, 1u } );
+			builder.registerUbo( "ubo", UboInfo{ uboType, { 10u, 1u } } );
 			astCheck( !shader.getUbos().empty() )
 			astCheckNoThrow( shader.getUboInfo( "ubo" ) )
 		}
@@ -1504,7 +1473,7 @@ namespace
 
 			astCheck( shader.getPcbs().empty() )
 			astCheckThrowEx( shader.getPcbInfo( "invalid" ), std::out_of_range )
-			builder.registerPcb( "pcb", InterfaceBlock{ structType } );
+			builder.registerPcb( "pcb", PcbInfo{ structType } );
 			astCheck( !shader.getPcbs().empty() )
 			astCheckNoThrow( shader.getPcbInfo( "pcb" ) )
 		}

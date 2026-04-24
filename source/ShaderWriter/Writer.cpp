@@ -689,6 +689,25 @@ namespace sdw
 		return m_builder->registerImage( std::move( name ), type, binding, set, enabled );
 	}
 
+	var::VariablePtr ShaderWriter::registerUniformBuffer( std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		return m_builder->registerUniformBuffer( std::move( name ), type, binding, set, enabled );
+	}
+
+	var::VariablePtr ShaderWriter::registerStorageBuffer( std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, var::Flag flag
+		, bool enabled )
+	{
+		return m_builder->registerStorageBuffer( std::move( name ), type, binding, set, flag, enabled );
+	}
+
 	var::VariablePtr ShaderWriter::registerInOut( std::string name
 		, uint64_t attributes
 		, type::TypePtr type )

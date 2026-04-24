@@ -49,7 +49,7 @@ namespace sdw
 		, Struct const & s
 		, bool enabled )
 	{
-		auto [type, added] = m_info.registerMember( name, s.getType() );
+		auto [type, added, mbrIndex] = m_info.registerMember( name, s.getType() );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled && m_stmt && added )
@@ -67,7 +67,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto [type, added] = m_info.registerMember( name, s.getType(), dimension );
+		auto [type, added, mbrIndex] = m_info.registerMember( name, s.getType(), dimension );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled && m_stmt && added )

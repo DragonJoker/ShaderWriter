@@ -2493,19 +2493,16 @@ namespace spirv
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
-				if ( !stmt->empty() )
-				{
-					consumeDebugStatement( glsl::StatementType::eVariableBlockDecl );
-					parseScope( stmt
-						, glsl::StatementType::eStructureScopeBegin
-						, glsl::StatementType::eStructureMemberDecl
-						, glsl::StatementType::eStructureScopeEnd
-						, nullptr );
-					m_result.bindBufferVariable( stmt->getName()
-						, stmt->getBindingPoint()
-						, stmt->getDescriptorSet()
-						, spv::DecorationBlock );
-				}
+				consumeDebugStatement( glsl::StatementType::eVariableBlockDecl );
+				consumeDebugStatement( glsl::StatementType::eStructureScopeBegin );
+				for ( size_t i = 0u; i < stmt->getBuffer()->getDataType()->size(); ++i )
+					consumeDebugStatement( glsl::StatementType::eStructureMemberDecl );
+				consumeDebugStatement( glsl::StatementType::eStructureScopeEnd );
+				auto variableId = visitVariable( stmt->getVariable() );
+				m_result.bindBufferVariable( variableId
+					, stmt->getBindingPoint()
+					, stmt->getDescriptorSet()
+					, spv::DecorationBlock );
 			}
 
 			void visitDemoteStmt( ast::stmt::Demote const * stmt )override
@@ -3113,21 +3110,10 @@ namespace spirv
 					, ( m_result.getVersion() > v1_3
 						? spv::DecorationBlock
 						: spv::DecorationBufferBlock ) );
-				visitDebugVariableBlockDecl( stmt );
-			}
-
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				auto variableId = visitVariable( stmt->getSsboInstance() );
-				m_result.bindBufferVariable( variableId
-					, stmt->getBindingPoint()
-					, stmt->getDescriptorSet()
-					, ( m_result.getVersion() > v1_3
-						? spv::DecorationBlock
-						: spv::DecorationBufferBlock ) );
 				visitDebugVariableDecl();
 				consumeDebugStatement( glsl::StatementType::eStructureScopeBegin );
-				consumeDebugStatement( glsl::StatementType::eStructureMemberDecl );
+				for ( size_t i = 0u; i < stmt->getBuffer()->getDataType()->size(); ++i )
+					consumeDebugStatement( glsl::StatementType::eStructureMemberDecl );
 				consumeDebugStatement( glsl::StatementType::eStructureScopeEnd );
 			}
 

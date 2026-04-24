@@ -580,7 +580,7 @@ namespace spirv
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
-				visitContainerStmt( stmt );
+				doTraverseType( stmt->getInstanceType() );
 			}
 
 			void visitContainerStmt( ast::stmt::Container const * cont )override
@@ -872,14 +872,8 @@ namespace spirv
 
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
-				visitContainerStmt( stmt );
+				doTraverseType( stmt->getInstanceType() );
 				m_result.addStorage( stmt->getVariable() );
-			}
-
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				doTraverseType( stmt->getSsboInstance()->getType() );
-				m_result.addStorage( stmt->getSsboInstance() );
 			}
 
 			void visitSimpleStmt( ast::stmt::Simple const * stmt )override

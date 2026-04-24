@@ -24,7 +24,6 @@ namespace ast::stmt
 		eConstantBufferDecl,
 		ePushConstantsBufferDecl,
 		eShaderBufferDecl,
-		eShaderStructBufferDecl,
 		eSamplerDecl,
 		eImageDecl,
 		eSampledImageDecl,

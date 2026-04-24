@@ -1019,7 +1019,7 @@ namespace
 			static uint32_t constexpr maxPoints = 3u;
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
-			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer.declUniformBuffer( "Wow", 0u, 0u ) };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();

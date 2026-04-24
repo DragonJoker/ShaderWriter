@@ -7,46 +7,17 @@
 
 namespace
 {
-	template< typename T >
-	inline bool constexpr isInt16Type = std::is_same_v< T, sdw::Int16 >
-		|| std::is_same_v< T, sdw::I16Vec2 >
-		|| std::is_same_v< T, sdw::I16Vec3 >
-		|| std::is_same_v< T, sdw::I16Vec4 >;
-	template< typename T >
-	inline bool constexpr isUInt16Type = std::is_same_v< T, sdw::UInt16 >
-		|| std::is_same_v< T, sdw::U16Vec2 >
-		|| std::is_same_v< T, sdw::U16Vec3 >
-		|| std::is_same_v< T, sdw::U16Vec4 >;
-
 	template< typename T, typename Enable = void >
 	struct CompilerHolderT;
 
 	template< typename T >
-	struct CompilerHolderT< T, std::enable_if_t< !isInt16Type< T > && !isUInt16Type< T > > >
+	struct CompilerHolderT< T, std::enable_if_t< !test::isFloat64Type< T > && !test::isInt16Type< T > && !test::isUInt16Type< T > > >
 	{
 		static constexpr test::Compilers value = CurrentCompilers;
 	};
 
 	template< typename T >
-	struct CompilerHolderT< T, std::enable_if_t< isInt16Type< T > || isUInt16Type< T > > >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DVec2 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DVec3 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DVec4 >
+	struct CompilerHolderT< T, std::enable_if_t< test::isFloat64Type< T > || test::isInt16Type< T > || test::isUInt16Type< T > > >
 	{
 		static constexpr test::Compilers value = Compilers_NoHLSL;
 	};
@@ -63,183 +34,252 @@ namespace
 
 	using T = sdw::SDW_TestType;
 
-	TEST_F( SDWTest, testStructuredSsbo )
+	TEST_F( SDWTest, testStructuredSsboBasicDataType )
 	{
-		sdwTestBegin( "testStructuredSsbo" );
+		sdwTestBegin( "testStructuredSsboBasicDataType" );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< T >( name );
-			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboIn{ writer, "ssboIn", type.getType(), 1u, 1u, true };
-			auto valueIn = ssboIn[0].getMember< T >( name );
+			auto ssboIn = writer.declArrayStorageBuffer< T >( "ssboIn", 1u, 1u, true );
+			auto valueIn = ssboIn[0];
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
-			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
 			auto & stmtIn = *shader.getStatements()->back();
-			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboOut{ writer, "ssboOut", type.getType(), 2u, 1u, true };
-			auto valueOut = ssboOut[0].getMember< T >( name );
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer< T >( "ssboOut", 2u, 1u, true );
+			auto valueOut = ssboOut[0];
 			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueOut.getType() ) == sdw::type::NotArray );
-			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
 			auto & stmtOut = *shader.getStatements()->back();
-			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< T >( name );
-			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboIn{ writer, "ssboIn", type.getType(), { .binding = 1u, .set = 1u }, true };
-			auto valueIn = ssboIn[0].getMember< T >( name );
+			auto ssboIn = writer.declArrayStorageBuffer< T >( "ssboIn", { .binding = 1u, .set = 1u }, true );
+			auto valueIn = ssboIn[0];
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
-			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
 			auto & stmtIn = *shader.getStatements()->back();
-			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboOut{ writer, "ssboOut", type.getType(), { .binding = 2u, .set = 1u }, true };
-			auto valueOut = ssboOut[0].getMember< T >( name );
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer< T >( "ssboOut", { .binding = 2u, .set = 1u }, true );
+			auto valueOut = ssboOut[0];
 			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueOut.getType() ) == sdw::type::NotArray );
-			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
 			auto & stmtOut = *shader.getStatements()->back();
-			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, testStructuredSsboArray )
+	TEST_F( SDWTest, testStructuredSsboStructSingleMember )
 	{
-		sdwTestBegin( "testStructuredSsboArray" );
+		sdwTestBegin( "testStructuredSsboStructSingleMember" );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray";
+			std::string const name = "m_member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< T >( name, 4u );
+			type.declMember< T >( name );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboIn{ writer, "ssboIn", type.getType(), 1u, 1u, true };
-			auto valueIn = ssboIn[0].getMemberArray< T >( name );
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
+			auto valueIn = ssboIn[0].getMember< T >( name );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( valueIn.getType() ) == 4u );
+			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
 			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtIn = *shader.getStatements()->back();
-			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboOut{ writer, "ssboOut", type.getType(), 2u, 1u, true };
-			auto valueOut = ssboOut[0].getMemberArray< T >( name );
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer( "ssboOut", 2u, 1u, type, true );
+			auto valueOut = ssboOut[0].getMember< T >( name );
 			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( valueOut.getType() ) == 4u );
+			astCheck( getArraySize( valueOut.getType() ) == sdw::type::NotArray );
 			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtOut = *shader.getStatements()->back();
-			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray";
+			std::string const name = "m_member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< T >( name, 4u );
+			type.declMember< T >( name );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboIn{ writer, "ssboIn", type.getType(), { .binding = 1u, .set = 1u }, true };
-			auto valueIn = ssboIn[0].getMemberArray< T >( name );
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
+			auto valueIn = ssboIn[0].getMember< T >( name );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( valueIn.getType() ) == 4u );
+			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
 			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtIn = *shader.getStatements()->back();
-			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
-			sdw::ArrayStorageBufferT< sdw::StructInstance > ssboOut{ writer, "ssboOut", type.getType(), { .binding = 2u, .set = 1u }, true };
-			auto valueOut = ssboOut[0].getMemberArray< T >( name );
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer( "ssboOut", { .binding = 2u, .set = 1u }, type, true );
+			auto valueOut = ssboOut[0].getMember< T >( name );
 			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( valueOut.getType() ) == 4u );
+			astCheck( getArraySize( valueOut.getType() ) == sdw::type::NotArray );
 			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtOut = *shader.getStatements()->back();
-			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, testArraySsbo )
+	TEST_F( SDWTest, testStructuredSsboStructMultipleMembers )
 	{
-		sdwTestBegin( "testArraySsbo" );
+		sdwTestBegin( "testStructuredSsboStructMultipleMembers" );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member";
-			sdw::ArrayStorageBufferT< T > ssboIn{ writer, "ssboIn", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, 1u, 1u, true };
-			auto valueIn = ssboIn[0];
+			std::string const name1 = "m_member1";
+			std::string const name2 = "m_member2";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< T >( name1 );
+			type.declMember< T >( name2 );
+			type.end();
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
+			auto valueIn = ssboIn[0].getMember< T >( name1 );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
-			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
+			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtIn = *shader.getStatements()->back();
-			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
-			sdw::ArrayStorageBufferT< T > ssboOut{ writer, "ssboOut", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, 2u, 1u, true };
-			auto valueOut = ssboOut[0];
-			astCheck( valueOut.getType()->hasExplicitLayout() );
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer( "ssboOut", 2u, 1u, type, true );
+			auto valueOut = ssboOut[0].getMember< T >( name1 );
 			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueOut.getType() ) == sdw::type::NotArray );
-			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
+			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtOut = *shader.getStatements()->back();
-			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CompilersT< T > );
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member";
-			sdw::ArrayStorageBufferT< T > ssboIn{ writer, "ssboIn", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, { .binding = 1u, .set = 1u }, true };
-			auto valueIn = ssboIn[0];
-			astCheck( valueIn.getType()->hasExplicitLayout() );
+			std::string const name1 = "m_member1";
+			std::string const name2 = "m_member2";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< T >( name1 );
+			type.declMember< T >( name2 );
+			type.end();
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
+			auto valueIn = ssboIn[0].getMember< T >( name1 );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
-			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
+			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtIn = *shader.getStatements()->back();
-			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
-			sdw::ArrayStorageBufferT< T > ssboOut{ writer, "ssboOut", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, { .binding = 2u, .set = 1u }, true };
-			auto valueOut = ssboOut[0];
-			astCheck( valueOut.getType()->hasExplicitLayout() );
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer( "ssboOut", { .binding = 2u, .set = 1u }, type, true );
+			auto valueOut = ssboOut[0].getMember< T >( name1 );
 			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueOut.getType() ) == sdw::type::NotArray );
-			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eArrayAccess );
+			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmtOut = *shader.getStatements()->back();
-			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
-			astCheck( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CompilersT< T > );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testStructuredSsboStructSingleArrayMember )
+	{
+		sdwTestBegin( "testStructuredSsboStructSingleArrayMember" );
+		{
+			astOn( "Split Binding and Set parameters" );
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			std::string const name = "m_memberArray";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< T >( name, 4u );
+			type.end();
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
+			auto valueIn = ssboIn[0].getMemberArray< T >( name );
+			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( valueIn.getType() ) == 4u );
+			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			auto & stmtIn = *shader.getStatements()->back();
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer( "ssboOut", 2u, 1u, type, true );
+			auto valueOut = ssboOut[0].getMemberArray< T >( name );
+			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( valueOut.getType() ) == 4u );
+			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			auto & stmtOut = *shader.getStatements()->back();
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CompilersT< T > );
+		}
+		{
+			astOn( "Joined Binding and Set parameters" );
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			std::string const name = "m_memberArray";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< T >( name, 4u );
+			type.end();
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
+			auto valueIn = ssboIn[0].getMemberArray< T >( name );
+			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( valueIn.getType() ) == 4u );
+			astRequire( valueIn.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			auto & stmtIn = *shader.getStatements()->back();
+			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtIn ).getDescriptorSet() == 1u );
+			auto ssboOut = writer.declArrayStorageBuffer( "ssboOut", { .binding = 2u, .set = 1u }, type, true );
+			auto valueOut = ssboOut[0].getMemberArray< T >( name );
+			astCheck( getNonArrayKind( valueOut.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( valueOut.getType() ) == 4u );
+			astRequire( valueOut.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			auto & stmtOut = *shader.getStatements()->back();
+			astRequire( stmtOut.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmtOut ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CompilersT< T > );
 		}

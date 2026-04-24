@@ -70,6 +70,7 @@ namespace sdw
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderBuilder const & builder );
 	SDW_API ShaderBuilder & getBuilder( ShaderWriter & writer );
 	SDW_API ShaderBuilder const & getBuilder( ShaderWriter const & writer );
+
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, bool value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
@@ -92,6 +93,7 @@ namespace sdw
 		, float value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, double value );
+
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, var::VariablePtr const & var
 		, bool force = true );
@@ -279,10 +281,12 @@ namespace sdw
 		, expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makeStructureDecl( stmt::StmtCache & stmtCache
 		, type::StructPtr type );
-	SDW_API stmt::StmtPtr makeShaderStructBufferDecl( stmt::StmtCache & stmtCache
-		, std::string ssboName
+	SDW_API stmt::StmtPtr makeConstantBufferDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr uboInstance
+		, uint32_t bindingPoint
+		, uint32_t bindingSet );
+	SDW_API stmt::StmtPtr makeShaderBufferDecl( stmt::StmtCache & stmtCache
 		, var::VariablePtr ssboInstance
-		, var::VariablePtr data
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
 	SDW_API stmt::StmtPtr makeBufferReferenceDecl( stmt::StmtCache & stmtCache
@@ -405,6 +409,8 @@ namespace sdw
 
 	SDW_API var::VariablePtr findIdentVar( Value const & value );
 
+	SDW_API type::TypePtr makeArrayType( type::TypePtr type
+		, uint32_t dimension );
 	SDW_API type::TypePtr makeComputeInputType( type::TypePtr type
 		, uint32_t localSizeX
 		, uint32_t localSizeY

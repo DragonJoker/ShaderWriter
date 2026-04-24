@@ -76,7 +76,7 @@ namespace test
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 
-			sdw::ArrayStorageBufferT< TypeParam > ssbo{ writer, "ssbo", TypeParam::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd430, 1, 0, true };
+			auto ssbo = writer.declArrayStorageBuffer< TypeParam >( "ssbo", { .binding = 1u, .set = 0u }, true );
 
 			auto func = writer.implementFunction< TypeParam >( "func"
 				, [&writer]()
@@ -109,7 +109,7 @@ namespace test
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 
-			sdw::ArrayStorageBufferT< BlockType > ssbo{ writer, "ssbo", BlockType::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd430, 1, 0, true };
+			auto ssbo = writer.declArrayStorageBuffer< BlockType >( "ssbo", { .binding = 1u, .set = 0u }, true );
 
 			writer.implementMain( 32u
 				, [&writer, &ssbo]( sdw::ComputeIn const & in )

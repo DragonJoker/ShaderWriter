@@ -119,7 +119,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( Builtin::eBaseVertex, mbrKind, type::NotArray, type::Struct::UndefinedIndex, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eBaseVertex, mbrKind, type::NotArray, type::Struct::UndefinedIndex, false ) ) )
 					astCheck( !type->hasMember( Builtin::eBaseVertex ) )
 					astCheck( type->findMember( Builtin::eBaseVertex ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( Builtin::eBaseVertex ) )
@@ -127,8 +127,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( Builtin::eBaseVertex, mbrKind, type::NotArray, type::Struct::UndefinedIndex, true ).second )
-					astCheck( !type->declMember( Builtin::eBaseVertex, mbrKind, type::NotArray, type::Struct::UndefinedIndex, true ).second )
+					astCheck( std::get< 1 >( type->declMember( Builtin::eBaseVertex, mbrKind, type::NotArray, type::Struct::UndefinedIndex, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eBaseVertex, mbrKind, type::NotArray, type::Struct::UndefinedIndex, true ) ) )
 					astCheck( type->hasMember( Builtin::eBaseVertex ) )
 					astCheck( type->findMember( Builtin::eBaseVertex ) != type::Struct::NotFound )
 					astCheckNoThrow( type->getMember( Builtin::eBaseVertex ) )
@@ -140,7 +140,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( Builtin::eBaseInstance, mbrKind, 4u, type::Struct::UndefinedIndex, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eBaseInstance, mbrKind, 4u, type::Struct::UndefinedIndex, false ) ) )
 					astCheck( !type->hasMember( Builtin::eBaseInstance ) )
 					astCheck( type->findMember( Builtin::eBaseInstance ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( Builtin::eBaseInstance ) )
@@ -148,8 +148,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( Builtin::eBaseInstance, mbrKind, 4u, type::Struct::UndefinedIndex, true ).second )
-					astCheck( !type->declMember( Builtin::eBaseInstance, mbrKind, 4u, type::Struct::UndefinedIndex, true ).second )
+					astCheck( std::get< 1 >( type->declMember( Builtin::eBaseInstance, mbrKind, 4u, type::Struct::UndefinedIndex, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eBaseInstance, mbrKind, 4u, type::Struct::UndefinedIndex, true ) ) )
 					astCheck( type->hasMember( Builtin::eBaseInstance ) )
 					astCheck( type->findMember( Builtin::eBaseInstance ) != type::Struct::NotFound )
 					astCheckNoThrow( type->getMember( Builtin::eBaseInstance ) )
@@ -160,7 +160,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( Builtin::eDrawIndex, mbrKind, type::NotArray, 7u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eDrawIndex, mbrKind, type::NotArray, 7u, false ) ) )
 					astCheck( !type->hasMember( Builtin::eDrawIndex ) )
 					astCheck( type->findMember( Builtin::eDrawIndex ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( Builtin::eDrawIndex ) )
@@ -171,8 +171,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( Builtin::eDrawIndex, mbrKind, type::NotArray, 7u, true ).second )
-					astCheck( !type->declMember( Builtin::eDrawIndex, mbrKind, type::NotArray, 7u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( Builtin::eDrawIndex, mbrKind, type::NotArray, 7u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eDrawIndex, mbrKind, type::NotArray, 7u, true ) ) )
 					astCheck( !type->hasMember( Builtin::eDrawIndex ) )
 					astCheck( type->findMember( Builtin::eDrawIndex ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( Builtin::eDrawIndex ) )
@@ -187,7 +187,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( Builtin::eDeviceIndex, mbrKind, 4u, 8u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eDeviceIndex, mbrKind, 4u, 8u, false ) ) )
 					astCheck( !type->hasMember( Builtin::eDeviceIndex ) )
 					astCheck( type->findMember( Builtin::eDeviceIndex ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( Builtin::eDeviceIndex ) )
@@ -198,8 +198,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( Builtin::eDeviceIndex, mbrKind, 4u, 8u, true ).second )
-					astCheck( !type->declMember( Builtin::eDeviceIndex, mbrKind, 4u, 8u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( Builtin::eDeviceIndex, mbrKind, 4u, 8u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( Builtin::eDeviceIndex, mbrKind, 4u, 8u, true ) ) )
 					astCheck( !type->hasMember( Builtin::eDeviceIndex ) )
 					astCheck( type->findMember( Builtin::eDeviceIndex ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( Builtin::eDeviceIndex ) )
@@ -213,7 +213,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, mbrKind, 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, mbrKind, 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -221,8 +221,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, mbrKind, type::NotArray, 18u, true ).second )
-					astCheck( !type->declMember( name, mbrKind, type::NotArray, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, mbrKind, type::NotArray, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, mbrKind, type::NotArray, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -234,7 +234,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getBasicType( mbrKind ), 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -242,8 +242,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, 18u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -255,7 +255,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -263,8 +263,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, 18u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -276,7 +276,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getStruct( type::MemoryLayout::eC, "mbr" ), 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getStruct( type::MemoryLayout::eC, "mbr" ), 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -286,8 +286,8 @@ namespace
 				{
 					auto structType = typesCache.getStruct( type::MemoryLayout::eC, "mbr" );
 					structType->declMember( "mbmbr", mbrKind );
-					astCheck( type->declMember( name, structType, type::NotArray, 18u, true ).second )
-					astCheck( !type->declMember( name, structType, type::NotArray, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, structType, type::NotArray, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, structType, type::NotArray, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -299,7 +299,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -309,8 +309,8 @@ namespace
 				{
 					auto structType = typesCache.getIOStruct( "iombr", entryPoint, flag );
 					structType->declMember( "mbmbr", mbrKind, 1u );
-					astCheck( type->declMember( name, structType, type::NotArray, 18u, true ).second )
-					astCheck( !type->declMember( name, structType, type::NotArray, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, structType, type::NotArray, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, structType, type::NotArray, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -322,7 +322,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, mbrKind, 4u, 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, mbrKind, 4u, 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -330,8 +330,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, mbrKind, 4u, 18u, true ).second )
-					astCheck( !type->declMember( name, mbrKind, 4u, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, mbrKind, 4u, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, mbrKind, 4u, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -343,7 +343,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -351,8 +351,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -364,7 +364,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -372,8 +372,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -385,7 +385,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -393,8 +393,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -406,7 +406,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, mbrKind, type::UnknownArraySize, 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, mbrKind, type::UnknownArraySize, 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -414,8 +414,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, mbrKind, type::UnknownArraySize, 18u, true ).second )
-					astCheck( !type->declMember( name, mbrKind, type::UnknownArraySize, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, mbrKind, type::UnknownArraySize, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, mbrKind, type::UnknownArraySize, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( hasRuntimeArray( type ) )
@@ -427,7 +427,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, false ).second )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, false ) ) )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -435,8 +435,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, true ).second )
+					astCheck( std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, true ) ) )
+					astCheck( !std::get< 1 >( type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, true ) ) )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( hasRuntimeArray( type ) )

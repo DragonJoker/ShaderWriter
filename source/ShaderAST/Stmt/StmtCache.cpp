@@ -42,7 +42,6 @@ See LICENSE file in root folder
 #include "ShaderAST/Stmt/StmtCombinedImageDecl.hpp"
 #include "ShaderAST/Stmt/StmtSamplerDecl.hpp"
 #include "ShaderAST/Stmt/StmtShaderBufferDecl.hpp"
-#include "ShaderAST/Stmt/StmtShaderStructBufferDecl.hpp"
 #include "ShaderAST/Stmt/StmtSimple.hpp"
 #include "ShaderAST/Stmt/StmtSpecialisationConstantDecl.hpp"
 #include "ShaderAST/Stmt/StmtStructureDecl.hpp"
@@ -128,13 +127,11 @@ namespace ast::stmt
 		return makeStmt< Compound >();
 	}
 
-	ConstantBufferDeclPtr StmtCache::makeConstantBufferDecl( std::string name
-		, type::MemoryLayout layout
+	ConstantBufferDeclPtr StmtCache::makeConstantBufferDecl( var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return makeStmt< ConstantBufferDecl >( std::move( name )
-			, layout
+		return makeStmt< ConstantBufferDecl >( std::move( variable )
 			, bindingPoint
 			, bindingSet );
 	}
@@ -403,38 +400,11 @@ namespace ast::stmt
 			, bindingSet );
 	}
 
-	ShaderBufferDeclPtr StmtCache::makeShaderBufferDecl( type::TypesCache & typesCache
-		, std::string const & ssboName
-		, type::MemoryLayout layout
-		, uint32_t bindingPoint
-		, uint32_t bindingSet
-		, uint32_t nextVarId )
-	{
-		auto type = typesCache.getStruct( layout, ssboName );
-		AST_Assert( type != nullptr );
-		return makeShaderBufferDecl( var::makeVariable( nextVarId, type, ssboName + "_data" )
-			, bindingPoint
-			, bindingSet );
-	}
-
-	ShaderBufferDeclPtr StmtCache::makeShaderBufferDecl( var::VariablePtr var
+	ShaderBufferDeclPtr StmtCache::makeShaderBufferDecl( var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return makeStmt< ShaderBufferDecl >( var
-			, bindingPoint
-			, bindingSet );
-	}
-
-	ShaderStructBufferDeclPtr StmtCache::makeShaderStructBufferDecl( std::string ssboName
-		, var::VariablePtr ssboInstance
-		, var::VariablePtr data
-		, uint32_t bindingPoint
-		, uint32_t bindingSet )
-	{
-		return makeStmt< ShaderStructBufferDecl >( std::move( ssboName )
-			, std::move( ssboInstance )
-			, std::move( data )
+		return makeStmt< ShaderBufferDecl >( std::move( variable )
 			, bindingPoint
 			, bindingSet );
 	}

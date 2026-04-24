@@ -203,7 +203,7 @@ namespace ast
 	}
 
 	void Shader::registerPcb( std::string name
-		, InterfaceBlock const & info )
+		, PcbInfo const & info )
 	{
 		m_data.pcbs.try_emplace( std::move( name ), info );
 	}

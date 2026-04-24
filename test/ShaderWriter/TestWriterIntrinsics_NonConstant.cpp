@@ -1881,7 +1881,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< TypeParam >( "x", test::getDefault< TypeParam >( writer ) );
@@ -1918,7 +1918,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< TypeParam >( "x", test::getDefault< TypeParam >( writer ) );
@@ -1952,7 +1952,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< TypeParam >( "x", test::getDefault< TypeParam >( writer ) );
@@ -1986,7 +1986,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< TypeParam >( "x", test::getDefault< TypeParam >( writer ) );
@@ -2020,7 +2020,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< TypeParam >( "x", test::getDefault< TypeParam >( writer ) );
@@ -2054,7 +2054,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< TypeParam >( "x", test::getDefault< TypeParam >( writer ) );
@@ -2089,7 +2089,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< TypeParam >( "x", test::getDefault< TypeParam >( writer ) );
@@ -2126,7 +2126,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< TypeParam >( mbrName );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto bo = writer.declArrayStorageBuffer( "Datas", 1u, 1u, type, true );
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto c = writer.declLocale< TypeParam >( "c", test::getDefault< TypeParam >( writer ) );
