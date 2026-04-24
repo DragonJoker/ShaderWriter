@@ -107,6 +107,34 @@ namespace ast::vk
 		}
 
 #endif
+		static VkResult createGraphicsPipeline( BuilderContext const & context
+			, VkGraphicsPipelineCreateInfo const & createInfos
+			, VkPipeline * result )
+		{
+#	if defined( WIN32 ) && defined( _MSC_VER )
+			__try
+			{
+#	endif
+
+				VkResult err{};
+				err = context.vkCreateGraphicsPipeline( context.device
+					, context.cache
+					, 1u
+					, &createInfos
+					, context.allocator
+					, result );
+				checkError( err );
+				return err;
+
+#	if defined( WIN32 ) && defined( _MSC_VER )
+			}
+			__except ( GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION )
+			{
+				return VK_ERROR_INITIALIZATION_FAILED;
+			}
+#	endif
+		}
+
 	}
 
 	//*********************************************************************************************
@@ -195,14 +223,7 @@ namespace ast::vk
 			return VK_ERROR_VALIDATION_FAILED_EXT;
 		}
 
-		VkResult err{};
-			err = m_context.vkCreateGraphicsPipeline( m_context.device
-				, m_context.cache
-				, 1u
-				, &createInfos
-				, m_context.allocator
-				, result );
-			checkError( err );
+		VkResult err{ piperr::createGraphicsPipeline( m_context, createInfos, result ) };
 
 		if ( err != VK_SUCCESS )
 		{

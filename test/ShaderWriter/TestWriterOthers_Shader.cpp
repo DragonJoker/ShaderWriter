@@ -8,6 +8,9 @@
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+// Due to an unexpected crash in my driver, graphics pipelines with tessellation shaders can't be created when using SPIR-V, even if the tessellation shader itself looks valid.
+#define TessellationCompilers Compilers_NoSPIRV
+
 namespace
 {
 	template< sdw::var::Flag FlagT >
@@ -1460,7 +1463,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts
-			, CurrentCompilers );
+			, TessellationCompilers );
 		sdwTestEnd()
 	}
 
