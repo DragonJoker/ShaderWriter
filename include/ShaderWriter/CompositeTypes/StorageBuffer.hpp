@@ -65,7 +65,6 @@ namespace sdw
 		SDW_API expr::ExprPtr makeMbrSelect( std::string_view name )const;
 
 	private:
-		ast::ShaderBuilder & m_builder;
 		ast::type::StorageBufferPtr m_buffer;
 	};
 
@@ -88,7 +87,7 @@ namespace sdw
 			, std::string const & name
 			, bool isArray )
 		{
-			return StorageBuffer::makeType( cache, name, LayoutT, isArray );
+			return makeStorageBufferType( cache, name, LayoutT, isArray );
 		}
 	};
 

@@ -15,7 +15,6 @@ namespace sdw
 		, expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }
-		, m_builder{ writer.getBuilder() }
 		, m_buffer{ static_cast< type::UniformBuffer * >( getNonArrayType( m_expr->getType() ) ) }
 	{
 	}

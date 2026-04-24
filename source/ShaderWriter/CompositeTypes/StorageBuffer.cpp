@@ -16,7 +16,6 @@ namespace sdw
 		, expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }
-		, m_builder{ writer.getBuilder() }
 		, m_buffer{ static_cast< type::StorageBuffer * >( getNonArrayType( m_expr->getType() ) ) }
 	{
 	}
@@ -67,5 +66,13 @@ namespace sdw
 		, bool isArray )
 	{
 		return cache.getStorageBuffer( name, layout, isArray );
+	}
+
+	ast::type::StorageBufferPtr makeStorageBufferType( ast::type::TypesCache & cache
+		, std::string const & name
+		, ast::type::MemoryLayout layout
+		, bool isArray )
+	{
+		return StorageBuffer::makeType( cache, name, layout, isArray );
 	}
 }

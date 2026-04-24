@@ -387,6 +387,13 @@ namespace sdw
 	SDW_API var::VariablePtr registerBlockVariable( ShaderWriter & writer
 		, std::string name
 		, type::TypePtr type );
+	SDW_API var::VariablePtr registerStorageBuffer( ShaderWriter & writer
+		, std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, var::Flag flag = var::Flag::eStorageBuffer
+		, bool enabled = true );
 	SDW_API bool hasVariable( ShaderBuilder const & builder
 		, std::string_view name
 		, bool isLocale );
@@ -453,6 +460,18 @@ namespace sdw
 	SDW_API type::TaskPayloadNVPtr makeTaskPayloadNVType( type::TypePtr type );
 	SDW_API type::TypePtr makeExplicitLayoutType( type::TypePtr type );
 	SDW_API type::TypePtr makeNonExplicitLayoutType( type::TypePtr type );
+	SDW_API type::StorageBufferPtr makeArrayStorageBufferType( type::TypesCache & cache
+		, std::string const & name
+		, type::MemoryLayout layout
+		, Struct const & dataType );
+	SDW_API type::StorageBufferPtr makeArrayStorageBufferType( type::TypesCache & cache
+		, std::string const & name
+		, type::MemoryLayout layout
+		, type::TypePtr dataType );
+	SDW_API ast::type::StorageBufferPtr makeStorageBufferType( ast::type::TypesCache & cache
+		, std::string const & name
+		, ast::type::MemoryLayout layout
+		, bool isArray );
 }
 
 #include "Helpers.inl"
