@@ -75,9 +75,14 @@ namespace spirv
 			, Header const & header
 			, InstructionList instructions );
 
-		uint32_t getVersion()const
+		uint32_t getVersion()const noexcept
 		{
 			return m_version;
+		}
+
+		spv::Decoration getBlockDecoration()const noexcept
+		{
+			return getVersion() < v1_3 ? spv::DecorationBufferBlock : spv::DecorationBlock;
 		}
 
 		SDWSPIRV_API static Module deserialize( ast::ShaderAllocatorBlock * allocator
@@ -111,6 +116,7 @@ namespace spirv
 		SDWSPIRV_API void decorateMember( DebugId const & id
 			, uint32_t index
 			, IdList const & decoration );
+		SDWSPIRV_API bool isBlockDecorated( DebugId const & id );
 		SDWSPIRV_API VariableInfo registerParam( std::string name
 			, bool isOutput
 			, ast::type::TypePtr type );
@@ -334,6 +340,7 @@ namespace spirv
 		debug::NonSemanticDebug m_nonSemanticDebug;
 		ModuleTypes m_types;
 		ModuleLiterals m_literals;
+		ast::UnorderedSet< DebugId, DebugIdHasher > m_blockDecorations;
 	};
 }
 

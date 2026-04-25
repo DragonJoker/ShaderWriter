@@ -912,16 +912,15 @@ namespace ast::debug
 				break;
 			case type::Kind::eUniformBuffer:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "[" + getMemoryLayoutName( static_cast< type::UniformBuffer const & >( type ).getMemoryLayout() );
+				result += "[Layout=" + getMemoryLayoutName( static_cast< type::UniformBuffer const & >( type ).getMemoryLayout() );
 				result += "]";
 				result += "<" + getTypeName( *static_cast< type::UniformBuffer const & >( type ).getDataType() );
 				result += ">";
 				break;
 			case type::Kind::eStorageBuffer:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "[" + getMemoryLayoutName( static_cast< type::StorageBuffer const & >( type ).getMemoryLayout() );
-				if ( static_cast< type::StorageBuffer const & >( type ).isArray() )
-					result += ", Array";
+				result += "[Layout=" + getMemoryLayoutName( static_cast< type::StorageBuffer const & >( type ).getMemoryLayout() );
+				result += ", Array=" + getBoolName( static_cast< type::StorageBuffer const & >( type ).isArray() );
 				result += "]";
 				result += "<" + getTypeName( *static_cast< type::StorageBuffer const & >( type ).getDataType() );
 				result += ">";
@@ -1617,8 +1616,7 @@ namespace ast::debug
 		{
 			declareStruct( stmt->getBuffer()->getDataType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
-			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
-			addStatement( "ConstantsBuffer " + getTypeName( stmt->getInstanceType() ) + " " + stmt->getInstanceName() );
+			addStatement( getTypeName( stmt->getInstanceType() ) + " " + stmt->getInstanceName() );
 		}
 
 		void visitContainerStmt( stmt::Container const * stmt )override
@@ -1939,8 +1937,7 @@ namespace ast::debug
 		{
 			declareStruct( stmt->getBuffer()->getDataType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
-			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
-			addStatement( "StorageBuffer " + getTypeName( stmt->getInstanceType() ) + " " + stmt->getInstanceName() );
+			addStatement( getTypeName( stmt->getInstanceType() ) + " " + stmt->getInstanceName() );
 		}
 
 		void visitSimpleStmt( stmt::Simple const * stmt )override

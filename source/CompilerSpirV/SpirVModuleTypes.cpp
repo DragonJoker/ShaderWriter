@@ -134,6 +134,14 @@ namespace spirv
 			{
 				result = getUnqualifiedType( typesCache, static_cast< ast::type::Sampler const & >( qualified ) );
 			}
+			else if ( qualified.getRawKind() == ast::type::Kind::eUniformBuffer )
+			{
+				result = getUnqualifiedType( typesCache, *static_cast< ast::type::UniformBuffer const & >( qualified ).getDataType() );
+			}
+			else if ( qualified.getRawKind() == ast::type::Kind::eStorageBuffer )
+			{
+				result = getUnqualifiedType( typesCache, *static_cast< ast::type::StorageBuffer const & >( qualified ).getDataType() );
+			}
 			else if ( qualified.isMember() )
 			{
 				result = typesCache.getBasicType( qualified.getKind() );
@@ -233,13 +241,15 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::registerType( ast::type::TypePtr type
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, bool isInBlock )
 	{
 		auto result = doRegisterTypeRec( type
 			, ast::type::NotMember
 			, TypeId{}
 			, 0u
-			, debugStatement );
+			, debugStatement
+			, isInBlock );
 		return result;
 	}
 
@@ -252,7 +262,8 @@ namespace spirv
 			, mbrIndex
 			, parentId
 			, 0u
-			, debugStatement );
+			, debugStatement
+			, false );
 		return result;
 	}
 
@@ -343,7 +354,7 @@ namespace spirv
 		if ( res )
 		{
 			auto typeId = registerType( getTypesCache().getCombinedImage( imgType.getConfig(), splType.isComparison() )
-				, nullptr );
+				, nullptr, false );
 			it->second = DebugId{ m_module.getNextId(), typeId->type };
 			currentBlock.instructions.push_back( makeInstruction< SampledImageInstruction >( m_module.getNameCache()
 				, typeId.id
@@ -743,7 +754,8 @@ namespace spirv
 	TypeId ModuleTypes::doRegisterNonArrayType( ast::type::TypePtr type
 		, uint32_t mbrIndex
 		, TypeId const & parentId
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, bool isInBlock )
 	{
 		TypeId result;
 		auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
@@ -752,9 +764,8 @@ namespace spirv
 			it == m_registeredTypes.end() )
 		{
 			result = doRegisterBaseType( unqualifiedType
-				, mbrIndex
-				, parentId
-				, debugStatement );
+				, mbrIndex, parentId
+				, debugStatement, isInBlock );
 		}
 		else
 		{
@@ -768,7 +779,8 @@ namespace spirv
 		, uint32_t mbrIndex
 		, TypeId const & parentId
 		, uint32_t arrayStride
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, bool isInBlock )
 	{
 		TypeId result{ 0u, type };
 
@@ -782,10 +794,8 @@ namespace spirv
 			{
 				auto arrayedType = static_cast< ast::type::Array const & >( *type ).getType();
 				auto elementTypeId = doRegisterTypeRec( arrayedType
-					, mbrIndex
-					, parentId
-					, arrayStride
-					, debugStatement );
+					, mbrIndex, parentId, arrayStride
+					, debugStatement, isInBlock );
 				result.id.id = m_module.getNextId();
 				auto & resultId = m_registeredTypes.try_emplace( hash, result ).first->second;
 				
@@ -807,7 +817,8 @@ namespace spirv
 					m_nonSemanticDebug.registerRuntimeArrayType( elementTypeId, resultId );
 				}
 
-				if ( type->hasExplicitLayout() )
+				if ( type->hasExplicitLayout()
+					&& !m_module.isBlockDecorated( elementTypeId ) )
 				{
 					modtyp::writeArrayStride( m_module
 						, arrayedType
@@ -830,9 +841,8 @@ namespace spirv
 				it == m_registeredTypes.end() )
 			{
 				result = doRegisterBaseType( unqualifiedType
-					, mbrIndex
-					, parentId
-					, debugStatement );
+					, mbrIndex, parentId
+					, debugStatement, isInBlock );
 			}
 			else
 			{
@@ -843,10 +853,8 @@ namespace spirv
 		{
 			auto & pointerType = static_cast< ast::type::Pointer const & >( *type );
 			auto rawTypeId = doRegisterTypeRec( pointerType.getPointerType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 			result = registerPointerType( rawTypeId
 				, pointerType.getStorage()
 				, pointerType.isForward() );
@@ -855,75 +863,59 @@ namespace spirv
 		{
 			auto & payloadType = static_cast< ast::type::RayPayload const & >( *type );
 			result = doRegisterTypeRec( payloadType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eCallableData )
 		{
 			auto & callableType = static_cast< ast::type::CallableData const & >( *type );
 			result = doRegisterTypeRec( callableType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eHitAttribute )
 		{
 			auto & callableType = static_cast< ast::type::HitAttribute const & >( *type );
 			result = doRegisterTypeRec( callableType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eGeometryOutput )
 		{
 			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 			m_module.registerExecutionMode( outputType.getLayout(), outputType.getCount() );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eGeometryInput )
 		{
 			auto & inputType = static_cast< ast::type::GeometryInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 			m_module.registerExecutionMode( inputType.getLayout() );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTessellationInputPatch )
 		{
 			auto & outputType = static_cast< ast::type::TessellationInputPatch const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTessellationOutputPatch )
 		{
 			auto & outputType = static_cast< ast::type::TessellationOutputPatch const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTessellationControlOutput )
 		{
 			auto & outputType = static_cast< ast::type::TessellationControlOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 			m_module.registerExecutionMode( outputType.getDomain()
 				, outputType.getPartitioning()
 				, outputType.getTopology()
@@ -934,107 +926,85 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TessellationControlInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTessellationEvaluationInput )
 		{
 			auto & inputType = static_cast< ast::type::TessellationEvaluationInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
 		{
 			auto & outputType = static_cast< ast::type::MeshVertexOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
 		{
 			auto & outputType = static_cast< ast::type::MeshPrimitiveOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
 		{
 			auto & outputType = static_cast< ast::type::TaskPayloadNV const & >( *type );
 			result = doRegisterTypeRec( outputType.getTypesCache().getExplicitLayoutType( outputType.getType() )
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayload )
 		{
 			auto & outputType = static_cast< ast::type::TaskPayload const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
 		{
 			auto & inputType = static_cast< ast::type::TaskPayloadInNV const & >( *type );
 			result = doRegisterTypeRec( inputType.getTypesCache().getExplicitLayoutType( inputType.getType() )
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
 		{
 			auto & inputType = static_cast< ast::type::TaskPayloadIn const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eComputeInput )
 		{
 			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, isInBlock );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eUniformBuffer )
 		{
 			auto & inputType = static_cast< ast::type::UniformBuffer const & >( *type );
 			result = doRegisterTypeRec( inputType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, true );
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eStorageBuffer )
 		{
 			auto & inputType = static_cast< ast::type::StorageBuffer const & >( *type );
 			result = doRegisterTypeRec( inputType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
+				, mbrIndex, parentId, arrayStride
+				, debugStatement, true );
+			m_module.decorate( result, m_module.getBlockDecoration() );
 		}
 		else
 		{
 			result = doRegisterNonArrayType( type
-				, mbrIndex
-				, parentId
-				, debugStatement );
+				, mbrIndex, parentId
+				, debugStatement, isInBlock );
 		}
 
 		return result;
@@ -1083,7 +1053,7 @@ namespace spirv
 		if ( isVectorType( kind )
 			|| isMatrixType( kind ) )
 		{
-			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ), debugStatement );
+			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ), debugStatement, false );
 			auto componentCount = getComponentCount( kind );
 
 			if ( isMatrixType( kind ) )
@@ -1143,7 +1113,7 @@ namespace spirv
 		if ( res )
 		{
 			// The Sampled Type.
-			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), nullptr );
+			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), nullptr, false );
 			// The Image Type.
 			it->second = TypeId{ m_module.getNextId(), type };
 			m_declarations.push_back( makeImageTypeInstruction( m_module.getNameCache()
@@ -1183,7 +1153,8 @@ namespace spirv
 	TypeId ModuleTypes::doRegisterStructType( ast::type::StructPtr type
 		, uint32_t
 		, TypeId const &
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, bool isInBlock )
 	{
 		if ( !debugStatement )
 		{
@@ -1207,10 +1178,8 @@ namespace spirv
 		for ( auto & member : *type )
 		{
 			auto subTypeId = doRegisterTypeRec( member.type
-				, member.type->getIndex()
-				, result
-				, member.arrayStride
-				, debugStatement );
+				, member.type->getIndex(), result, member.arrayStride
+				, debugStatement, isInBlock );
 			subTypes.push_back( subTypeId );
 			m_nonSemanticDebug.registerMemberType( member
 				, subTypeId
@@ -1280,7 +1249,7 @@ namespace spirv
 			}
 		}
 
-		if ( hasBuiltin || hasDynarray )
+		if ( !isInBlock && ( hasBuiltin || hasDynarray ) )
 		{
 			m_module.decorate( result, spv::DecorationBlock );
 		}
@@ -1296,7 +1265,8 @@ namespace spirv
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::TypePtr type
 		, uint32_t mbrIndex
 		, TypeId const & parentId
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, bool isInBlock )
 	{
 		TypeId result{ 0u, type };
 
@@ -1330,9 +1300,8 @@ namespace spirv
 			|| kind == ast::type::Kind::eRayDesc )
 		{
 			result = doRegisterStructType( static_cast< ast::type::Struct * >( type )
-				, mbrIndex
-				, parentId
-				, debugStatement );
+				, mbrIndex, parentId
+				, debugStatement, isInBlock );
 		}
 		else
 		{

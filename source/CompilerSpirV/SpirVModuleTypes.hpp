@@ -41,7 +41,8 @@ namespace spirv
 			, glsl::Statement const * debugStatement );
 
 		TypeId registerType( ast::type::TypePtr type
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, bool isInBlock );
 		TypeId registerType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId const & parentId
@@ -71,12 +72,14 @@ namespace spirv
 		TypeId doRegisterNonArrayType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId const & parentId
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, bool isInBlock );
 		TypeId doRegisterTypeRec( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, uint32_t arrayStride
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, bool isInBlock );
 		TypeId & doRegisterTypeId( spv::Id id
 			, ast::type::TypePtr type );
 		TypeId & doRegisterBaseTypeId( spv::Id id
@@ -89,7 +92,8 @@ namespace spirv
 		TypeId doRegisterStructType( ast::type::StructPtr type
 			, uint32_t mbrIndex
 			, TypeId const & parentId
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, bool isInBlock );
 		TypeId doRegisterSamplerType( ast::type::SamplerPtr type );
 		TypeId doRegisterCombinedImageType( ast::type::CombinedImagePtr type );
 		TypeId doRegisterImageType( ast::type::ImagePtr type
@@ -100,7 +104,8 @@ namespace spirv
 		TypeId doRegisterBaseType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId const & parentId
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, bool isInBlock );
 		bool doAddMbrBuiltin( ast::Builtin pbuiltin
 			, DebugId const & outer
 			, uint32_t mbrIndex );

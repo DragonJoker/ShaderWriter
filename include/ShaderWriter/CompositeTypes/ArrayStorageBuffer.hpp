@@ -41,6 +41,26 @@ namespace sdw
 		type::TypePtr m_dataType;
 		var::VariablePtr m_var;
 	};
+
+	template< typename InstanceT >
+	expr::ExprPtr makeExpr( ArrayStorageBufferT< InstanceT > const & value );
+
+	template< typename InstanceT >
+	struct Array< ArrayStorageBufferT< InstanceT > >
+		: public Value
+	{
+		using ValueT = ArrayStorageBufferT< InstanceT >;
+		SDW_DeclValue( , Array );
+
+		Array( ShaderWriter & writer
+			, expr::ExprPtr expr
+			, bool enabled );
+
+		template< ast::type::Kind KindT >
+		ValueT operator[]( IntegerValue< KindT > const & offset )const;
+		ValueT operator[]( int32_t offset )const;
+		ValueT operator[]( uint32_t offset )const;
+	};
 }
 
 #include "ArrayStorageBuffer.inl"

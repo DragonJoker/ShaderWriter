@@ -3813,7 +3813,7 @@ namespace spirv
 		}
 		else if ( var->isStorageBuffer() )
 		{
-			if ( version > v1_3 )
+			if ( version >= v1_3 )
 			{
 				result = ast::type::Storage::eStorageBuffer;
 			}

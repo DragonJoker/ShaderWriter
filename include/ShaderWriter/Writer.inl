@@ -1796,32 +1796,28 @@ namespace sdw
 			, enabled
 			, std::forward< ParamsT >( params )... );
 	}
-/*
+
 	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
-	Array< StorageBuffer > ShaderWriter::declStorageBufferArrayT( std::string name
+	Array< T > ShaderWriter::declStorageBufferArray( std::string name
 		, BindingT binding
 		, SetT set
 		, uint32_t dimension
-		, ast::type::MemoryLayout layout
 		, bool enabled
 		, ParamsT && ... params )
 	{
 		if ( hasGlobalVariable( name ) )
 		{
-			return Array< StorageBuffer >{ *this
+			return Array< T >{ *this
 				, makeExpr( *this, getVariable( std::move( name ), false ) )
 				, enabled };
 		}
 
-		auto dataType = T::makeType( getTypesCache()
-			, std::forward< ParamsT >( params )... );
-		auto bufType = makeStorageBufferType( getTypesCache()
+		auto type = T::makeType( getTypesCache()
 			, name + "Type"
-			, layout
-			, false );
-		bufType->registerMember( getTypesCache(), dataType );
+			, false
+			, std::forward< ParamsT >( params )... );
 		auto var = registerStorageBuffer( std::move( name )
-			, makeArrayType( bufType, dimension )
+			, makeArrayType( type, dimension )
 			, uint32_t( binding )
 			, uint32_t( set )
 			, var::Flag::eStorageBuffer
@@ -1835,28 +1831,26 @@ namespace sdw
 				, uint32_t( set ) ) );
 		}
 
-		return Array< StorageBuffer >{ *this
+		return Array< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}
 
 	template< typename T, typename ... ParamsT >
-	Array< StorageBuffer > ShaderWriter::declStorageBufferArrayT( std::string name
+	Array< T > ShaderWriter::declStorageBufferArray( std::string name
 		, LocationHelper location
 		, uint32_t dimension
-		, ast::type::MemoryLayout layout
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		return declStorageBufferArrayT< T >( std::move( name )
+		return declStorageBufferArray< T >( std::move( name )
 			, location.binding
 			, location.set
 			, dimension
-			, layout
 			, enabled
 			, std::forward< ParamsT >( params )... );
 	}
-*/
+
 	template< typename BindingT, typename SetT >
 	inline ArrayStorageBuffer ShaderWriter::declArrayStorageBuffer( std::string name
 		, BindingT binding
@@ -1881,6 +1875,37 @@ namespace sdw
 			, location.binding
 			, location.set
 			, dataType
+			, enabled );
+	}
+
+	template< typename BindingT, typename SetT >
+	inline Array< ArrayStorageBuffer > ShaderWriter::declArrayStorageBufferArray( std::string name
+		, BindingT binding
+		, SetT set
+		, Struct const & dataType
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declArrayStorageBufferArray( std::move( name )
+			, binding
+			, set
+			, dataType
+			, dimension
+			, type::MemoryLayout::eStd430
+			, enabled );
+	}
+
+	inline Array< ArrayStorageBuffer > ShaderWriter::declArrayStorageBufferArray( std::string name
+		, LocationHelper location
+		, Struct const & dataType
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declArrayStorageBufferArray( std::move( name )
+			, location.binding
+			, location.set
+			, dataType
+			, dimension
 			, enabled );
 	}
 
@@ -1935,6 +1960,60 @@ namespace sdw
 			, enabled );
 	}
 
+	template< typename BindingT, typename SetT >
+	inline Array< ArrayStorageBuffer > ShaderWriter::declArrayStorageBufferArray( std::string name
+		, BindingT binding
+		, SetT set
+		, Struct const & dataType
+		, uint32_t dimension
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+	{
+		if ( hasGlobalVariable( name ) )
+		{
+			return Array< ArrayStorageBuffer >{ *this
+				, makeExpr( *this, getVariable( std::move( name ), false ) )
+				, enabled };
+		}
+
+		auto type = makeArrayStorageBufferType( getTypesCache()
+			, name, layout, dataType );
+		auto var = registerStorageBuffer( std::move( name )
+			, makeArrayType( type, dimension )
+			, uint32_t( binding )
+			, uint32_t( set )
+			, var::Flag::eStorageBuffer
+			, enabled );
+
+		if ( enabled )
+		{
+			addGlobalStmt( makeShaderBufferDecl( getStmtCache()
+				, var
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
+		}
+
+		return Array< ArrayStorageBuffer >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	inline Array< ArrayStorageBuffer > ShaderWriter::declArrayStorageBufferArray( std::string name
+		, LocationHelper location
+		, Struct const & dataType
+		, uint32_t dimension
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+	{
+		return declArrayStorageBufferArray( std::move( name )
+			, location.binding
+			, location.set
+			, dataType
+			, dimension
+			, layout
+			, enabled );
+	}
+
 	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 	inline ArrayStorageBufferT< T > ShaderWriter::declArrayStorageBuffer( std::string name
 		, BindingT binding
@@ -1959,6 +2038,38 @@ namespace sdw
 		return declArrayStorageBuffer< T >( std::move( name )
 			, location.binding
 			, location.set
+			, enabled
+			, std::forward< ParamsT >( params )... );
+	}
+
+	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
+	inline Array< ArrayStorageBufferT< T > > ShaderWriter::declArrayStorageBufferArray( std::string name
+		, BindingT binding
+		, SetT set
+		, uint32_t dimension
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		return declArrayStorageBufferArray< T >( std::move( name )
+			, uint32_t( binding )
+			, uint32_t( set )
+			, dimension
+			, ast::type::MemoryLayout::eStd430
+			, enabled
+			, std::forward< ParamsT >( params )... );
+	}
+
+	template< typename T, typename ... ParamsT >
+	inline Array< ArrayStorageBufferT< T > > ShaderWriter::declArrayStorageBufferArray( std::string name
+		, LocationHelper location
+		, uint32_t dimension
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		return declArrayStorageBufferArray< T >( std::move( name )
+			, location.binding
+			, location.set
+			, dimension
 			, enabled
 			, std::forward< ParamsT >( params )... );
 	}
@@ -2015,23 +2126,6 @@ namespace sdw
 			, enabled
 			, std::forward< ParamsT >( params )... );
 	}
-/*
-	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
-	inline Array< ArrayStorageBufferT< T > > ShaderWriter::declArrayStorageBufferArray( std::string name
-		, BindingT binding
-		, SetT set
-		, uint32_t dimension
-		, bool enabled
-		, ParamsT && ... params )
-	{
-		return declArrayStorageBufferArray< T >( std::move( name )
-			, binding
-			, set
-			, dimension
-			, type::MemoryLayout::eStd430
-			, enabled
-			, std::forward< ParamsT >( params )... );
-	}
 
 	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 	inline Array< ArrayStorageBufferT< T > > ShaderWriter::declArrayStorageBufferArray( std::string name
@@ -2049,14 +2143,11 @@ namespace sdw
 				, enabled };
 		}
 
-		auto type = Array< ArrayStorageBufferT< T > >::makeType( getTypesCache()
-			, dimension
-			, name
-			, layout
-			, enabled
+		auto type = ArrayStorageBufferT< T >::makeType( getTypesCache()
+			, name, layout
 			, std::forward< ParamsT >( params )... );
 		auto var = registerStorageBuffer( std::move( name )
-			, type
+			, makeArrayType( type, dimension )
 			, uint32_t( binding )
 			, uint32_t( set )
 			, var::Flag::eStorageBuffer
@@ -2064,7 +2155,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addGlobalStmt( makeImageDecl( getStmtCache()
+			addGlobalStmt( makeShaderBufferDecl( getStmtCache()
 				, var
 				, uint32_t( binding )
 				, uint32_t( set ) ) );
@@ -2073,21 +2164,6 @@ namespace sdw
 		return Array< ArrayStorageBufferT< T > >{ *this
 			, makeExpr( *this, var )
 			, enabled };
-	}
-
-	template< typename T, typename ... ParamsT >
-	inline Array< ArrayStorageBufferT< T > > ShaderWriter::declArrayStorageBufferArray( std::string name
-		, LocationHelper location
-		, uint32_t dimension
-		, bool enabled
-		, ParamsT && ... params )
-	{
-		return declArrayStorageBufferArray< T >( std::move( name )
-			, location.binding
-			, location.set
-			, dimension
-			, enabled
-			, std::forward< ParamsT >( params )... );
 	}
 
 	template< typename T, typename ... ParamsT >
@@ -2105,7 +2181,7 @@ namespace sdw
 			, layout
 			, enabled
 			, std::forward< ParamsT >( params )... );
-	}*/
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Buffer reference declaration

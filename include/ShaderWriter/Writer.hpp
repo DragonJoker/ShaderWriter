@@ -15,6 +15,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/CompositeTypes/StorageBuffer.hpp"
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 #include "ShaderWriter/CompositeTypes/UniformBuffer.hpp"
+#include "ShaderWriter/CompositeTypes/StorageBuffer.hpp"
 #include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/Shader.hpp>
@@ -831,6 +832,19 @@ namespace sdw
 			, LocationHelper location
 			, bool enabled = true
 			, ParamsT && ... params );
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
+		Array< T > declStorageBufferArray( std::string name
+			, BindingT binding
+			, SetT set
+			, uint32_t dimension
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename ... ParamsT >
+		Array< T > declStorageBufferArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled = true
+			, ParamsT && ... params );
 		template< typename BindingT, typename SetT >
 		ArrayStorageBuffer declArrayStorageBuffer( std::string name
 			, BindingT binding
@@ -840,6 +854,18 @@ namespace sdw
 		SDW_INL_API ArrayStorageBuffer declArrayStorageBuffer( std::string name
 			, LocationHelper location
 			, Struct const & dataType
+			, bool enabled = true );
+		template< typename BindingT, typename SetT >
+		Array< ArrayStorageBuffer > declArrayStorageBufferArray( std::string name
+			, BindingT binding
+			, SetT set
+			, Struct const & dataType
+			, uint32_t dimension
+			, bool enabled = true );
+		SDW_INL_API Array< ArrayStorageBuffer > declArrayStorageBufferArray( std::string name
+			, LocationHelper location
+			, Struct const & dataType
+			, uint32_t dimension
 			, bool enabled = true );
 		template< typename BindingT, typename SetT >
 		ArrayStorageBuffer declArrayStorageBuffer( std::string name
@@ -851,6 +877,20 @@ namespace sdw
 		SDW_INL_API ArrayStorageBuffer declArrayStorageBuffer( std::string name
 			, LocationHelper location
 			, Struct const & dataType
+			, ast::type::MemoryLayout layout
+			, bool enabled = true );
+		template< typename BindingT, typename SetT >
+		Array< ArrayStorageBuffer > declArrayStorageBufferArray( std::string name
+			, BindingT binding
+			, SetT set
+			, Struct const & dataType
+			, uint32_t dimension
+			, ast::type::MemoryLayout layout
+			, bool enabled = true );
+		SDW_INL_API Array< ArrayStorageBuffer > declArrayStorageBufferArray( std::string name
+			, LocationHelper location
+			, Struct const & dataType
+			, uint32_t dimension
 			, ast::type::MemoryLayout layout
 			, bool enabled = true );
 		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
@@ -865,6 +905,19 @@ namespace sdw
 			, bool enabled = true
 			, ParamsT && ... params );
 		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
+		Array< ArrayStorageBufferT< T > > declArrayStorageBufferArray( std::string name
+			, BindingT binding
+			, SetT set
+			, uint32_t dimension
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename ... ParamsT >
+		Array< ArrayStorageBufferT< T > > declArrayStorageBufferArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, BindingT binding
 			, SetT set
@@ -874,6 +927,21 @@ namespace sdw
 		template< typename T, typename ... ParamsT >
 		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, LocationHelper location
+			, ast::type::MemoryLayout layout
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
+		Array< ArrayStorageBufferT< T > > declArrayStorageBufferArray( std::string name
+			, BindingT binding
+			, SetT set
+			, uint32_t dimension
+			, ast::type::MemoryLayout layout
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename ... ParamsT >
+		Array< ArrayStorageBufferT< T > > declArrayStorageBufferArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
 			, ast::type::MemoryLayout layout
 			, bool enabled = true
 			, ParamsT && ... params );

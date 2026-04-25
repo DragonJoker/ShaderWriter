@@ -27,17 +27,21 @@
 #define MakeHLSLVersion( major, minor ) uint32_t( ( uint32_t( major ) * 10 ) + uint32_t( minor ) )
 #define MakeGLSLVersion( major, minor ) uint32_t( ( uint32_t( major ) * 100 ) + ( uint32_t( minor ) * 10 ) )
 
-#define CompilerSPIRVDisabled { false, 0u, 0u, 0u, 2u }
-#define CompilerSPIRVEnableAll { true, 0u, 0u, 0u, 2u }
+#define CompilerSPIRVToggleAll( v ) { v, 0u, 0u, 0u, 2u }
+#define CompilerSPIRVDisabled CompilerSPIRVToggleAll( false )
+#define CompilerSPIRVEnableAll CompilerSPIRVToggleAll( true )
+#define CompilerSPIRVEnableOne( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ) { true, 0u, MakeSPVVersion( spvMajor, spvMinor ), MakeVkVersion( vkMajor, vkMinor ), debugLevel }
 #define CompilerSPIRVIgnoreVersion( major, minor ) { true, MakeSPVVersion( major, minor ), 0u, 0u, 2u }
 
 #define CompilerGLSLToggleAll( v ) { v, 0u }
 #define CompilerGLSLDisabled CompilerGLSLToggleAll( false )
 #define CompilerGLSLEnableAll CompilerGLSLToggleAll( true )
+#define CompilerGLSLEnableOne( major, minor ) { true, MakeGLSLVersion( major, minor ) }
 
 #define CompilerHLSLToggleAll( v ) { v, 0u }
 #define CompilerHLSLDisabled CompilerHLSLToggleAll( false )
 #define CompilerHLSLEnableAll CompilerHLSLToggleAll( true )
+#define CompilerHLSLEnableOne( major, minor ) { true, MakeHLSLVersion( major, minor ) }
 
 #define Compilers_None { true, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLDisabled, ForceDisplayShaders }
 #define Compilers_GLSL { false, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLEnableAll, ForceDisplayShaders }
@@ -51,9 +55,9 @@
 #define Compilers_All { true, CompilerSPIRVEnableAll, CompilerHLSLEnableAll, CompilerGLSLEnableAll, ForceDisplayShaders }
 
 #define Compilers_AllButSPIRV16 { true, CompilerSPIRVIgnoreVersion( 1, 6 ), CompilerHLSLEnableAll, CompilerGLSLEnableAll, ForceDisplayShaders }
-#define Compilers_OnlyOneSPIRV( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ) { false, { true, 0u, MakeSPVVersion( spvMajor, spvMinor ), MakeVkVersion( vkMajor, vkMinor ), debugLevel }, CompilerHLSLDisabled, CompilerGLSLDisabled, ForceDisplayShaders }
-#define Compilers_OnlyOneHLSL( major, minor ) { false, CompilerSPIRVDisabled, { true, MakeHLSLVersion( major, minor ) }, CompilerGLSLDisabled, ForceDisplayShaders }
-#define Compilers_OnlyOneGLSL( major, minor ) { false, CompilerSPIRVDisabled, CompilerHLSLDisabled, { true, MakeGLSLVersion( major, minor ) }, ForceDisplayShaders }
+#define Compilers_OnlyOneSPIRV( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ) { false, CompilerSPIRVEnableOne( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ), CompilerHLSLDisabled, CompilerGLSLDisabled, ForceDisplayShaders }
+#define Compilers_OnlyOneHLSL( major, minor ) { false, CompilerSPIRVDisabled, CompilerHLSLEnableOne( major, minor ), CompilerGLSLDisabled, ForceDisplayShaders }
+#define Compilers_OnlyOneGLSL( major, minor ) { false, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLEnableOne( major, minor ), ForceDisplayShaders }
 
 #ifndef CurrentCompilers
 #	define CurrentCompilers Compilers_All

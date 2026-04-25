@@ -8,7 +8,7 @@ namespace test::sdw_test
 	{
 		static std::string printHlslModel( uint32_t version )
 		{
-			return std::to_string( version / 10u ) + "_" + std::to_string( version % 10u );
+			return "HLSL Shader Model " + std::to_string( version / 10u ) + "_" + std::to_string( version % 10u );
 		}
 
 		static std::string generateHlsl( ::ast::Shader const & shader
@@ -58,22 +58,17 @@ namespace test::sdw_test
 						return;
 					}
 
-					displayShader( "HLSL " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, testCounts, compilers.forceDisplay, true );
 					bool isCompiled = compileHlsl( hlsl
 						, stage
 						, errors
 						, testCounts
 						, infoIndex );
 					astCheck( isCompiled )
+					displayShader( printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, testCounts, compilers.forceDisplay || !isCompiled, true );
 					if ( !isCompiled )
-						testCounts.printError( "\n" + printShader( "HLSL " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, true ) + errors );
-
-					if ( isCompiled && compilers.forceDisplay )
-					{
-						testCounts.printBlock( printShader( "HLSL " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, true ) );
-					}
+						testCounts.printError( errors );
 				};
-			astOn( "HLSL Shader Model " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ) );
+			astOn( printHlslModel( testCounts.getHlslVersion( infoIndex ) ) );
 			astCheckNoThrow( validate() )
 #endif
 		}

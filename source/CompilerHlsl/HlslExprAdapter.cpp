@@ -570,6 +570,16 @@ namespace hlsl
 				, std::move( arrayOuter )
 				, std::move( arrayIndex ) );
 		}
+
+		if ( expr->getType()->getKind() == ast::type::Kind::eStorageBuffer
+			&& !static_cast< ast::type::StorageBuffer * >( expr->getType() )->isArray() )
+		{
+			auto bufferType = static_cast< ast::type::StorageBuffer * >( expr->getType() );
+			// StructuredBuffer being an array, we need to access the first element
+			m_result = m_exprCache.makeArrayAccess( bufferType
+				, std::move( m_result )
+				, m_exprCache.makeLiteral( m_typesCache, 0u ) );
+		}
 	}
 
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign const * expr )
@@ -606,20 +616,15 @@ namespace hlsl
 				m_result = ast::ExprCloner::submit( m_exprCache, *itReplaced->second );
 				AST_Assert( m_result );
 			}
-			else if ( var->isMember()
-				&& ( var->getOuter()->getType()->getKind() == ast::type::Kind::eStorageBuffer ) )
+			else if ( var->getType()->getKind() == ast::type::Kind::eStorageBuffer
+				&& !static_cast< ast::type::StorageBuffer * >( var->getType() )->isArray() )
 			{
-				auto outer = var->getOuter();
-				auto bufferType = static_cast< ast::type::StorageBuffer * >( outer->getType() );
-				auto mbrIndex = bufferType->findMember( var->getName() );
-				m_result = m_exprCache.makeIdentifier( m_typesCache, outer );
-				// StructuredBuffer being an array, we need to access the first element before selecting the member
+				auto bufferType = static_cast< ast::type::StorageBuffer * >( var->getType() );
+				m_result = m_exprCache.makeIdentifier( m_typesCache, var );
+				// StructuredBuffer being an array, we need to access the first element
 				m_result = m_exprCache.makeArrayAccess( bufferType
 					, std::move( m_result )
 					, m_exprCache.makeLiteral( m_typesCache, 0u ) );
-				m_result = m_exprCache.makeMbrSelect( std::move( m_result )
-					, mbrIndex
-					, var->getFlags() );
 			}
 			else if ( var->isMember()
 				&& ( var->getOuter()->getType()->getKind() == ast::type::Kind::eUniformBuffer ) )
@@ -925,30 +930,8 @@ namespace hlsl
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect const * expr )
 	{
-		auto outer = expr->getOuterExpr();
 		ast::expr::ExprPtr indexExpr{};
 		auto structType = expr->getOuterType();
-		{
-			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
-			{
-				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
-				indexExpr = doSubmit( arrayAccess.getRHS() );
-				outer = arrayAccess.getLHS();
-			}
-
-			if ( outer->getKind() == ast::expr::Kind::eIdentifier )
-			{
-				auto ident = ast::findIdentifier( *outer );
-				auto var = ident->getVariable();
-
-				if ( m_adaptationData.ssboList.end() != std::find( m_adaptationData.ssboList.begin()
-					, m_adaptationData.ssboList.end()
-					, var ) )
-				{
-					m_result = m_exprCache.makeIdentifier( m_typesCache, var );
-				}
-			}
-		}
 
 		if ( !m_result
 			&& expr->isBuiltin() )
@@ -1041,9 +1024,17 @@ namespace hlsl
 
 		if ( !m_result )
 		{
-			m_result = m_exprCache.makeMbrSelect( doSubmit( expr->getOuterExpr() )
-				, expr->getMemberIndex()
-				, expr->getMemberFlags() );
+			m_result = doSubmit( expr->getOuterExpr() );
+
+			// Array SSBO only has only one member, accessible directly, hence no member select needed
+			auto outerType = expr->getOuterExpr()->getType();
+			if ( outerType->getKind() != ast::type::Kind::eStorageBuffer
+				|| !static_cast< ast::type::StorageBuffer const & >( *outerType ).isArray() )
+			{
+				m_result = m_exprCache.makeMbrSelect( std::move( m_result )
+					, expr->getMemberIndex()
+					, expr->getMemberFlags() );
+			}
 		}
 	}
 
