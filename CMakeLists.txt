@@ -11,8 +11,8 @@ set( MAIN_PROJECT_NAME "ShaderWriter" )
 # Set main project version numbers
 set( VERSION_MAJOR 2 )
 set( VERSION_MINOR 9 )
-set( VERSION_BUILD 0 )
-set( VERSION_YEAR 2025 )
+set( VERSION_BUILD 1 )
+set( VERSION_YEAR 2026 )
 
 if ( NOT DEFINED SDW_BUILD_SDW )
 	set( SDW_BUILD_SDW ON )

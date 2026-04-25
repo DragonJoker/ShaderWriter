@@ -12,11 +12,14 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	//*********************************************************************************************
+
 	StorageBuffer::StorageBuffer( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }
 		, m_buffer{ static_cast< type::StorageBuffer * >( getNonArrayType( m_expr->getType() ) ) }
+		, m_var{ findIdentifier( *m_expr )->getVariable() }
 	{
 	}
 
@@ -45,19 +48,12 @@ namespace sdw
 
 	expr::ExprPtr StorageBuffer::makeMbrSelect( uint32_t mbrIndex )const
 	{
-		auto & writer = findWriterMandat( *this );
-		auto ident = findIdentifier( *m_expr );
-		auto mbrType = m_buffer->getDataType()->getMember( mbrIndex );
-		auto mbrVar = registerMember( writer, ident->getVariable(), mbrType.name, mbrType.type );
-		return makeExpr( writer, mbrVar );
+		return sdw::makeMbrSelect( makeExpr( *this ), 0u, m_var->getFlags() );
 	}
 
 	expr::ExprPtr StorageBuffer::makeMbrSelect( std::string_view name )const
 	{
-		auto & writer = findWriterMandat( *this );
-		auto ident = findIdentifier( *m_expr );
-		auto mbrVar = getMemberVariable( writer, ident->getVariable(), name );
-		return makeExpr( writer, mbrVar );
+		return sdw::makeMbrSelect( makeExpr( *this ), 0u, m_var->getFlags() );
 	}
 
 	ast::type::StorageBufferPtr StorageBuffer::makeType( ast::type::TypesCache & cache
@@ -75,4 +71,6 @@ namespace sdw
 	{
 		return StorageBuffer::makeType( cache, name, layout, isArray );
 	}
+
+	//*********************************************************************************************
 }

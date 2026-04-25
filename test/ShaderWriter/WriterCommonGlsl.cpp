@@ -9,7 +9,7 @@ namespace test::sdw_test
 	{
 		static std::string printGlslVersion( uint32_t version )
 		{
-			return std::to_string( version );
+			return "GLSL " + std::to_string( version );
 		}
 
 		static std::string generateGlsl( ::ast::Shader const & shader
@@ -109,15 +109,11 @@ namespace test::sdw_test
 							, testCounts );
 					}
 
+					displayShader( printGlslVersion( testCounts.getGlslVersion( infoIndex ) ), glsl, testCounts, compilers.forceDisplay || !isCompiled, true );
 					if ( !isCompiled )
-						testCounts.printError( printShader( "GLSL " + printGlslVersion( testCounts.getGlslVersion( infoIndex ) ), glsl, true ) + errors );
-
-					if ( isCompiled && compilers.forceDisplay )
-					{
-						testCounts.printBlock( printShader( "GLSL " + printGlslVersion( testCounts.getGlslVersion( infoIndex ) ), glsl, true ) );
-					}
+						testCounts.printError( errors );
 				};
-			astOn( "GLSL " + printGlslVersion( testCounts.getGlslVersion( infoIndex ) ) );
+			astOn( printGlslVersion( testCounts.getGlslVersion( infoIndex ) ) );
 			astCheckNoThrow( validate() )
 
 #endif

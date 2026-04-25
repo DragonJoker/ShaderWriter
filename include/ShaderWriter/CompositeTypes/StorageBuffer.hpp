@@ -66,6 +66,7 @@ namespace sdw
 
 	private:
 		ast::type::StorageBufferPtr m_buffer;
+		ast::var::VariablePtr m_var;
 	};
 
 #if SDW_EnableStructHelper

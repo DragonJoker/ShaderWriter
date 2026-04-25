@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
+	//*********************************************************************************************
+
 	template< typename InstanceT >
 	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, expr::ExprPtr expr
@@ -22,9 +24,7 @@ namespace sdw
 		auto & writer = findWriterMandat( *this );
 		return ReturnWrapperT< InstanceT >{ writer
 			, sdw::makeArrayAccess( m_dataType
-				, sdw::makeMbrSelect( sdw::makeIdent( getExprCache( writer ), getTypesCache( writer ), m_var )
-					, 0u
-					, m_var->getFlags() )
+				, sdw::makeMbrSelect( makeExpr( *this ), 0u, m_var->getFlags() )
 				, makeExpr( writer, index ) )
 			, isEnabled() };
 	}
@@ -35,9 +35,7 @@ namespace sdw
 		auto & writer = findWriterMandat( *this );
 		return ReturnWrapperT< InstanceT >{ writer
 			, sdw::makeArrayAccess( m_dataType
-				, sdw::makeMbrSelect( sdw::makeIdent( getExprCache( writer ), getTypesCache( writer ), m_var )
-					, 0u
-					, m_var->getFlags() )
+				, sdw::makeMbrSelect( makeExpr( *this ), 0u, m_var->getFlags() )
 				, makeExpr( writer, index ) )
 			, isEnabled() };
 	}
@@ -59,4 +57,58 @@ namespace sdw
 				, type::UnknownArraySize );
 		return type;
 	}
+
+	//*********************************************************************************************
+
+	template< typename InstanceT >
+	expr::ExprPtr makeExpr( ArrayStorageBufferT< InstanceT > const & value )
+	{
+		return makeExpr( *value.getWriter(), value.getExpr() );
+	}
+
+	//*********************************************************************************************
+
+	template< typename InstanceT >
+	Array< ArrayStorageBufferT< InstanceT > >::Array( ShaderWriter & writer
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
+	{
+	}
+
+	template< typename InstanceT >
+	template< ast::type::Kind KindT >
+	ArrayStorageBufferT< InstanceT > Array< ArrayStorageBufferT< InstanceT > >::operator[]( IntegerValue< KindT > const & offset )const
+	{
+		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
+		return ValueT{ writer
+			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
+				, sdw::makeExpr( writer, *this )
+				, sdw::makeExpr( writer, offset ) )
+			, sdw::areOptionalEnabled( *this, offset ) };
+	}
+
+	template< typename InstanceT >
+	ArrayStorageBufferT< InstanceT > Array< ArrayStorageBufferT< InstanceT > >::operator[]( int32_t offset )const
+	{
+		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
+		return ValueT{ writer
+			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
+				, sdw::makeExpr( writer, *this )
+				, sdw::makeExpr( writer, offset ) )
+			, sdw::areOptionalEnabled( *this, offset ) };
+	}
+
+	template< typename InstanceT >
+	ArrayStorageBufferT< InstanceT > Array< ArrayStorageBufferT< InstanceT > >::operator[]( uint32_t offset )const
+	{
+		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
+		return ValueT{ writer
+			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
+				, sdw::makeExpr( writer, *this )
+				, sdw::makeExpr( writer, offset ) )
+			, sdw::areOptionalEnabled( *this, offset ) };
+	}
+
+	//*********************************************************************************************
 }

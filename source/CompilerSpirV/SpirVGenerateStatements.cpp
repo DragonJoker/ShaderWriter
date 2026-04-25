@@ -3107,9 +3107,7 @@ namespace spirv
 				m_result.bindBufferVariable( variableId
 					, stmt->getBindingPoint()
 					, stmt->getDescriptorSet()
-					, ( m_result.getVersion() > v1_3
-						? spv::DecorationBlock
-						: spv::DecorationBufferBlock ) );
+					, m_result.getBlockDecoration() );
 				visitDebugVariableDecl();
 				consumeDebugStatement( glsl::StatementType::eStructureScopeBegin );
 				for ( size_t i = 0u; i < stmt->getBuffer()->getDataType()->size(); ++i )

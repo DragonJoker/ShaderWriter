@@ -53,7 +53,7 @@ namespace spirv
 
 			if ( it == registeredLitConstants.end() )
 			{
-				auto type = shaderModule.getTypes().registerType( valueType, nullptr );
+				auto type = shaderModule.getTypes().registerType( valueType, nullptr, false );
 				DebugId result{ shaderModule.getNextId(), type->type };
 				result.debug = result.id;
 				shaderModule.constantsTypes.push_back( makeInstruction< ConstantInstruction >( shaderModule.getNameCache()
@@ -99,6 +99,7 @@ namespace spirv
 		, m_nonSemanticDebug{ allocator, *this, stmtConfig }
 		, m_types{ allocator, *this, typesCache, constantsTypes }
 		, m_literals{ allocator, *this, constantsTypes }
+		, m_blockDecorations{ allocator }
 	{
 	}
 
@@ -304,7 +305,7 @@ namespace spirv
 	TypeId Module::registerType( ast::type::TypePtr type
 		, glsl::Statement const * debugStatement )
 	{
-		return m_types.registerType( std::move( type ), debugStatement );
+		return m_types.registerType( std::move( type ), debugStatement, false );
 	}
 
 	TypeId Module::registerImageType( ast::type::ImagePtr image
@@ -338,6 +339,10 @@ namespace spirv
 		{
 			decorate( id, makeIdList( allocator, spv::Id( decoration ) ) );
 		}
+
+		if ( decoration == spv::DecorationBufferBlock
+			|| decoration == spv::DecorationBlock )
+			m_blockDecorations.emplace( id );
 	}
 
 	void Module::decorate( DebugId const & id
@@ -384,6 +389,11 @@ namespace spirv
 			decorations.push_back( makeInstruction< MemberDecorateInstruction >( getNameCache()
 				, makeOperands( allocator, id, index, decos ) ) );
 		}
+	}
+
+	bool Module::isBlockDecorated( DebugId const & id )
+	{
+		return m_blockDecorations.find( id ) != m_blockDecorations.end();
 	}
 
 	DebugId Module::getVariablePointer( Block & block
@@ -519,7 +529,8 @@ namespace spirv
 
 		auto typeIt = m_registeredVariablesTypes.find( variableId );
 
-		if ( typeIt != m_registeredVariablesTypes.end() )
+		if ( typeIt != m_registeredVariablesTypes.end()
+			&& isStructType( typeIt->second->type ) )
 		{
 			auto typeId = typeIt->second;
 			decorate( typeId, structDecoration );
@@ -547,12 +558,12 @@ namespace spirv
 		, bool isOutput
 		, ast::type::TypePtr type )
 	{
-		auto typeId = m_types.registerType( type, nullptr );
+		auto typeId = m_types.registerType( type, nullptr, false );
 		auto it = m_currentScopeVariables->find( name );
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = m_types.registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr, false );
 
 			if ( m_currentFunction )
 			{
@@ -579,7 +590,7 @@ namespace spirv
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = m_types.registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr, false );
 
 			if ( m_currentFunction )
 			{
@@ -641,7 +652,7 @@ namespace spirv
 						}
 						else
 						{
-							auto typeId = m_types.registerType( type, debugStatement );
+							auto typeId = m_types.registerType( type, debugStatement, true );
 							decorate( typeId, spv::DecorationBlock );
 							varType = getTypesCache().getPointerType( type, ast::type::Storage::ePhysicalStorageBuffer );
 						}
@@ -730,7 +741,7 @@ namespace spirv
 		{
 			DebugId id{ getNextId() };
 			it = m_currentScopeVariables->emplace( name, id ).first;
-			auto rawTypeId = m_types.registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr, false );
 			IdList operands{ allocator };
 			m_debugNames.registerName( id, name );
 
@@ -813,7 +824,7 @@ namespace spirv
 
 	ValueId Module::registerParameter( ast::type::TypePtr type )
 	{
-		m_types.registerType( type, nullptr );
+		m_types.registerType( type, nullptr, false );
 		return ValueId{ getNextId() };
 	}
 
@@ -1138,7 +1149,7 @@ namespace spirv
 		{
 			auto type = param->getType();
 			auto kind = type->getKind();
-			funcTypes.push_back( m_types.registerType( type, nullptr ) );
+			funcTypes.push_back( m_types.registerType( type, nullptr, false ) );
 
 			if ( isPointerParam( *param ) )
 			{
@@ -1553,7 +1564,8 @@ namespace spirv
 		auto type = varId->type;
 		auto rawType = static_cast< ast::type::Pointer const & >( *type ).getPointerType();
 		auto varStorage = varId.getStorage();
-		auto rawTypeId = m_types.registerType( rawType, debugStatement );
+		auto rawTypeId = m_types.registerType( rawType, debugStatement
+			, typeStorage == ast::type::Storage::ePushConstant );
 
 		if ( typeStorage == ast::type::Storage::ePushConstant )
 		{

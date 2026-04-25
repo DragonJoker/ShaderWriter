@@ -24,7 +24,7 @@ namespace spirv
 
 			if ( it == registeredLitConstants.end() )
 			{
-				auto type = shaderModule.getTypes().registerType( valueType, nullptr );
+				auto type = shaderModule.getTypes().registerType( valueType, nullptr, false );
 				DebugId result{ shaderModule.getNextId(), type->type };
 				result.debug = result.id;
 				shaderModule.constantsTypes.push_back( makeInstruction< ConstantInstruction >( shaderModule.getNameCache()

@@ -459,7 +459,8 @@ namespace hlsl
 
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
-				m_adaptationData.ssboList.push_back( stmt->getVariable() );
+				if ( !isArrayType( stmt->getVariable()->getType() ) )
+					m_adaptationData.ssboList.push_back( stmt->getVariable() );
 				if ( !stmt->getBuffer()->isArray() )
 					declareType( stmt->getBuffer() );
 				m_current->addStmt( m_stmtCache.makeShaderBufferDecl( stmt->getVariable()
