@@ -48,12 +48,12 @@ namespace sdw
 
 	expr::ExprPtr StorageBuffer::makeMbrSelect( uint32_t mbrIndex )const
 	{
-		return sdw::makeMbrSelect( makeExpr( *this ), 0u, m_var->getFlags() );
+		return sdw::makeMbrSelect( makeExpr( *this ), mbrIndex, m_var->getFlags() );
 	}
 
 	expr::ExprPtr StorageBuffer::makeMbrSelect( std::string_view name )const
 	{
-		return sdw::makeMbrSelect( makeExpr( *this ), 0u, m_var->getFlags() );
+		return sdw::makeMbrSelect( makeExpr( *this ), m_buffer->findMember( name ), m_var->getFlags() );
 	}
 
 	ast::type::StorageBufferPtr StorageBuffer::makeType( ast::type::TypesCache & cache
