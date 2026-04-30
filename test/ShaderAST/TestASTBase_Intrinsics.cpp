@@ -17856,9 +17856,6 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	INSTANTIATE_TEST_SUITE_P( ControlBarrier, Barrier
-		, testing::ValuesIn( barrierParams )
-		, astTestNameP( BarrierParam, getBarrierParamName ) );
 
 	TEST_P( Barrier, MemoryBarrier )
 	{
@@ -17885,6 +17882,7 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	INSTANTIATE_TEST_SUITE_P( MemoryBarrier, Barrier
 		, testing::ValuesIn( barrierParams )
 		, astTestNameP( BarrierParam, getBarrierParamName ) );

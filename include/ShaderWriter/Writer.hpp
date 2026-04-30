@@ -1084,6 +1084,11 @@ namespace sdw
 		Array< T > declGlobalArray( std::string name
 			, uint32_t dimension
 			, bool enabled = true );
+		template< typename T, typename ... ParamsT >
+		Array< T > declGlobalArray( std::string name
+			, uint32_t dimension
+			, bool enabled
+			, ParamsT && ... params );
 		template< typename T >
 		Array< T > declGlobalArray( std::string name
 			, uint32_t dimension
