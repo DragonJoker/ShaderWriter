@@ -510,7 +510,7 @@ namespace
 	TEST_P( FlagsParam, singleParamUbo )
 	{
 		auto flags = GetParam();
-		sdwTestBegin( "singleParamUbo" + std::to_string( uint32_t( flags ) ) );
+		sdwTestBegin( "singleParamUbo" + getFlagsName( flags ) );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -548,11 +548,33 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
-		
+
+	TEST_P( FlagsParam, paramArrayGlobal )
+	{
+		auto flags = GetParam();
+		sdwTestBegin( "paramArrayGlobal" + getFlagsName( flags ) );
+		using namespace sdw;
+
+		sdw::VertexWriter writer{ &testCounts.allocator };
+
+		writer.declType< Parameterized >( flags );
+		auto params = writer.declGlobalArray< Parameterized >( "params", 2u, true, flags );
+
+		writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+			, VertexOut out )
+			{
+				out.vtx.position = vec4( params[0].position * params[0].normal, 1.0_f );
+			} );
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
+
 	TEST_P( FlagsParam, paramArrayUbo )
 	{
 		auto flags = GetParam();
-		sdwTestBegin( "paramArrayUbo" + std::to_string( uint32_t( flags ) ) );
+		sdwTestBegin( "paramArrayUbo" + getFlagsName( flags ) );
 		using namespace sdw;
 
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -576,7 +598,7 @@ namespace
 	TEST_P( FlagsParam, singleParamSsbo )
 	{
 		auto flags = GetParam();
-		sdwTestBegin( "singleParamSsbo" + std::to_string( uint32_t( flags ) ) );
+		sdwTestBegin( "singleParamSsbo" + getFlagsName( flags ) );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -615,15 +637,11 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
-	INSTANTIATE_TEST_SUITE_P( singleParamSsbo
-		, FlagsParam
-		, testing::Values( Flags::Positions, Flags::Normals, Flags::Both )
-		, astTestNameP( Flags, getFlagsName ) );
 
 	TEST_P( FlagsParam, paramArraySsbo )
 	{
 		auto flags = GetParam();
-		sdwTestBegin( "paramArraySsbo" + std::to_string( uint32_t( flags ) ) );
+		sdwTestBegin( "paramArraySsbo" + getFlagsName( flags ) );
 		using namespace sdw;
 
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -643,15 +661,11 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
-	INSTANTIATE_TEST_SUITE_P( paramArraySsbo
-		, FlagsParam
-		, testing::Values( Flags::Positions, Flags::Normals, Flags::Both )
-		, astTestNameP( Flags, getFlagsName ) );
 
 	TEST_P( FlagsParam, arraySsboParam )
 	{
 		auto flags = GetParam();
-		sdwTestBegin( "arraySsboParam" + std::to_string( uint32_t( flags ) ) );
+		sdwTestBegin( "arraySsboParam" + getFlagsName( flags ) );
 		using namespace sdw;
 
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -673,7 +687,7 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
-	INSTANTIATE_TEST_SUITE_P( arraySsboParam
+	INSTANTIATE_TEST_SUITE_P( Parameterized
 		, FlagsParam
 		, testing::Values( Flags::Positions, Flags::Normals, Flags::Both )
 		, astTestNameP( Flags, getFlagsName ) );

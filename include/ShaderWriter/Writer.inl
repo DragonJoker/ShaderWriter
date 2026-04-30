@@ -2629,6 +2629,29 @@ namespace sdw
 			, enabled };
 	}
 
+	template< typename T, typename ... ParamsT >
+	inline Array< T > ShaderWriter::declGlobalArray( std::string name
+		, uint32_t dimension
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension
+			, std::forward< ParamsT >( params )... );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+
+		if ( enabled )
+		{
+			addGlobalStmt( sdw::makeVariableDecl( getStmtCache(), var ) );
+		}
+
+		return Array< T >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
 	template< typename T >
 	inline Array< T > ShaderWriter::declGlobalArray( std::string name
 		, uint32_t dimension
