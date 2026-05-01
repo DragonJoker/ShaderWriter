@@ -27,21 +27,21 @@
 #define MakeHLSLVersion( major, minor ) uint32_t( ( uint32_t( major ) * 10 ) + uint32_t( minor ) )
 #define MakeGLSLVersion( major, minor ) uint32_t( ( uint32_t( major ) * 100 ) + ( uint32_t( minor ) * 10 ) )
 
-#define CompilerSPIRVToggleAll( v ) { v, 0u, 0u, 0u, 2u }
-#define CompilerSPIRVDisabled CompilerSPIRVToggleAll( false )
-#define CompilerSPIRVEnableAll CompilerSPIRVToggleAll( true )
-#define CompilerSPIRVEnableOne( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ) { true, 0u, MakeSPVVersion( spvMajor, spvMinor ), MakeVkVersion( vkMajor, vkMinor ), debugLevel }
-#define CompilerSPIRVIgnoreVersion( major, minor ) { true, MakeSPVVersion( major, minor ), 0u, 0u, 2u }
+#define CompilerSPIRVToggleAll( v ) test::SpirvCompiler{ v }
+#define CompilerSPIRVDisabled test::SpirvCompiler{ false }
+#define CompilerSPIRVEnableAll test::SpirvCompiler{ true }
+#define CompilerSPIRVEnableOne( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ) test::SpirvCompiler{ vkMajor, vkMinor, spvMajor, spvMinor, debugLevel }
+#define CompilerSPIRVIgnoreVersion( major, minor ) test::SpirvCompiler{ major, minor }
 
-#define CompilerGLSLToggleAll( v ) { v, 0u }
-#define CompilerGLSLDisabled CompilerGLSLToggleAll( false )
-#define CompilerGLSLEnableAll CompilerGLSLToggleAll( true )
-#define CompilerGLSLEnableOne( major, minor ) { true, MakeGLSLVersion( major, minor ) }
+#define CompilerGLSLToggleAll( v ) test::GlslCompiler{ v }
+#define CompilerGLSLDisabled test::GlslCompiler{ false }
+#define CompilerGLSLEnableAll test::GlslCompiler{ true }
+#define CompilerGLSLEnableOne( major, minor ) test::GlslCompiler{ major, minor }
 
-#define CompilerHLSLToggleAll( v ) { v, 0u }
-#define CompilerHLSLDisabled CompilerHLSLToggleAll( false )
-#define CompilerHLSLEnableAll CompilerHLSLToggleAll( true )
-#define CompilerHLSLEnableOne( major, minor ) { true, MakeHLSLVersion( major, minor ) }
+#define CompilerHLSLToggleAll( v ) test::HlslCompiler{ v }
+#define CompilerHLSLDisabled test::HlslCompiler{ false }
+#define CompilerHLSLEnableAll test::HlslCompiler{ true }
+#define CompilerHLSLEnableOne( major, minor ) test::HlslCompiler{ major, minor }
 
 #define Compilers_None { true, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLDisabled, ForceDisplayShaders }
 #define Compilers_GLSL { false, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLEnableAll, ForceDisplayShaders }
@@ -117,6 +117,7 @@ namespace test
 			SDWTest_API bool isHlslInitialised( uint32_t infoIndex )const;
 			SDWTest_API bool isHlslRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
 			SDWTest_API uint32_t getHlslVersion( uint32_t infoIndex )const;
+			SDWTest_API uint32_t getHlslRaytracingTier( uint32_t infoIndex )const;
 			SDWTest_API uint32_t getHlslInfosSize()const;
 
 			SDWTest_API bool isGlslInitialised( uint32_t infoIndex )const;
@@ -179,18 +180,63 @@ namespace test
 		uint32_t requestedSpv{};
 		uint32_t requestedVulkan{};
 		uint32_t requestedDebugLevel{ ~0u };
+
+		constexpr SpirvCompiler( bool enableAll )
+			: enable{ enableAll }
+			, requestedDebugLevel{ 2u }
+		{
+		}
+
+		constexpr SpirvCompiler( uint32_t vkMajor, uint32_t vkMinor
+			, uint32_t spvMajor, uint32_t spvMinor
+			, uint32_t debugLevel )
+			: enable{ true }
+			, requestedSpv{ MakeSPVVersion( spvMajor, spvMinor ) }
+			, requestedVulkan{ MakeVkVersion( vkMajor, vkMinor ) }
+			, requestedDebugLevel{ debugLevel }
+		{
+		}
+
+		constexpr SpirvCompiler( uint32_t ignoredSpvMajor, uint32_t ignoredSpvMinor )
+			: enable{ true }
+			, ignoredSpv{ MakeSPVVersion( ignoredSpvMajor, ignoredSpvMinor ) }
+			, requestedDebugLevel{ 2u }
+		{
+		}
 	};
 
 	struct HlslCompiler
 	{
 		bool enable;
 		uint32_t requestedModel{};
+
+		constexpr HlslCompiler( bool enableAll )
+			: enable{ enableAll }
+		{
+		}
+
+		constexpr HlslCompiler( uint32_t major, uint32_t minor )
+			: enable{ true }
+			, requestedModel{ MakeHLSLVersion( major, minor ) }
+		{
+		}
 	};
 
 	struct GlslCompiler
 	{
 		bool enable;
 		uint32_t requestedVersion{};
+
+		constexpr GlslCompiler( bool enableAll )
+			: enable{ enableAll }
+		{
+		}
+
+		constexpr GlslCompiler( uint32_t major, uint32_t minor )
+			: enable{ true }
+			, requestedVersion{ MakeGLSLVersion( major, minor ) }
+		{
+		}
 	};
 
 	struct Compilers

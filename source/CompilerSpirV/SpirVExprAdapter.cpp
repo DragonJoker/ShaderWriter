@@ -434,10 +434,58 @@ namespace spirv
 				// Remove unused HitAttribute last param.
 				args.pop_back();
 			}
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryTraceRay )
+			{
+				auto rayDesc = std::move( args.back() );
+				args.pop_back();
+				auto cullMask = std::move( args.back() );
+				args.pop_back();
+				auto rayFlags = std::move( args.back() );
+				args.pop_back();
+				// Combine param rayFlags with RayQuery type baseFlags.
+				AST_Assert( args.front()->getType()->getRawKind() == ast::type::Kind::eRayQuery );
+				args.emplace_back( m_exprCache.makeBitOr( m_typesCache.getUInt32()
+					, std::move( rayFlags )
+					, m_exprCache.makeLiteral( m_typesCache
+						, static_cast< ast::type::RayQuery const & >( *args.front()->getType() ).getBaseFlags() ) ) );
+				// Add cullMask back.
+				args.emplace_back( std::move( cullMask ) );
+				// Replace RayDesc parameter with its four members
+				AST_Assert( rayDesc->getType()->getRawKind() == ast::type::Kind::eRayDesc );
+				uint32_t index = 0u;
+				for ( auto mbr : *getStructType( rayDesc->getType() ) )
+				{
+					args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, *rayDesc ), index, 0u ) );
+					++index;
+				}
+			}
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCandidateType
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCandidateTriangleRayT
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCandidateTriangleBarycentrics
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCandidateTriangleFrontFace
+				|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eRayQueryCandidateInstanceIndex
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eRayQueryCandidateWorldToObject ) )
+			{
+				args.emplace_back( m_exprCache.makeLiteral( m_typesCache, uint32_t( spv::RayQueryIntersectionRayQueryCandidateIntersectionKHR ) ) );
+			}
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCommittedStatus
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCommittedRayT
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCommittedTriangleBarycentrics
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace
+				|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eRayQueryCommittedInstanceIndex
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eRayQueryCommittedWorldToObject ) )
+			{
+				args.emplace_back( m_exprCache.makeLiteral( m_typesCache, uint32_t( spv::RayQueryIntersectionRayQueryCommittedIntersectionKHR ) ) );
+			}
 
 			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
+
+			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eRayQueryCandidateProceduralPrimitiveNonOpaque )
+			{
+				m_result = m_exprCache.makeLogNot( m_typesCache, std::move( m_result ) );
+			}
 		}
 	}
 

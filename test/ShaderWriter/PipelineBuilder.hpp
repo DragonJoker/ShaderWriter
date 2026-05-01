@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 #include <map>
 
-namespace ast::vk
+namespace test::vk
 {
 	class PipelineBuilder
 	{
@@ -19,13 +19,13 @@ namespace ast::vk
 		/**
 		*\return
 		*	The descriptor layouts, created from the info in the program.
-		*	\see ast::vk::ProgramPipeline::getDescriptorLayouts.
+		*	\see test::vk::ProgramPipeline::getDescriptorLayouts.
 		*/
 		VkDescriptorSetLayoutArray createDescriptorSetLayouts();
 		/**
 		*\return
 		*	The pipeline layout, created from the info in the program.
-		*	\see ast::vk::ProgramPipeline::getPipelineLayout.
+		*	\see test::vk::ProgramPipeline::getPipelineLayout.
 		*\param[in] layouts
 		*	The descriptor layouts, to fill the blanks.
 		*/
@@ -33,13 +33,13 @@ namespace ast::vk
 		/**
 		*\return
 		*	The shader modules, created from the info in the program.
-		*	\see ast::vk::ProgramPipeline::getShaderModules.
+		*	\see test::vk::ProgramPipeline::getShaderModules.
 		*/
 		VkShaderModuleArray createShaderModules();
 		/**
 		*\return
-		*	Filled array of ast::vk:PipelineShaderStageCreateInfo.
-		*	\see ast::vk::ProgramPipeline::getShaderStages.
+		*	Filled array of test::vk:PipelineShaderStageCreateInfo.
+		*	\see test::vk::ProgramPipeline::getShaderStages.
 		*\param[in] modules
 		*	The modules, to fill the blanks.
 		*\param[in] specializationInfo
@@ -52,7 +52,7 @@ namespace ast::vk
 		*	Effectively creates a graphics VkPipeline, from filled create infos.
 		*\return
 		*	\p VK_ERROR_VALIDATION_FAILED if the create info don't match the infos expected by the program.
-		*	\see ast::vk::ProgramPipeline::checkGraphicsPipeline.
+		*	\see test::vk::ProgramPipeline::checkGraphicsPipeline.
 		*/
 		VkResult createGraphicsPipeline( VkGraphicsPipelineCreateInfo const & createInfos
 			, VkPipeline * result )const;
@@ -61,7 +61,7 @@ namespace ast::vk
 		*	Effectively creates a compute VkPipeline, from filled create infos.
 		*\return
 		*	\p VK_ERROR_VALIDATION_FAILED if the create info don't match the infos expected by the program.
-		*	\see ast::vk::ProgramPipeline::checkComputePipeline.
+		*	\see test::vk::ProgramPipeline::checkComputePipeline.
 		*/
 		VkResult createComputePipeline( VkComputePipelineCreateInfo const & createInfos
 			, VkPipeline * result )const;

@@ -1010,15 +1010,65 @@ namespace spirv
 			config.isExtension = false;
 			break;
 
+
+	// Ray tracing Shader Functions
 		case ast::expr::Intrinsic::eTraceRay:
 		case ast::expr::Intrinsic::eReportIntersection:
 		case ast::expr::Intrinsic::eExecuteCallable:
 			config.isExtension = false;
 			break;
 
+
+	// Ray queries Functions
+		case ast::expr::Intrinsic::eRayQueryTraceRay:
+		case ast::expr::Intrinsic::eRayQueryProceed:
+		case ast::expr::Intrinsic::eRayQueryAbort:
+		case ast::expr::Intrinsic::eRayQueryCandidateType:
+		case ast::expr::Intrinsic::eRayQueryCandidateProceduralPrimitiveNonOpaque:
+		case ast::expr::Intrinsic::eRayQueryCommitNonOpaqueTriangleHit:
+		case ast::expr::Intrinsic::eRayQueryCommitProceduralPrimitiveHit:
+		case ast::expr::Intrinsic::eRayQueryCommittedStatus:
+		case ast::expr::Intrinsic::eRayQueryGetRayFlags:
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayOrigin:
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayDirection:
+		case ast::expr::Intrinsic::eRayQueryGetRayTMin:
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleRayT:
+		case ast::expr::Intrinsic::eRayQueryCommittedRayT:
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceIndex:
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceID:
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceContributionToHitGroupIndex:
+		case ast::expr::Intrinsic::eRayQueryCandidateGeometryIndex:
+		case ast::expr::Intrinsic::eRayQueryCandidatePrimitiveIndex:
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayOrigin:
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayDirection:
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectToWorld:
+		case ast::expr::Intrinsic::eRayQueryCandidateWorldToObject:
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceIndex:
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceID:
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceContributionToHitGroupIndex:
+		case ast::expr::Intrinsic::eRayQueryCommittedGeometryIndex:
+		case ast::expr::Intrinsic::eRayQueryCommittedPrimitiveIndex:
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayOrigin:
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayDirection:
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectToWorld:
+		case ast::expr::Intrinsic::eRayQueryCommittedWorldToObject:
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleBarycentrics:
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleFrontFace:
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleBarycentrics:
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace:
+			config.isExtension = false;
+			break;
+
+
+	//Mesh Shader NV Functions
 		case ast::expr::Intrinsic::eSetMeshOutputCountsNV:
 		case ast::expr::Intrinsic::eDispatchMeshNV:
 		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8NV:
+			config.isExtension = false;
+			break;
+
+
+	//Mesh Shader Functions
 		case ast::expr::Intrinsic::eSetMeshOutputCounts:
 			config.isExtension = false;
 			break;

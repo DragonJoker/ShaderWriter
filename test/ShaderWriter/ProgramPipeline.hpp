@@ -14,7 +14,7 @@ See LICENSE file in root folder
 #include <array>
 #include <iterator>
 
-namespace ast::vk
+namespace test::vk
 {
 	class ProgramPipeline
 	{
@@ -22,28 +22,28 @@ namespace ast::vk
 		ProgramPipeline( uint32_t spvVersion
 			, ShaderPtrs const & shaders );
 		ProgramPipeline( uint32_t spvVersion
-			, ShaderPtrArray const & shaders );
+			, ast::ShaderPtrArray const & shaders );
 		ProgramPipeline( uint32_t spvVersion
-			, ShaderArray const & shaders );
+			, ast::ShaderArray const & shaders );
 		ProgramPipeline( uint32_t spvVersion
-			, Shader const & shader
-			, EntryPointConfigArray const & entryPoints );
+			, ast::Shader const & shader
+			, ast::EntryPointConfigArray const & entryPoints );
 		/**
 		*\return
-		*	Pre-filled array of ast::vk:SpecializationInfo.
+		*	Pre-filled array of test::vk:SpecializationInfo.
 		*\remarks
 		*	The \p offset member of each VkSpecializationMapEntry in each non nullopt VkSpecializationInfo must be set by the client.
 		*	The \p pData member of each non nullopt VkSpecializationInfo must be filled by the client.
-		*	\see ast::vk::SpecializationInfo.
+		*	\see test::vk::SpecializationInfo.
 		*/
 		std::vector< SpecializationInfoOpt > getSpecializationInfos()const;
 		/**
 		*\return
-		*	Pre-filled array of ast::vk:PipelineShaderStageCreateInfo.
+		*	Pre-filled array of test::vk:PipelineShaderStageCreateInfo.
 		*\remarks
 		*	The \p module member of each VkPipelineShaderStageCreateInfo must be set by the client.
-		*	For informations about VkSpecializationInfo, \see ast::vk::ProgramPipeline::getSpecializationInfos.
-		*	\see ast::vk::PipelineShaderStageCreateInfo.
+		*	For informations about VkSpecializationInfo, \see test::vk::ProgramPipeline::getSpecializationInfos.
+		*	\see test::vk::PipelineShaderStageCreateInfo.
 		*/
 		std::vector< PipelineShaderStageCreateInfo > getShaderStages()const;
 		/**
@@ -59,7 +59,7 @@ namespace ast::vk
 		*	The \p range member of each VkDescriptorBufferInfo will be filled with the expected size of the buffer.
 		*	Other members of the appropriate descriptor infos (VkDescriptorImageInfo, VkDescriptorBufferInfo, or VkBufferView)
 		*	must be filled by the client (they're initialised with the appropriate size, which is in \p descriptorCount).
-		*	\see ast::vk::WriteDescriptorSet, and \see ast::vk::WriteDescriptorType.
+		*	\see test::vk::WriteDescriptorSet, and \see test::vk::WriteDescriptorType.
 		*/
 		WriteDescriptorSetArray getDescriptorSetWrites( uint32_t setIndex )const;
 		/**
@@ -114,7 +114,7 @@ namespace ast::vk
 		VkPipelineLayoutCreateInfo getPipelineLayout( std::vector< VkDescriptorSetLayout > const & layouts )const;
 		/**
 		*\return
-		*	Filled array of ast::vk:PipelineShaderStageCreateInfo.
+		*	Filled array of test::vk:PipelineShaderStageCreateInfo.
 		*\param[in] modules
 		*	One per shader initially provided.
 		*\param[in] specializationInfo
@@ -205,15 +205,15 @@ namespace ast::vk
 
 	private:
 		std::vector< uint32_t > createShaderSource( uint32_t spvVersion
-			, Shader const & shader
-			, EntryPointConfig const & entryPoint );
-		SpecializationInfoOpt createSpecializationInfo( Shader const & shader )const;
-		PipelineShaderStageCreateInfo createShaderStage( EntryPointConfig const & entryPoint );
-		ShaderDataPtr createShaderData( Shader const & shader
-			, EntryPointConfig const & entryPoint );
-		ShaderModuleCreateInfo createShaderModule( EntryPointConfig const & entryPoint );
-		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader
-			, EntryPointConfig const & entryPoint )const;
+			, ast::Shader const & shader
+			, ast::EntryPointConfig const & entryPoint );
+		SpecializationInfoOpt createSpecializationInfo( ast::Shader const & shader )const;
+		PipelineShaderStageCreateInfo createShaderStage( ast::EntryPointConfig const & entryPoint );
+		ShaderDataPtr createShaderData( ast::Shader const & shader
+			, ast::EntryPointConfig const & entryPoint );
+		ShaderModuleCreateInfo createShaderModule( ast::EntryPointConfig const & entryPoint );
+		std::vector< VkPushConstantRange > createPushConstantRanges( ast::Shader const & shader
+			, ast::EntryPointConfig const & entryPoint )const;
 
 		std::vector< DescriptorSetLayoutCreateInfo > createDescriptorLayouts()const;
 		std::vector< VkDescriptorPoolSize > createDescriptorPoolSizes();
@@ -225,49 +225,49 @@ namespace ast::vk
 		bool checkVertexInputState( VkPipelineVertexInputStateCreateInfo const & state )const;
 		bool checkSpecializationInfos( std::vector< VkSpecializationInfoOpt > const & infos )const;
 
-		Shader const & getShader( Shader const * shader )const
+		ast::Shader const & getShader( ast::Shader const * shader )const
 		{
 			return *shader;
 		}
 
-		Shader const & getShader( Shader const & shader )const
+		ast::Shader const & getShader( ast::Shader const & shader )const
 		{
 			return shader;
 		}
 
-		Shader const & getShader( ShaderPtr const & shader )const
+		ast::Shader const & getShader( ast::ShaderPtr const & shader )const
 		{
 			return *shader;
 		}
 
 		std::vector< uint32_t > createShaderSource( uint32_t spvVersion
-			, Shader const & shader )
+			, ast::Shader const & shader )
 		{
 			return createShaderSource( spvVersion
 				, shader
-				, EntryPointConfig{ shader.getType(), "main" } );
+				, ast::EntryPointConfig{ shader.getType(), "main" } );
 		}
 
-		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader )
+		PipelineShaderStageCreateInfo createShaderStage( ast::Shader const & shader )
 		{
-			return createShaderStage( EntryPointConfig{ shader.getType(), "main" } );
+			return createShaderStage( ast::EntryPointConfig{ shader.getType(), "main" } );
 		}
 
-		ShaderDataPtr createShaderData( Shader const & shader )
+		ShaderDataPtr createShaderData( ast::Shader const & shader )
 		{
 			return createShaderData( shader
-				, EntryPointConfig{ shader.getType(), "main" } );
+				, ast::EntryPointConfig{ shader.getType(), "main" } );
 		}
 
-		ShaderModuleCreateInfo createShaderModule( Shader const & shader )
+		ShaderModuleCreateInfo createShaderModule( ast::Shader const & shader )
 		{
-			return createShaderModule( EntryPointConfig{ shader.getType(), "main" } );
+			return createShaderModule( ast::EntryPointConfig{ shader.getType(), "main" } );
 		}
 
-		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader )const
+		std::vector< VkPushConstantRange > createPushConstantRanges( ast::Shader const & shader )const
 		{
 			return createPushConstantRanges( shader
-				, EntryPointConfig{ shader.getType(), "main" } );
+				, ast::EntryPointConfig{ shader.getType(), "main" } );
 		}
 
 		template< std::forward_iterator ShaderItT >
@@ -326,7 +326,7 @@ namespace ast::vk
 		ShaderDataPtr createShaderData( ShaderItT begin, ShaderItT end )
 		{
 			// Make sure Vertex shader stage is the first one.
-			std::vector< Shader const * > sorted;
+			std::vector< ast::Shader const * > sorted;
 			sorted.reserve( size_t( std::distance( begin, end ) ) );
 
 			while ( begin != end )
@@ -337,7 +337,7 @@ namespace ast::vk
 
 			std::sort( sorted.begin()
 				, sorted.end()
-				, []( Shader const * lhs, Shader const * rhs )
+				, []( ast::Shader const * lhs, ast::Shader const * rhs )
 				{
 					return lhs->getType() < rhs->getType();
 				} );
@@ -384,9 +384,9 @@ namespace ast::vk
 		}
 
 		std::vector< std::vector< uint32_t > > createShaderSources( uint32_t spvVersion
-			, Shader const & shader
-			, EntryPointConfigArray::const_iterator begin
-			, EntryPointConfigArray::const_iterator end )
+			, ast::Shader const & shader
+			, ast::EntryPointConfigArray::const_iterator begin
+			, ast::EntryPointConfigArray::const_iterator end )
 		{
 			std::vector< std::vector< uint32_t > > result;
 
@@ -406,9 +406,9 @@ namespace ast::vk
 			return result;
 		}
 
-		std::vector< SpecializationInfoOpt > createSpecializationInfos( Shader const & shader
-			, EntryPointConfigArray::const_iterator begin
-			, EntryPointConfigArray::const_iterator end )const
+		std::vector< SpecializationInfoOpt > createSpecializationInfos( ast::Shader const & shader
+			, ast::EntryPointConfigArray::const_iterator begin
+			, ast::EntryPointConfigArray::const_iterator end )const
 		{
 			std::vector< SpecializationInfoOpt > result;
 
@@ -421,8 +421,8 @@ namespace ast::vk
 			return result;
 		}
 
-		std::vector< PipelineShaderStageCreateInfo > createShaderStages( EntryPointConfigArray::const_iterator begin
-			, EntryPointConfigArray::const_iterator end )
+		std::vector< PipelineShaderStageCreateInfo > createShaderStages( ast::EntryPointConfigArray::const_iterator begin
+			, ast::EntryPointConfigArray::const_iterator end )
 		{
 			PipelineShaderStageArray result;
 
@@ -435,12 +435,12 @@ namespace ast::vk
 			return result;
 		}
 
-		ShaderDataPtr createShaderData( Shader const & shader
-			, EntryPointConfigArray::const_iterator begin
-			, EntryPointConfigArray::const_iterator end )
+		ShaderDataPtr createShaderData( ast::Shader const & shader
+			, ast::EntryPointConfigArray::const_iterator begin
+			, ast::EntryPointConfigArray::const_iterator end )
 		{
 			// Make sure Vertex shader stage is the first one.
-			std::vector< EntryPointConfig const * > sorted;
+			std::vector< ast::EntryPointConfig const * > sorted;
 			sorted.reserve( size_t( std::distance( begin, end ) ) );
 
 			while ( begin != end )
@@ -451,7 +451,7 @@ namespace ast::vk
 
 			std::sort( sorted.begin()
 				, sorted.end()
-				, []( EntryPointConfig const * lhs, EntryPointConfig const * rhs )
+				, []( ast::EntryPointConfig const * lhs, ast::EntryPointConfig const * rhs )
 				{
 					return lhs->stage < rhs->stage;
 				} );
@@ -466,8 +466,8 @@ namespace ast::vk
 			return result;
 		}
 
-		std::vector< ShaderModuleCreateInfo > createShaderModules( EntryPointConfigArray::const_iterator begin
-			, EntryPointConfigArray::const_iterator end )
+		std::vector< ShaderModuleCreateInfo > createShaderModules( ast::EntryPointConfigArray::const_iterator begin
+			, ast::EntryPointConfigArray::const_iterator end )
 		{
 			std::vector< ShaderModuleCreateInfo > result;
 
@@ -480,9 +480,9 @@ namespace ast::vk
 			return result;
 		}
 
-		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader
-			, EntryPointConfigArray::const_iterator begin
-			, EntryPointConfigArray::const_iterator end )const
+		std::vector< VkPushConstantRange > createPushConstantRanges( ast::Shader const & shader
+			, ast::EntryPointConfigArray::const_iterator begin
+			, ast::EntryPointConfigArray::const_iterator end )const
 		{
 			std::vector< VkPushConstantRange > result;
 
@@ -506,8 +506,8 @@ namespace ast::vk
 	private:
 		VkShaderStageFlags m_stageFlags{ 0u };
 		uint32_t m_tessellationControlPoints{};
-		std::map< ShaderStage, uint32_t > m_indices;
-		std::map< uint32_t, ShaderStage > m_revIndices;
+		std::map< ast::ShaderStage, uint32_t > m_indices;
+		std::map< uint32_t, ast::ShaderStage > m_revIndices;
 		std::vector< std::vector< uint32_t > > m_sources;
 		std::vector< SpecializationInfoOpt > m_specializationInfos;
 		std::vector< PipelineShaderStageCreateInfo > m_stages;

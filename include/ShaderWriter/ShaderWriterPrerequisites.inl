@@ -1054,6 +1054,19 @@ namespace sdw
 		using ComponentType = Void;
 	};
 
+	template<>
+	struct TypeTraits< RayQuery >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eRayQuery;
+		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 1;
+		using CppType = void;
+		using OperandType = Void;
+		using LargestType = Void;
+		using ComponentType = Void;
+	};
+
 	template< typename TypeT >
 	struct TypeTraits< NonUniformT< TypeT > >
 	{

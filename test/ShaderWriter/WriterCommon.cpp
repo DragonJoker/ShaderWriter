@@ -236,6 +236,11 @@ namespace test
 			return retrieveHLSLVersion( *this, infoIndex );
 		}
 
+		uint32_t TestCounts::getHlslRaytracingTier( uint32_t infoIndex )const
+		{
+			return retrieveHLSLRaytracingTier( *this, infoIndex );
+		}
+
 		uint32_t TestCounts::getHlslInfosSize()const
 		{
 			return retrieveHLSLInfosSize( *this );

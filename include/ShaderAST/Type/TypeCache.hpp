@@ -19,6 +19,7 @@ See LICENSE file in root folder
 #include "TypeMeshIO.hpp"
 #include "TypePointer.hpp"
 #include "TypeRayPayload.hpp"
+#include "TypeRayQuery.hpp"
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
 #include "TypeStorageBuffer.hpp"
@@ -200,6 +201,7 @@ namespace ast::type
 		SDAST_API TaskPayloadNVPtr getTaskPayloadNV( TypePtr type );
 
 		SDAST_API AccelerationStructurePtr getAccelerationStructure();
+		SDAST_API RayQueryPtr getRayQuery( uint32_t baseFlags );
 		SDAST_API HitAttributePtr getHitAttribute( TypePtr dataType );
 		SDAST_API RayPayloadPtr getRayPayload( TypePtr dataType, uint32_t location );
 		SDAST_API CallableDataPtr getCallableData( TypePtr dataType, uint32_t location );
@@ -606,6 +608,14 @@ namespace ast::type
 				, MemoryLayout layout )noexcept
 			{
 				return ast::type::getHash( layout, name, true );
+			} };
+		TypeCache< RayQuery, uint32_t > m_rayQueries{ [this]( uint32_t baseFlags )
+			{
+				return std::make_unique< RayQuery >( *this, baseFlags );
+			}
+			, []( uint32_t baseFlags )noexcept
+			{
+				return size_t( baseFlags );
 			} };
 		std::unique_ptr< AccelerationStructure > m_accelerationStructure{ std::make_unique< AccelerationStructure >( *this ) };
 		std::unique_ptr< RayDesc > m_rayDesc{ std::make_unique< RayDesc >( *this ) };

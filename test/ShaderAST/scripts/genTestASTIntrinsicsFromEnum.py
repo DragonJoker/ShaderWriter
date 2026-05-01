@@ -129,7 +129,8 @@ def printHeader( outs, match ):
 	outs.write( '\t\ttype::Scope memoryScope;\n' )
 	outs.write( '\t\ttype::MemorySemantics semantics;\n' )
 	outs.write( '\t};\n' )
-	outs.write( '\tusing Barrier = testing::TestWithParam< BarrierParam >;\n' )
+	outs.write( '\tusing ControlBarrier = testing::TestWithParam< BarrierParam >;\n' )
+	outs.write( '\tusing MemoryBarrier = testing::TestWithParam< BarrierParam >;\n' )
 	outs.write( '\n' )
 	outs.write( '\tstatic std::string getName( type::Scope p )\n' )
 	outs.write( '\t{\n' )
@@ -301,6 +302,8 @@ def computeGetTypeCall( paramType ):
 		result += " typesCache.getVoid() "
 	elif rawParamType == "CallableData" or rawParamType == "RayPayload":
 		result += " typesCache.getVoid(), 0u "
+	elif rawParamType == "RayQuery":
+		result += " 0xFFu "
 	return result + ")"
 
 def computeParams( params, tabs ):
@@ -535,7 +538,7 @@ def printFunction( outs, enumName, match ):
 		outs.write( "\n\tTEST( Intrinsic, " + intrinsicName + " )\n" )
 		outs.write( "\t{\n" )
 	else:
-		outs.write( "\n\tTEST_P( Barrier, " + intrinsicName + " )\n" )
+		outs.write( "\n\tTEST_P( " + intrinsicName + ", " + intrinsicName + " )\n" )
 		outs.write( "\t{\n" )
 		outs.write( "\t\tauto memoryScope = GetParam().memoryScope;\n" )
 		outs.write( "\t\tauto semantics = GetParam().semantics;\n" )
@@ -563,7 +566,7 @@ def printFunction( outs, enumName, match ):
 	outs.write( "\t\tastTestEnd()\n" )
 	outs.write( "\t}\n" )
 	if intrinsicName.find( "Barrier" ) != -1:
-		outs.write( "\tINSTANTIATE_TEST_SUITE_P( " + intrinsicName + ", Barrier\n" )
+		outs.write( "\tINSTANTIATE_TEST_SUITE_P( , " + intrinsicName + "\n" )
 		outs.write( "\t	, testing::ValuesIn( barrierParams )\n" )
 		outs.write( "\t	, astTestNameP( BarrierParam, getBarrierParamName ) );\n" )
 

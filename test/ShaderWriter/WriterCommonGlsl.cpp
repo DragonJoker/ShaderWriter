@@ -58,8 +58,9 @@ namespace test::sdw_test
 					{
 						glsl = generateGlsl( shader, preprocessResult, stage, specialisation, config, testCounts );
 					}
-					catch ( glsl::UnsupportedExtensionException & )
+					catch ( glsl::UnsupportedExtensionException & exc )
 					{
+						testCounts.printBlock( testCounts.testName + " - Write - " + exc.what() );
 						return;
 					}
 					catch ( std::exception & exc )

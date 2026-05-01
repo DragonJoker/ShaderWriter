@@ -14,48 +14,8 @@ See LICENSE file in root folder
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 
-namespace ast::vk
+namespace test::vk
 {
-	template< typename ValueT >
-	struct FixedSizeArrayT
-		: private std::vector< ValueT >
-	{
-		using VecT = std::vector< ValueT >;
-
-		FixedSizeArrayT()
-			: VecT{}
-		{
-		}
-
-		FixedSizeArrayT( ValueT const * pbegin
-			, ValueT const * pend )
-			: VecT{ pbegin, pend }
-		{
-		}
-
-		FixedSizeArrayT( size_t count
-			, ValueT const & value )
-			: VecT{}
-		{
-			VecT::resize( count, value );
-		}
-
-		explicit FixedSizeArrayT( ValueT const & value )
-			: FixedSizeArrayT{ 1u, value }
-		{
-		}
-
-		using VecT::empty;
-		using VecT::data;
-		using VecT::size;
-		using VecT::begin;
-		using VecT::end;
-		using VecT::cbegin;
-		using VecT::cend;
-		using VecT::operator[];
-		using VecT::at;
-	};
-
 	template< typename DataT
 		, typename ValueT
 		, typename CountT

@@ -271,6 +271,12 @@ namespace glsl
 		case ast::type::Kind::eCombinedImage:
 			result = "texture";
 			break;
+		case ast::type::Kind::eAccelerationStructure:
+			result = "accelerationStructureEXT";
+			break;
+		case ast::type::Kind::eRayQuery:
+			result = "rayQueryEXT";
+			break;
 		case ast::type::Kind::ePointer:
 			result = "pointer";
 			break;
@@ -474,7 +480,19 @@ namespace glsl
 				{
 				case ast::type::Kind::eImage:
 				case ast::type::Kind::eCombinedImage:
+					return;
 				case ast::type::Kind::eAccelerationStructure:
+					if ( isRayTraceStage( config.stage ) )
+					{
+						config.requiredExtensions.insert( EXT_ray_tracing );
+					}
+					else
+					{
+						config.requiredExtensions.insert( EXT_ray_query );
+					}
+					return;
+				case ast::type::Kind::eRayQuery:
+					config.requiredExtensions.insert( EXT_ray_query );
 					return;
 				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eSampledImage:

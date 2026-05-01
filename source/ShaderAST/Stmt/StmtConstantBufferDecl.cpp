@@ -20,8 +20,11 @@ namespace ast::stmt
 	{
 		if ( type::getArraySize( m_variable->getType() ) != ast::type::NotArray )
 		{
+#ifndef NDEBUG
 			AST_Failure( "Constant buffer variable cannot be an array" );
+#else
 			AST_Exception( "Constant buffer variable cannot be an array" );
+#endif
 		}
 	}
 

@@ -12214,6 +12214,574 @@ namespace ast::expr
 			, std::move( sbtRecordIndex )
 			, std::move( callable ) );
 	}
+	// Ray queries Functions
+
+	/**
+	*@return
+	*	void
+	*@param[in] rayQuery
+	*	rayquery
+	*@param[in] topLevel
+	*	accelerationstructure
+	*@param[in] rayFlags
+	*	uint32
+	*@param[in] cullMask
+	*	uint32
+	*@param[in] rayDesc
+	*	raydesc
+	*/
+	inline IntrinsicCallPtr makeRayQueryTraceRay( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery
+		, ExprPtr topLevel
+		, ExprPtr rayFlags
+		, ExprPtr cullMask
+		, ExprPtr rayDesc )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		AST_Assert( topLevel->getType()->getRawKind() == type::Kind::eAccelerationStructure );
+		AST_Assert( rayFlags->getType()->getRawKind() == type::Kind::eUInt32 );
+		AST_Assert( cullMask->getType()->getRawKind() == type::Kind::eUInt32 );
+		AST_Assert( rayDesc->getType()->getRawKind() == type::Kind::eRayDesc );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eRayQueryTraceRay
+			, std::move( rayQuery )
+			, std::move( topLevel )
+			, std::move( rayFlags )
+			, std::move( cullMask )
+			, std::move( rayDesc ) );
+	}
+	/**
+	*@return
+	*	boolean
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryProceed( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eBoolean )
+			, Intrinsic::eRayQueryProceed
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	void
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryAbort( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eRayQueryAbort
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint32
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateType( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt32 )
+			, Intrinsic::eRayQueryCandidateType
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	boolean
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateProceduralPrimitiveNonOpaque( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eBoolean )
+			, Intrinsic::eRayQueryCandidateProceduralPrimitiveNonOpaque
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	void
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommitNonOpaqueTriangleHit( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eRayQueryCommitNonOpaqueTriangleHit
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	void
+	*@param[in] rayQuery
+	*	rayquery
+	*@param[in] t
+	*	float
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommitProceduralPrimitiveHit( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery
+		, ExprPtr t )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		AST_Assert( t->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eRayQueryCommitProceduralPrimitiveHit
+			, std::move( rayQuery )
+			, std::move( t ) );
+	}
+	/**
+	*@return
+	*	uint32
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedStatus( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt32 )
+			, Intrinsic::eRayQueryCommittedStatus
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint32
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryGetRayFlags( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt32 )
+			, Intrinsic::eRayQueryGetRayFlags
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryGetWorldRayOrigin( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eRayQueryGetWorldRayOrigin
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryGetWorldRayDirection( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eRayQueryGetWorldRayDirection
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryGetRayTMin( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eRayQueryGetRayTMin
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateTriangleRayT( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eRayQueryCandidateTriangleRayT
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedRayT( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eRayQueryCommittedRayT
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateInstanceIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCandidateInstanceIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateInstanceID( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCandidateInstanceID
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateInstanceContributionToHitGroupIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCandidateInstanceContributionToHitGroupIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateGeometryIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCandidateGeometryIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidatePrimitiveIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCandidatePrimitiveIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateObjectRayOrigin( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eRayQueryCandidateObjectRayOrigin
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateObjectRayDirection( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eRayQueryCandidateObjectRayDirection
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	mat4x3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateObjectToWorld( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eMat4x3F )
+			, Intrinsic::eRayQueryCandidateObjectToWorld
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	mat4x3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateWorldToObject( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eMat4x3F )
+			, Intrinsic::eRayQueryCandidateWorldToObject
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedInstanceIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCommittedInstanceIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedInstanceID( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCommittedInstanceID
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedInstanceContributionToHitGroupIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCommittedInstanceContributionToHitGroupIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedGeometryIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCommittedGeometryIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	uint
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedPrimitiveIndex( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt )
+			, Intrinsic::eRayQueryCommittedPrimitiveIndex
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedObjectRayOrigin( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eRayQueryCommittedObjectRayOrigin
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedObjectRayDirection( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eRayQueryCommittedObjectRayDirection
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	mat4x3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedObjectToWorld( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eMat4x3F )
+			, Intrinsic::eRayQueryCommittedObjectToWorld
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	mat4x3f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedWorldToObject( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eMat4x3F )
+			, Intrinsic::eRayQueryCommittedWorldToObject
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec2f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateTriangleBarycentrics( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2F )
+			, Intrinsic::eRayQueryCandidateTriangleBarycentrics
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	boolean
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCandidateTriangleFrontFace( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eBoolean )
+			, Intrinsic::eRayQueryCandidateTriangleFrontFace
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	vec2f
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedTriangleBarycentrics( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2F )
+			, Intrinsic::eRayQueryCommittedTriangleBarycentrics
+			, std::move( rayQuery ) );
+	}
+	/**
+	*@return
+	*	boolean
+	*@param[in] rayQuery
+	*	rayquery
+	*/
+	inline IntrinsicCallPtr makeRayQueryCommittedTriangleFrontFace( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr rayQuery )
+	{
+		AST_Assert( rayQuery->getType()->getRawKind() == type::Kind::eRayQuery );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eBoolean )
+			, Intrinsic::eRayQueryCommittedTriangleFrontFace
+			, std::move( rayQuery ) );
+	}	
+
 	//Mesh Shader NV Functions
 
 	/**

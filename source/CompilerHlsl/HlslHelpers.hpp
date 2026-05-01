@@ -564,6 +564,8 @@ namespace hlsl
 
 	struct IntrinsicsConfig
 	{
+		ast::ShaderStage stage{};
+
 		bool requiresShadowSampler{ false };
 		bool requiresShadowOnTiled{ false };
 		bool requiresGather{ false };
@@ -992,6 +994,7 @@ namespace hlsl
 		bool requiresControlBarrier{ false };
 		bool requiresMemoryBarrier{ false };
 		bool requiresInterlockedOperations{ false };
+		uint32_t requiredRaytracingTier{ tUns };
 	};
 	void checkType( ast::type::TypePtr type
 		, IntrinsicsConfig & config );

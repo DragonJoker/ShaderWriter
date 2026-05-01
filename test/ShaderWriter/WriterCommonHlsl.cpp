@@ -23,7 +23,7 @@ namespace test::sdw_test
 				, preprocessResult
 				, stage
 				, specialisation
-				, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex ), stage, false } );
+				, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex ), testCounts.getHlslRaytracingTier( infoIndex ), stage, false } );
 		}
 
 		static void testWriteOnIndex( ::ast::Shader const & shader
@@ -48,8 +48,9 @@ namespace test::sdw_test
 					{
 						hlsl = generateHlsl( shader, preprocessResult, stage, specialisation, infoIndex, testCounts );
 					}
-					catch ( hlsl::UnsupportedExtensionException & )
+					catch ( hlsl::UnsupportedExtensionException & exc )
 					{
+						testCounts.printBlock( testCounts.testName + " - Write - " + exc.what() );
 						return;
 					}
 					catch ( std::exception & exc )

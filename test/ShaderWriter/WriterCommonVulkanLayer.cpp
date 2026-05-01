@@ -1,6 +1,6 @@
 #include "WriterCommonVulkanLayer.hpp"
 
-#if SDW_Test_HasVulkan && SDW_HasVulkanLayer
+#if SDW_Test_HasVulkan
 
 #	include "CompileGLSL.hpp"
 #	include "CompileSPIRV.hpp"
@@ -11,9 +11,9 @@
 #		include <CompilerSpirV/compileSpirV.hpp>
 #	endif
 
-#	include <VulkanLayer/PipelineBuilder.hpp>
-#	include <VulkanLayer/ProgramPipeline.hpp>
-#	include <VulkanLayer/MakeVkType.hpp>
+#	include "PipelineBuilder.hpp"
+#	include "ProgramPipeline.hpp"
+#	include "MakeVkType.hpp"
 
 #	include <ostream>
 #	include <string>
@@ -22,121 +22,223 @@
 
 namespace test::sdw_test
 {
+	static std::string indent;
+
+	static std::ostream & operator<<( std::ostream & stream, VkDescriptorType const & rhs )
+	{
+		switch ( rhs )
+		{
+		case VK_DESCRIPTOR_TYPE_SAMPLER:
+			stream << "VK_DESCRIPTOR_TYPE_SAMPLER";
+			break;
+		case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
+			stream << "VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER";
+			break;
+		case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
+			stream << "VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE";
+			break;
+		case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
+			stream << "VK_DESCRIPTOR_TYPE_STORAGE_IMAGE";
+			break;
+		case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
+			stream << "VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER";
+			break;
+		case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
+			stream << "VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER";
+			break;
+		case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+			stream << "VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER";
+			break;
+		case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
+			stream << "VK_DESCRIPTOR_TYPE_STORAGE_BUFFER";
+			break;
+		case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
+			stream << "VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC";
+			break;
+		case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
+			stream << "VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC";
+			break;
+		case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
+			stream << "VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT";
+			break;
+		case VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK:
+			stream << "VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK";
+			break;
+		case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR:
+			stream << "VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR";
+			break;
+		case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
+			stream << "VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV";
+			break;
+		case VK_DESCRIPTOR_TYPE_SAMPLE_WEIGHT_IMAGE_QCOM:
+			stream << "VK_DESCRIPTOR_TYPE_SAMPLE_WEIGHT_IMAGE_QCOM";
+			break;
+		case VK_DESCRIPTOR_TYPE_BLOCK_MATCH_IMAGE_QCOM:
+			stream << "VK_DESCRIPTOR_TYPE_BLOCK_MATCH_IMAGE_QCOM";
+			break;
+		case VK_DESCRIPTOR_TYPE_TENSOR_ARM:
+			stream << "VK_DESCRIPTOR_TYPE_TENSOR_ARM";
+			break;
+		case VK_DESCRIPTOR_TYPE_MUTABLE_EXT:
+			stream << "VK_DESCRIPTOR_TYPE_MUTABLE_EXT";
+			break;
+		case VK_DESCRIPTOR_TYPE_PARTITIONED_ACCELERATION_STRUCTURE_NV:
+			stream << "VK_DESCRIPTOR_TYPE_PARTITIONED_ACCELERATION_STRUCTURE_NV";
+			break;
+		case VK_DESCRIPTOR_TYPE_MAX_ENUM:
+			stream << "VK_DESCRIPTOR_TYPE_MAX_ENUM";
+			break;
+		}
+
+		return stream;
+	}
+
 	static std::ostream & operator<<( std::ostream & stream, VkSpecializationMapEntry const & rhs )
 	{
-		stream << rhs.constantID << ", " << rhs.offset << ", " << rhs.size;
+		stream << "VkSpecializationMapEntry: " << rhs.constantID << ", " << rhs.offset << ", " << rhs.size;
 
 		return stream;
 	}
 
-	static std::ostream & operator<<( std::ostream & stream, ast::vk::PipelineShaderStageCreateInfo const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, vk::PipelineShaderStageCreateInfo const & rhs )
 	{
-		stream << rhs->flags << ", " << rhs->stage << ", " << rhs->module << ", " << rhs->pName;
-
-		return stream;
-	}
-
-	static std::ostream & operator<<( std::ostream & stream, VkWriteDescriptorSet const & rhs )
-	{
-		stream << rhs.dstSet << ", " << rhs.dstBinding << ", " << rhs.dstArrayElement << ", " << rhs.descriptorType;
+		stream << "VkPipelineShaderStageCreateInfo: " << rhs->flags << ", " << rhs->stage << ", 0x" << rhs->module << ", " << rhs->pName;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkDescriptorImageInfo const & rhs )
 	{
-		stream << rhs.sampler << ", " << rhs.imageView << ", " << rhs.imageLayout;
+		stream << "VkDescriptorImageInfo: 0x" << rhs.sampler << ", 0x" << rhs.imageView << ", " << rhs.imageLayout;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkDescriptorBufferInfo const & rhs )
 	{
-		stream << rhs.buffer << ", " << rhs.offset << ", " << rhs.range;
+		stream << "VkDescriptorBufferInfo: 0x" << rhs.buffer << ", " << rhs.offset << ", " << rhs.range;
+
+		return stream;
+	}
+
+	static std::ostream & operator<<( std::ostream & stream, VkWriteDescriptorSet const & rhs )
+	{
+		stream << "VkWriteDescriptorSet: 0x" << rhs.dstSet << ", " << rhs.dstBinding << ", " << rhs.dstArrayElement << ", " << rhs.descriptorType;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkSpecializationInfo const & rhs )
 	{
-		stream << rhs.dataSize;
+		stream << "VkSpecializationInfo: " << rhs.dataSize;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkVertexInputAttributeDescription const & rhs )
 	{
-		stream << rhs.location << ", " << rhs.binding << ", " << rhs.format << ", " << rhs.offset;
+		stream << "VkVertexInputAttributeDescription: " << rhs.location << ", " << rhs.binding << ", " << rhs.format << ", " << rhs.offset;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkAttachmentDescription const & rhs )
 	{
-		stream << rhs.flags << ", " << rhs.format << ", " << rhs.samples << ", " << rhs.loadOp << ", " << rhs.storeOp << ", " << rhs.stencilLoadOp << ", " << rhs.stencilStoreOp << ", " << rhs.initialLayout << ", " << rhs.finalLayout;
+		stream << "VkAttachmentDescription: " << rhs.flags << ", " << rhs.format << ", " << rhs.samples << ", " << rhs.loadOp << ", " << rhs.storeOp << ", " << rhs.stencilLoadOp << ", " << rhs.stencilStoreOp << ", " << rhs.initialLayout << ", " << rhs.finalLayout;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkShaderModuleCreateInfo const & rhs )
 	{
-		stream << rhs.flags << ", " << rhs.codeSize;
+		stream << "VkShaderModuleCreateInfo: " << rhs.flags << ", " << rhs.codeSize;
 
 		return stream;
 	}
 
 	std::ostream & operator<<( std::ostream & stream, VkDescriptorSetLayoutBinding const & rhs )
 	{
-		stream << rhs.binding << ", " << rhs.descriptorType << ", " << rhs.stageFlags << ", " << rhs.pImmutableSamplers;
+		stream << "VkDescriptorSetLayoutBinding: " << rhs.binding << ", " << rhs.descriptorType << ", " << rhs.stageFlags << ", 0x" << rhs.pImmutableSamplers;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkDescriptorSetLayoutCreateInfo const & rhs )
 	{
-		stream << rhs.flags;
+		stream << "VkDescriptorSetLayoutCreateInfo: " << rhs.flags;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkDescriptorPoolSize const & rhs )
 	{
-		stream << rhs.type << ", " << rhs.descriptorCount;
+		stream << "VkDescriptorPoolSize: " << rhs.type << ", " << rhs.descriptorCount;
 
 		return stream;
 	}
 
 	static std::ostream & operator<<( std::ostream & stream, VkPushConstantRange const & rhs )
 	{
-		stream << rhs.stageFlags << ", " << rhs.offset << ", " << rhs.size;
+		stream << "VkPushConstantRange: " << rhs.stageFlags << ", " << rhs.offset << ", " << rhs.size;
 
 		return stream;
 	}
 
 	template< typename DataT, typename ValueT, typename CountT, size_t DataOffsetT, size_t CountOffsetT, size_t DivisorT >
-	static std::ostream & operator<<( std::ostream & stream, ast::vk::ArrayHolder< DataT, ValueT, CountT, DataOffsetT, CountOffsetT, DivisorT > const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, vk::ArrayHolder< DataT, ValueT, CountT, DataOffsetT, CountOffsetT, DivisorT > const & rhs )
 	{
-		stream << "  Base Values: " << rhs.data;
+		stream << rhs.data;
 
 		if ( !rhs.values.empty() )
 		{
-			stream << std::endl << "  Entries:" << std::endl;
+			auto save = indent;
+			indent += "  ";
+			stream << std::endl << indent;
 
-			for ( auto const & value : rhs.values )
+			for ( size_t i = 0u; i < rhs.values.size(); ++i )
 			{
-				stream << value << std::endl;
+				stream << rhs.values[i];
+				if ( i < rhs.values.size() - 1u )
+					stream << std::endl << indent;
 			}
+
+			indent = save;
+			stream << std::endl << indent;
 		}
 
 		return stream;
 	}
 
-	static std::ostream & operator<<( std::ostream & stream, ast::vk::WriteDescriptorSet const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, vk::AccelerationStructureWriteDescriptorSet const & rhs )
+	{
+		stream << rhs.data;
+
+		if ( !rhs.values.empty() )
+		{
+			auto save = indent;
+			indent += "  ";
+			stream << std::endl << indent;
+
+			for ( size_t i = 0u; i < rhs.values.size(); ++i )
+			{
+				stream << "0x" << rhs.values[i];
+				if ( i < rhs.values.size() - 1u )
+					stream << std::endl << indent;
+			}
+
+			indent = save;
+			stream << std::endl << indent;
+		}
+
+		return stream;
+	}
+
+	static std::ostream & operator<<( std::ostream & stream, vk::WriteDescriptorSet const & rhs )
 	{
 		std::visit( [&stream]( auto && arg )
-		{
-		stream << arg << std::endl;
-		}, rhs );
+			{
+				stream << arg << std::endl << indent;
+			}, rhs );
 
 		return stream;
 	}
@@ -146,7 +248,7 @@ namespace test::sdw_test
 	{
 		if ( rhs )
 		{
-			stream << *rhs << std::endl;
+			stream << *rhs << std::endl << indent;
 		}
 
 		return stream;
@@ -157,12 +259,20 @@ namespace test::sdw_test
 	{
 		if ( !rhs.empty() )
 		{
-			stream << "  Entries:" << std::endl;
+			stream << std::endl << indent << "Entries: " << uint32_t( rhs.size() );
+			auto save = indent;
+			indent += "  ";
+			stream << std::endl << indent;
 
-			for ( auto const & data : rhs )
+			for ( size_t i = 0u; i < rhs.size(); ++i )
 			{
-				stream << "    " << data << std::endl;
+				stream << rhs[i];
+				if ( i < rhs.size() - 1u )
+					stream << std::endl << indent;
 			}
+
+			indent = save;
+			stream << std::endl << indent;
 		}
 
 		return stream;
@@ -173,42 +283,53 @@ namespace test::sdw_test
 	{
 		if ( !rhs.empty() )
 		{
-			stream << "  Entries:" << std::endl;
+			stream << std::endl << indent << "Entries: " << uint32_t( rhs.size() );
+			auto save = indent;
+			indent += "  ";
+			stream << std::endl << indent;
+			auto it = rhs.begin();
 
-			for ( auto const & [key, data] : rhs )
+			for ( size_t i = 0u; i < rhs.size(); ++i )
 			{
-				stream << "    " << key << ": " << data << std::endl;
+				stream << it->first << ": " << it->second;
+				if ( i < rhs.size() - 1u )
+					stream << std::endl << indent;
+				++it;
 			}
+
+			indent = save;
+			stream << std::endl << indent;
 		}
 
 		return stream;
 	}
 
-	static std::ostream & operator<<( std::ostream & stream, ast::vk::ProgramPipeline const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, vk::ProgramPipeline const & rhs )
 	{
-		stream << "Shader Stages: " << std::endl;
+		stream << "Shader Stages: ";
 		stream << rhs.getShaderStages() << std::endl;
-		stream << "Specialization Infos: " << std::endl;
+		stream << "Specialization Infos: ";
 		stream << rhs.getSpecializationInfos() << std::endl;
-		stream << "DescriptorSet Writes: " << std::endl;
+		stream << "DescriptorSet Writes: ";
 		stream << rhs.getDescriptorSetWrites() << std::endl;
-		stream << "Vertex Attributes: " << std::endl;
+		stream << "Vertex Attributes: ";
 		stream << rhs.getVertexAttributes() << std::endl;
-		stream << "AttachmentDescriptions: " << std::endl;
+		stream << "AttachmentDescriptions: ";
 		stream << rhs.getAttachmentDescriptions() << std::endl;
-		stream << "ShaderModules: " << std::endl;
+		stream << "ShaderModules: ";
 		stream << rhs.getShaderModules() << std::endl;
-		stream << "DescriptorLayouts: " << std::endl;
+		stream << "DescriptorLayouts: ";
 		stream << rhs.getDescriptorLayouts() << std::endl;
-		stream << "DescriptorPoolSizes: " << std::endl;
+		stream << "DescriptorPoolSizes: ";
 		stream << rhs.getDescriptorPoolSizes( 1u ) << std::endl;
-		stream << "PushConstantRanges: " << std::endl;
+		stream << "PushConstantRanges: ";
 		stream << rhs.getPushConstantRanges() << std::endl;
 		return stream;
 	}
 
-	static std::string toString( ast::vk::ProgramPipeline const & rhs )
+	static std::string toString( vk::ProgramPipeline const & rhs )
 	{
+		indent = std::string{};
 		std::stringstream stream;
 		stream.imbue( std::locale{ "C" } );
 		stream << rhs;
@@ -277,22 +398,22 @@ namespace test::sdw_test
 #endif
 	}
 
-	static ast::vk::ProgramPipeline generateProgram( ast::Shader const & shader
+	static vk::ProgramPipeline generateProgram( ast::Shader const & shader
 		, ast::EntryPointConfigArray const & entryPoints
 		, uint32_t infoIndex
 		, sdw_test::TestCounts & testCounts )
 	{
 		auto timerBlock = testCounts.beginTimer( "generateProgram" );
-		return ast::vk::ProgramPipeline{ testCounts.getSpirVVersion( infoIndex )
+		return vk::ProgramPipeline{ testCounts.getSpirVVersion( infoIndex )
 			, shader, entryPoints };
 	}
 
-	static ast::vk::ProgramPipeline generateProgram( ast::vk::ShaderPtrs const & shaders
+	static vk::ProgramPipeline generateProgram( vk::ShaderPtrs const & shaders
 		, uint32_t infoIndex
 		, sdw_test::TestCounts & testCounts )
 	{
 		auto timerBlock = testCounts.beginTimer( "generateProgram" );
-		return ast::vk::ProgramPipeline{ testCounts.getSpirVVersion( infoIndex )
+		return vk::ProgramPipeline{ testCounts.getSpirVVersion( infoIndex )
 			, shaders };
 	}
 
@@ -313,7 +434,7 @@ namespace test::sdw_test
 				+ " - SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) );
 			try
 			{
-				ast::vk::ProgramPipeline program{ generateProgram( shader, entryPoints, infoIndex, testCounts ) };
+				vk::ProgramPipeline program{ generateProgram( shader, entryPoints, infoIndex, testCounts ) };
 
 				if ( compilers.forceDisplay )
 				{
@@ -335,6 +456,14 @@ namespace test::sdw_test
 					}
 				}
 			}
+			catch ( spirv::UnsupportedExtensionException & exc )
+			{
+				testCounts.printBlock( testCounts.testName + " - Validate - " + exc.what() );
+			}
+			catch ( spirv::ExtensionNotFoundException & exc )
+			{
+				testCounts.printBlock( testCounts.testName + " - Validate - " + exc.what() );
+			}
 			catch ( std::exception & exc )
 			{
 				if ( auto err = std::string{ exc.what() };
@@ -349,7 +478,7 @@ namespace test::sdw_test
 #endif
 	}
 
-	void validateShaderOnIndex( ast::vk::ShaderPtrs const & shaders
+	void validateShaderOnIndex( vk::ShaderPtrs const & shaders
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex
 		, Compilers const & compilers )
@@ -365,7 +494,7 @@ namespace test::sdw_test
 				+ " - SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) );
 			try
 			{
-				ast::vk::ProgramPipeline program{ generateProgram( shaders, infoIndex, testCounts ) };
+				vk::ProgramPipeline program{ generateProgram( shaders, infoIndex, testCounts ) };
 
 				if ( compilers.forceDisplay )
 				{
@@ -395,6 +524,14 @@ namespace test::sdw_test
 						}
 					}
 				}
+			}
+			catch ( spirv::UnsupportedExtensionException & exc )
+			{
+				testCounts.printBlock( testCounts.testName + " - Validate - " + exc.what() );
+			}
+			catch ( spirv::ExtensionNotFoundException & exc )
+			{
+				testCounts.printBlock( testCounts.testName + " - Validate - " + exc.what() );
 			}
 			catch ( std::exception & exc )
 			{

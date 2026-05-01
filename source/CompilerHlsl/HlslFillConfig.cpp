@@ -246,6 +246,16 @@ namespace hlsl
 						m_config.requiresMemoryBarrier = true;
 					}
 				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eTraceRay
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eExecuteCallable )
+				{
+					m_config.requiredRaytracingTier = std::max( m_config.requiredRaytracingTier, t1_0 );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eRayQueryTraceRay
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace )
+				{
+					m_config.requiredRaytracingTier = std::max( m_config.requiredRaytracingTier, t1_1 );
+				}
 			}
 
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override
@@ -338,7 +348,7 @@ namespace hlsl
 				, AdaptationData & adaptationData
 				, ast::stmt::Container const & container )
 			{
-				IntrinsicsConfig result{};
+				IntrinsicsConfig result{ .stage = shader.getType() };
 				StmtConfigFiller vis{ shader, adaptationData, result };
 				container.accept( &vis );
 				return result;

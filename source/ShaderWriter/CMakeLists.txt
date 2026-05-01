@@ -158,6 +158,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/NonUniform.inl
 	${INCLUDE_DIR}/BaseTypes/RayPayload.hpp
 	${INCLUDE_DIR}/BaseTypes/RayPayload.inl
+	${INCLUDE_DIR}/BaseTypes/RayQuery.hpp
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.hpp
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.inl
 	${INCLUDE_DIR}/BaseTypes/SampledImage.hpp
@@ -183,6 +184,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/HitAttribute.cpp
 	${SOURCE_DIR}/BaseTypes/Int.cpp
 	${SOURCE_DIR}/BaseTypes/RayPayload.cpp
+	${SOURCE_DIR}/BaseTypes/RayQuery.cpp
 	${SOURCE_DIR}/BaseTypes/SampledImage.cpp
 	${SOURCE_DIR}/BaseTypes/Sampler.cpp
 	${SOURCE_DIR}/BaseTypes/StorageImage.cpp

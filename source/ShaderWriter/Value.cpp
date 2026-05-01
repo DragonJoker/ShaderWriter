@@ -38,8 +38,8 @@ namespace sdw
 
 	Value::Value( Value && rhs )noexcept
 		: Value{ findWriterMandat( rhs )
-		, makeExpr( findWriterMandat( rhs ), rhs )
-		, rhs.isEnabled() }
+			, makeExpr( findWriterMandat( rhs ), rhs )
+			, rhs.isEnabled() }
 	{
 		rhs.m_expr = {};
 		rhs.m_enabled = {};

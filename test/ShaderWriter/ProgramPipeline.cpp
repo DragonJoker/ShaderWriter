@@ -1,9 +1,9 @@
 /*
 See LICENSE file in root folder
 */
-#include "VulkanLayer/ProgramPipeline.hpp"
+#include "ProgramPipeline.hpp"
 
-#include "VulkanLayer/MakeVkType.hpp"
+#include "MakeVkType.hpp"
 
 #include <CompilerSpirV/compileSpirV.hpp>
 
@@ -18,7 +18,7 @@ See LICENSE file in root folder
 #include <algorithm>
 #include <optional>
 
-namespace ast::vk
+namespace test::vk
 {
 	//*********************************************************************************************
 
@@ -96,7 +96,7 @@ namespace ast::vk
 			return stream;
 		}
 
-		VkShaderStageFlagBits getShaderStage( ShaderStage stage )
+		VkShaderStageFlagBits getShaderStage( ast::ShaderStage stage )
 		{
 			switch ( stage )
 			{
@@ -157,7 +157,7 @@ namespace ast::vk
 			}
 		}
 
-		std::string getName( ShaderStage value )
+		std::string getName( ast::ShaderStage value )
 		{
 			switch ( value )
 			{
@@ -256,7 +256,7 @@ namespace ast::vk
 			}
 		}
 
-		VkFormat getVkFormat( type::Kind kind )
+		VkFormat getVkFormat( ast::type::Kind kind )
 		{
 			switch ( kind )
 			{
@@ -395,12 +395,12 @@ namespace ast::vk
 			}
 		}
 
-		VkFormat getVkFormat( type::Type const & in )
+		VkFormat getVkFormat( ast::type::Type const & in )
 		{
 			return getVkFormat( in.getKind() );
 		}
 
-		VkFormat getAttachVkFormat( type::Kind kind )
+		VkFormat getAttachVkFormat( ast::type::Kind kind )
 		{
 			switch ( kind )
 			{
@@ -539,7 +539,7 @@ namespace ast::vk
 			}
 		}
 
-		VkFormat getAttachVkFormat( type::Type const & in )
+		VkFormat getAttachVkFormat( ast::type::Type const & in )
 		{
 			return getAttachVkFormat( in.getKind() );
 		}
@@ -667,7 +667,7 @@ namespace ast::vk
 			return result;
 		}
 
-		VkDescriptorType getVkDescriptorType( DescriptorType in )
+		VkDescriptorType getVkDescriptorType( ast::DescriptorType in )
 		{
 			switch ( in )
 			{
@@ -685,6 +685,8 @@ namespace ast::vk
 				return VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER;
 			case ast::DescriptorType::eStorageTexelBuffer:
 				return VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER;
+			case ast::DescriptorType::eAccelerationStructure:
+				return VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR;
 			default:
 				AST_Failure( "Unsupported DescriptorType." );
 			}
@@ -728,20 +730,20 @@ namespace ast::vk
 	}
 
 	ProgramPipeline::ProgramPipeline( uint32_t spvVersion
-		, ShaderPtrArray const & shaders )
+		, ast::ShaderPtrArray const & shaders )
 		: ProgramPipeline{ spvVersion, convert( shaders ) }
 	{
 	}
 
 	ProgramPipeline::ProgramPipeline( uint32_t spvVersion
-		, ShaderArray const & shaders )
+		, ast::ShaderArray const & shaders )
 		: ProgramPipeline{ spvVersion, convert( shaders ) }
 	{
 	}
 
 	ProgramPipeline::ProgramPipeline( uint32_t spvVersion
-		, Shader const & shader
-		, EntryPointConfigArray const & entryPoints )
+		, ast::Shader const & shader
+		, ast::EntryPointConfigArray const & entryPoints )
 		: m_sources{ createShaderSources( spvVersion, shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_stages{ createShaderStages( entryPoints.begin(), entryPoints.end() ) }
@@ -930,8 +932,8 @@ namespace ast::vk
 	}
 
 	std::vector< uint32_t > ProgramPipeline::createShaderSource( uint32_t spvVersion
-		, Shader const & shader
-		, EntryPointConfig const & entryPoint )
+		, ast::Shader const & shader
+		, ast::EntryPointConfig const & entryPoint )
 	{
 		auto size = uint32_t( m_indices.size() );
 		m_stageFlags |= getShaderStage( entryPoint.stage );
@@ -956,6 +958,7 @@ namespace ast::vk
 		{
 			extensions.emplace( spirv::EXT_demote_to_helper_invocation );
 			extensions.emplace( spirv::KHR_ray_tracing );
+			extensions.emplace( spirv::KHR_ray_query );
 		}
 
 		if ( config.specVersion >= spirv::v1_3 )
@@ -995,7 +998,14 @@ namespace ast::vk
 				throw ast::Exception{ "Shader entry point selection failed." };
 			}
 
-			result = spirv::serialiseSpirv( *allocator, shader, statements.get(), entryPoint.stage, config );
+			auto module = spirv::compileSpirV( *allocator, shader, statements.get(), entryPoint.stage, config );
+
+			if ( !module )
+			{
+				throw ast::Exception{ "Shader compilation failed." };
+			}
+
+			result = spirv::serialiseModule( *module );
 		}
 
 		if ( result.empty() )
@@ -1006,7 +1016,7 @@ namespace ast::vk
 		return result;
 	}
 
-	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader )const
+	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( ast::Shader const & shader )const
 	{
 		SpecializationInfoOpt result{ std::nullopt };
 
@@ -1017,8 +1027,8 @@ namespace ast::vk
 
 			for ( auto const & [_, specConstant] : shader.getSpecConstants() )
 			{
-				auto specSize = type::getSize( specConstant.type
-					, type::MemoryLayout::eC );
+				auto specSize = ast::type::getSize( specConstant.type
+					, ast::type::MemoryLayout::eC );
 				entries.push_back( { specConstant.location
 						, 0u
 						, specSize } );
@@ -1041,7 +1051,7 @@ namespace ast::vk
 		return result;
 	}
 
-	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( EntryPointConfig const & entryPoint )
+	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( ast::EntryPointConfig const & entryPoint )
 	{
 		auto const& specInfo = m_specializationInfos[m_indices[entryPoint.stage]];
 		return { 0u
@@ -1050,8 +1060,8 @@ namespace ast::vk
 			, specInfo };
 	}
 
-	ShaderDataPtr ProgramPipeline::createShaderData( Shader const & shader
-		, EntryPointConfig const & entryPoint )
+	ShaderDataPtr ProgramPipeline::createShaderData( ast::Shader const & shader
+		, ast::EntryPointConfig const & entryPoint )
 	{
 		ShaderDataPtr result{ shader.getSsbos()
 			, shader.getUbos()
@@ -1072,7 +1082,7 @@ namespace ast::vk
 		return result;
 	}
 
-	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( EntryPointConfig const & entryPoint )
+	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( ast::EntryPointConfig const & entryPoint )
 	{
 		auto & code = m_sources[m_indices[entryPoint.stage]];
 		return ShaderModuleCreateInfo{ makeVkStruct< VkShaderModuleCreateInfo >( 0u
@@ -1080,8 +1090,8 @@ namespace ast::vk
 			, code.data() ) };
 	}
 
-	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( Shader const & shader
-		, EntryPointConfig const & entryPoint )const
+	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( ast::Shader const & shader
+		, ast::EntryPointConfig const & entryPoint )const
 	{
 		std::vector< VkPushConstantRange > result;
 		uint32_t size = 0u;
@@ -1261,6 +1271,18 @@ namespace ast::vk
 						, 1u
 						, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE ) };
 					write.values[0].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+					setWrites.emplace_back( std::move( write ) );
+				}
+			}
+
+			if ( m_data.accelerationStruct )
+			{
+				auto & binding = m_data.accelerationStruct->binding;
+				if ( binding.set == i )
+				{
+					AccelerationStructureWriteDescriptorSet write{ makeWrite( binding.binding
+						, 1u
+						, VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR ) };
 					setWrites.emplace_back( std::move( write ) );
 				}
 			}

@@ -659,6 +659,54 @@ namespace spirv
 				return GroupNonUniformQuadAllInstruction::Config;
 			case spv::OpGroupNonUniformQuadAnyKHR:
 				return GroupNonUniformQuadAnyInstruction::Config;
+			case spv::OpRayQueryInitializeKHR:
+				return VoidIntrinsicInstructionT< spv::OpRayQueryInitializeKHR >::Config;
+			case spv::OpRayQueryTerminateKHR:
+				return VoidIntrinsicInstructionT< spv::OpRayQueryTerminateKHR >::Config;
+			case spv::OpRayQueryGenerateIntersectionKHR:
+				return VoidIntrinsicInstructionT< spv::OpRayQueryGenerateIntersectionKHR >::Config;
+			case spv::OpRayQueryConfirmIntersectionKHR:
+				return VoidIntrinsicInstructionT< spv::OpRayQueryConfirmIntersectionKHR >::Config;
+			case spv::OpRayQueryProceedKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryProceedKHR >::Config;
+			case spv::OpRayQueryGetIntersectionTypeKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionTypeKHR >::Config;
+			case spv::OpRayQueryGetRayTMinKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetRayTMinKHR >::Config;
+			case spv::OpRayQueryGetRayFlagsKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetRayFlagsKHR >::Config;
+			case spv::OpRayQueryGetIntersectionTKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionTKHR >::Config;
+			case spv::OpRayQueryGetIntersectionInstanceCustomIndexKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionInstanceCustomIndexKHR >::Config;
+			case spv::OpRayQueryGetIntersectionInstanceIdKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionInstanceIdKHR >::Config;
+			case spv::OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR >::Config;
+			case spv::OpRayQueryGetIntersectionGeometryIndexKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionGeometryIndexKHR >::Config;
+			case spv::OpRayQueryGetIntersectionPrimitiveIndexKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionPrimitiveIndexKHR >::Config;
+			case spv::OpRayQueryGetIntersectionBarycentricsKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionBarycentricsKHR >::Config;
+			case spv::OpRayQueryGetIntersectionFrontFaceKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionFrontFaceKHR >::Config;
+			case spv::OpRayQueryGetIntersectionCandidateAABBOpaqueKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionCandidateAABBOpaqueKHR >::Config;
+			case spv::OpRayQueryGetIntersectionObjectRayDirectionKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionObjectRayDirectionKHR >::Config;
+			case spv::OpRayQueryGetIntersectionObjectRayOriginKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionObjectRayOriginKHR >::Config;
+			case spv::OpRayQueryGetWorldRayDirectionKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetWorldRayDirectionKHR >::Config;
+			case spv::OpRayQueryGetWorldRayOriginKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetWorldRayOriginKHR >::Config;
+			case spv::OpRayQueryGetIntersectionObjectToWorldKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionObjectToWorldKHR >::Config;
+			case spv::OpRayQueryGetIntersectionWorldToObjectKHR:
+				return IntrinsicInstructionT< spv::OpRayQueryGetIntersectionWorldToObjectKHR >::Config;
+			case spv::OpTypeRayQueryKHR:
+				return RayQueryTypeInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
 #if !SDAST_ExceptAssert

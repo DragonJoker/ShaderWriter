@@ -1054,6 +1054,7 @@ namespace hlsl
 			result = "HelperInvocation";
 			break;
 
+
 	// Ray tracing Shader Functions
 		case ast::expr::Intrinsic::eTraceRay:
 			result = "TraceRay";
@@ -1066,6 +1067,153 @@ namespace hlsl
 		case ast::expr::Intrinsic::eExecuteCallable:
 			result = "CallShader";
 			break;
+
+
+	// Ray queries Functions
+		case ast::expr::Intrinsic::eRayQueryTraceRay:
+			result = "TraceRayInline";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryProceed:
+			result = "Proceed";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryAbort:
+			result = "Abort";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateType:
+			result = "CandidateType";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateProceduralPrimitiveNonOpaque:
+			result = "CandidateProceduralPrimitiveNonOpaque";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommitNonOpaqueTriangleHit:
+			result = "CommitNonOpaqueTriangleHit";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommitProceduralPrimitiveHit:
+			result = "CommitProceduralPrimitiveHit";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedStatus:
+			result = "CommittedStatus";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetRayFlags:
+			result = "RayFlags";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayOrigin:
+			result = "WorldRayOrigin";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayDirection:
+			result = "WorldRayDirection";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetRayTMin:
+			result = "RayTMin";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleRayT:
+			result = "CandidateTriangleRayT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedRayT:
+			result = "CommittedRayT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceIndex:
+			result = "CandidateInstanceIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceID:
+			result = "CandidateInstanceID";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceContributionToHitGroupIndex:
+			result = "CandidateInstanceContributionToHitGroupIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateGeometryIndex:
+			result = "CandidateGeometryIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidatePrimitiveIndex:
+			result = "CandidatePrimitiveIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayOrigin:
+			result = "CandidateObjectRayOrigin";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayDirection:
+			result = "CandidateObjectRayDirection";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectToWorld:
+			result = "CandidateObjectToWorld4x3";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateWorldToObject:
+			result = "CandidateWorldToObject4x3";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceIndex:
+			result = "CommittedInstanceIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceID:
+			result = "CommittedInstanceID";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceContributionToHitGroupIndex:
+			result = "CommittedInstanceContributionToHitGroupIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedGeometryIndex:
+			result = "CommittedGeometryIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedPrimitiveIndex:
+			result = "CommittedPrimitiveIndex";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayOrigin:
+			result = "CommittedObjectRayOrigin";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayDirection:
+			result = "CommittedObjectRayDirection";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectToWorld:
+			result = "CommittedObjectToWorld4x3";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedWorldToObject:
+			result = "CommittedWorldToObject4x3";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleBarycentrics:
+			result = "CandidateTriangleBarycentrics";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleFrontFace:
+			result = "CandidateTriangleFrontFace";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleBarycentrics:
+			result = "CommittedTriangleBarycentrics";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace:
+			result = "CommittedTriangleFrontFace";
+			break;
+
 
 	//Mesh Shader Functions
 		case ast::expr::Intrinsic::eSetMeshOutputCountsNV:

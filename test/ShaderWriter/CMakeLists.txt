@@ -11,10 +11,19 @@ find_package( glslang CONFIG REQUIRED glslang OSDependent SPIRV )
 find_package( Threads REQUIRED )
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${TEST_COMMON_HEADER_FILES}
+	${CMAKE_CURRENT_SOURCE_DIR}/ArrayHolder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BuilderContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MakeVkType.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PipelineBuilder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PipelineShaderStageCreateInfo.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ProgramPipeline.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ShaderDataPtr.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ShaderStageFlag.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/VulkanLayer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonDebug.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonHelpers.hpp
@@ -29,6 +38,10 @@ set( TEST_WRITER_COMMON_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PipelineBuilder.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ProgramPipeline.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ShaderDataPtr.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/VulkanLayer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonDebug.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonGlsl.cpp
@@ -104,9 +117,6 @@ else ()
 			target_include_directories( TestWriterCommon PRIVATE ${Vulkan_INCLUDE_DIR} )
 			target_link_libraries( TestWriterCommon PRIVATE ${Vulkan_LIBRARY} )
 			target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasVulkan=1 )
-			if ( SDW_BUILD_VULKAN_LAYER )
-				target_link_libraries( TestWriterCommon PRIVATE sdw::VulkanLayer )
-			endif ()
 		endif ()
 
 		if ( ( TARGET CompilerHlsl ) AND WIN32 )

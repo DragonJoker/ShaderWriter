@@ -1114,6 +1114,7 @@ namespace spirv
 			result = spv::Id( spv::OpMemoryBarrier );
 			break;
 
+
 	// Ray tracing Shader Functions
 		case ast::expr::Intrinsic::eTraceRay:
 			result = spv::Id( spv::OpTraceRayKHR );
@@ -1126,6 +1127,152 @@ namespace spirv
 		case ast::expr::Intrinsic::eExecuteCallable:
 			result = spv::Id( spv::OpExecuteCallableKHR );
 			break;
+
+	// Ray queries Functions
+		case ast::expr::Intrinsic::eRayQueryTraceRay:
+			result = spv::Id( spv::OpRayQueryInitializeKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryProceed:
+			result = spv::Id( spv::OpRayQueryProceedKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryAbort:
+			result = spv::Id( spv::OpRayQueryTerminateKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateType:
+			result = spv::Id( spv::OpRayQueryGetIntersectionTypeKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateProceduralPrimitiveNonOpaque:
+			result = spv::Id( spv::OpRayQueryGetIntersectionCandidateAABBOpaqueKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommitNonOpaqueTriangleHit:
+			result = spv::Id( spv::OpRayQueryConfirmIntersectionKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommitProceduralPrimitiveHit:
+			result = spv::Id( spv::OpRayQueryGenerateIntersectionKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedStatus:
+			result = spv::Id( spv::OpRayQueryGetIntersectionTypeKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetRayFlags:
+			result = spv::Id( spv::OpRayQueryGetRayFlagsKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayOrigin:
+			result = spv::Id( spv::OpRayQueryGetWorldRayOriginKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayDirection:
+			result = spv::Id( spv::OpRayQueryGetWorldRayDirectionKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetRayTMin:
+			result = spv::Id( spv::OpRayQueryGetRayTMinKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleRayT:
+			result = spv::Id( spv::OpRayQueryGetIntersectionTKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedRayT:
+			result = spv::Id( spv::OpRayQueryGetIntersectionTKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionInstanceCustomIndexKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceID:
+			result = spv::Id( spv::OpRayQueryGetIntersectionInstanceIdKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceContributionToHitGroupIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateGeometryIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionGeometryIndexKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidatePrimitiveIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionPrimitiveIndexKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayOrigin:
+			result = spv::Id( spv::OpRayQueryGetIntersectionObjectRayOriginKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayDirection:
+			result = spv::Id( spv::OpRayQueryGetIntersectionObjectRayDirectionKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectToWorld:
+			result = spv::Id( spv::OpRayQueryGetIntersectionObjectToWorldKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateWorldToObject:
+			result = spv::Id( spv::OpRayQueryGetIntersectionWorldToObjectKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionInstanceCustomIndexKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceID:
+			result = spv::Id( spv::OpRayQueryGetIntersectionInstanceIdKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceContributionToHitGroupIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedGeometryIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionGeometryIndexKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedPrimitiveIndex:
+			result = spv::Id( spv::OpRayQueryGetIntersectionPrimitiveIndexKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayOrigin:
+			result = spv::Id( spv::OpRayQueryGetIntersectionObjectRayOriginKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayDirection:
+			result = spv::Id( spv::OpRayQueryGetIntersectionObjectRayDirectionKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectToWorld:
+			result = spv::Id( spv::OpRayQueryGetIntersectionObjectToWorldKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedWorldToObject:
+			result = spv::Id( spv::OpRayQueryGetIntersectionWorldToObjectKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleBarycentrics:
+			result = spv::Id( spv::OpRayQueryGetIntersectionBarycentricsKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleFrontFace:
+			result = spv::Id( spv::OpRayQueryGetIntersectionFrontFaceKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleBarycentrics:
+			result = spv::Id( spv::OpRayQueryGetIntersectionBarycentricsKHR );
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace:
+			result = spv::Id( spv::OpRayQueryGetIntersectionFrontFaceKHR );
+			break;
+
 
 
 	//Mesh NV Shader Functions

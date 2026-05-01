@@ -495,6 +495,8 @@ namespace spirv
 		, ValueId sampledTypeId );
 	InstructionPtr makeAccelerationStructureTypeInstruction( NamesCache & nameCache
 		, ValueId resultId );
+	InstructionPtr makeRayQueryTypeInstruction( NamesCache & nameCache
+		, ValueId resultId );
 	InstructionPtr makeBaseTypeInstruction( NamesCache & nameCache
 		, ast::type::Kind kind
 		, ValueId id );

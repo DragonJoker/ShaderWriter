@@ -26,6 +26,7 @@ namespace hlsl
 			+ ( uint32_t( minor ) ) );
 	}
 
+	// Shader models
 	static uint32_t constexpr vUnk = makeVersion( 9u, 9u );
 	static uint32_t constexpr v4_0 = makeVersion( 4u, 0u );
 	static uint32_t constexpr v4_1 = makeVersion( 4u, 1u );
@@ -40,9 +41,15 @@ namespace hlsl
 	static uint32_t constexpr v6_6 = makeVersion( 6u, 6u );
 	static uint32_t constexpr v6_7 = makeVersion( 6u, 7u );
 
+	// Raytracing tiers
+	static uint32_t constexpr tUns = makeVersion( 0u, 0u );
+	static uint32_t constexpr t1_0 = makeVersion( 1u, 0u );
+	static uint32_t constexpr t1_1 = makeVersion( 1u, 1u );
+
 	struct HlslConfig
 	{
 		uint32_t shaderModel{ v5_0 };
+		uint32_t rayTracingTier{ tUns };
 		ast::ShaderStage shaderStage;
 		bool flipVertY{ false };
 	};

@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "VulkanLayer/VulkanLayer.hpp"
+#include "VulkanLayer.hpp"
 
 #include <ShaderAST/Shader.hpp>
 
@@ -12,7 +12,7 @@ See LICENSE file in root folder
 #include <sstream>
 #pragma warning( pop )
 
-namespace ast::vk
+namespace test::vk
 {
 	bool checkError( VkResult result )
 	{

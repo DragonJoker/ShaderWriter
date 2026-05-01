@@ -6,6 +6,7 @@ This file is generated, don't modify it!
 */
 #include "ShaderWriter/Helpers.hpp"
 #include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
+#include "ShaderWriter/BaseTypes/RayQuery.hpp"
 #include "ShaderWriter/BaseTypes/Void.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"
 #include "ShaderWriter/BaseTypes/Boolean.hpp"
@@ -7187,6 +7188,592 @@ namespace sdw
 				, makeExpr( sbtRecordIndex )
 				, makeExpr( callable ) )
 			, areOptionalEnabled( sbtRecordIndex, callable ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryTraceRay
+	/**
+	*name
+	*	rayQueryTraceRay
+	*/
+	/**@{*/
+	RetVoid rayQueryTraceRay( RayQuery const & rayQuery
+		, AccelerationStructure const & topLevel
+		, UInt32 const & rayFlags
+		, UInt32 const & cullMask
+		, RayDesc const & rayDesc )
+	{
+		return RetVoid{ *findWriter( rayQuery, topLevel, rayFlags, cullMask, rayDesc )
+			, expr::makeRayQueryTraceRay( findExprCache( rayQuery, topLevel, rayFlags, cullMask, rayDesc )
+				, findTypesCache( rayQuery, topLevel, rayFlags, cullMask, rayDesc )
+				, makeExpr( rayQuery )
+				, makeExpr( topLevel )
+				, makeExpr( rayFlags )
+				, makeExpr( cullMask )
+				, makeExpr( rayDesc ) )
+			, areOptionalEnabled( rayQuery, topLevel, rayFlags, cullMask, rayDesc ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryProceed
+	/**
+	*name
+	*	rayQueryProceed
+	*/
+	/**@{*/
+	RetBoolean rayQueryProceed( RayQuery const & rayQuery )
+	{
+		return RetBoolean{ *findWriter( rayQuery )
+			, expr::makeRayQueryProceed( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryAbort
+	/**
+	*name
+	*	rayQueryAbort
+	*/
+	/**@{*/
+	RetVoid rayQueryAbort( RayQuery const & rayQuery )
+	{
+		return RetVoid{ *findWriter( rayQuery )
+			, expr::makeRayQueryAbort( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateType
+	/**
+	*name
+	*	rayQueryCandidateType
+	*/
+	/**@{*/
+	RetUInt32 rayQueryCandidateType( RayQuery const & rayQuery )
+	{
+		return RetUInt32{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateType( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateProceduralPrimitiveNonOpaque
+	/**
+	*name
+	*	rayQueryCandidateProceduralPrimitiveNonOpaque
+	*/
+	/**@{*/
+	RetBoolean rayQueryCandidateProceduralPrimitiveNonOpaque( RayQuery const & rayQuery )
+	{
+		return RetBoolean{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateProceduralPrimitiveNonOpaque( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommitNonOpaqueTriangleHit
+	/**
+	*name
+	*	rayQueryCommitNonOpaqueTriangleHit
+	*/
+	/**@{*/
+	RetVoid rayQueryCommitNonOpaqueTriangleHit( RayQuery const & rayQuery )
+	{
+		return RetVoid{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommitNonOpaqueTriangleHit( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommitProceduralPrimitiveHit
+	/**
+	*name
+	*	rayQueryCommitProceduralPrimitiveHit
+	*/
+	/**@{*/
+	RetVoid rayQueryCommitProceduralPrimitiveHit( RayQuery const & rayQuery
+		, Float const & t )
+	{
+		return RetVoid{ *findWriter( rayQuery, t )
+			, expr::makeRayQueryCommitProceduralPrimitiveHit( findExprCache( rayQuery, t )
+				, findTypesCache( rayQuery, t )
+				, makeExpr( rayQuery )
+				, makeExpr( t ) )
+			, areOptionalEnabled( rayQuery, t ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedStatus
+	/**
+	*name
+	*	rayQueryCommittedStatus
+	*/
+	/**@{*/
+	RetUInt32 rayQueryCommittedStatus( RayQuery const & rayQuery )
+	{
+		return RetUInt32{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedStatus( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetRayFlags
+	/**
+	*name
+	*	rayQueryGetRayFlags
+	*/
+	/**@{*/
+	RetUInt32 rayQueryGetRayFlags( RayQuery const & rayQuery )
+	{
+		return RetUInt32{ *findWriter( rayQuery )
+			, expr::makeRayQueryGetRayFlags( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetWorldRayOrigin
+	/**
+	*name
+	*	rayQueryGetWorldRayOrigin
+	*/
+	/**@{*/
+	RetVec3 rayQueryGetWorldRayOrigin( RayQuery const & rayQuery )
+	{
+		return RetVec3{ *findWriter( rayQuery )
+			, expr::makeRayQueryGetWorldRayOrigin( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetWorldRayDirection
+	/**
+	*name
+	*	rayQueryGetWorldRayDirection
+	*/
+	/**@{*/
+	RetVec3 rayQueryGetWorldRayDirection( RayQuery const & rayQuery )
+	{
+		return RetVec3{ *findWriter( rayQuery )
+			, expr::makeRayQueryGetWorldRayDirection( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetRayTMin
+	/**
+	*name
+	*	rayQueryGetRayTMin
+	*/
+	/**@{*/
+	RetFloat rayQueryGetRayTMin( RayQuery const & rayQuery )
+	{
+		return RetFloat{ *findWriter( rayQuery )
+			, expr::makeRayQueryGetRayTMin( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateTriangleRayT
+	/**
+	*name
+	*	rayQueryCandidateTriangleRayT
+	*/
+	/**@{*/
+	RetFloat rayQueryCandidateTriangleRayT( RayQuery const & rayQuery )
+	{
+		return RetFloat{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateTriangleRayT( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedRayT
+	/**
+	*name
+	*	rayQueryCommittedRayT
+	*/
+	/**@{*/
+	RetFloat rayQueryCommittedRayT( RayQuery const & rayQuery )
+	{
+		return RetFloat{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedRayT( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateInstanceIndex
+	/**
+	*name
+	*	rayQueryCandidateInstanceIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCandidateInstanceIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateInstanceIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateInstanceID
+	/**
+	*name
+	*	rayQueryCandidateInstanceID
+	*/
+	/**@{*/
+	RetUInt rayQueryCandidateInstanceID( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateInstanceID( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateInstanceContributionToHitGroupIndex
+	/**
+	*name
+	*	rayQueryCandidateInstanceContributionToHitGroupIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCandidateInstanceContributionToHitGroupIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateInstanceContributionToHitGroupIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateGeometryIndex
+	/**
+	*name
+	*	rayQueryCandidateGeometryIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCandidateGeometryIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateGeometryIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidatePrimitiveIndex
+	/**
+	*name
+	*	rayQueryCandidatePrimitiveIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCandidatePrimitiveIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidatePrimitiveIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateObjectRayOrigin
+	/**
+	*name
+	*	rayQueryCandidateObjectRayOrigin
+	*/
+	/**@{*/
+	RetVec3 rayQueryCandidateObjectRayOrigin( RayQuery const & rayQuery )
+	{
+		return RetVec3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateObjectRayOrigin( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateObjectRayDirection
+	/**
+	*name
+	*	rayQueryCandidateObjectRayDirection
+	*/
+	/**@{*/
+	RetVec3 rayQueryCandidateObjectRayDirection( RayQuery const & rayQuery )
+	{
+		return RetVec3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateObjectRayDirection( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateObjectToWorld
+	/**
+	*name
+	*	rayQueryCandidateObjectToWorld
+	*/
+	/**@{*/
+	RetMat4x3 rayQueryCandidateObjectToWorld( RayQuery const & rayQuery )
+	{
+		return RetMat4x3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateObjectToWorld( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateWorldToObject
+	/**
+	*name
+	*	rayQueryCandidateWorldToObject
+	*/
+	/**@{*/
+	RetMat4x3 rayQueryCandidateWorldToObject( RayQuery const & rayQuery )
+	{
+		return RetMat4x3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateWorldToObject( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedInstanceIndex
+	/**
+	*name
+	*	rayQueryCommittedInstanceIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCommittedInstanceIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedInstanceIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedInstanceID
+	/**
+	*name
+	*	rayQueryCommittedInstanceID
+	*/
+	/**@{*/
+	RetUInt rayQueryCommittedInstanceID( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedInstanceID( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedInstanceContributionToHitGroupIndex
+	/**
+	*name
+	*	rayQueryCommittedInstanceContributionToHitGroupIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCommittedInstanceContributionToHitGroupIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedInstanceContributionToHitGroupIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedGeometryIndex
+	/**
+	*name
+	*	rayQueryCommittedGeometryIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCommittedGeometryIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedGeometryIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedPrimitiveIndex
+	/**
+	*name
+	*	rayQueryCommittedPrimitiveIndex
+	*/
+	/**@{*/
+	RetUInt rayQueryCommittedPrimitiveIndex( RayQuery const & rayQuery )
+	{
+		return RetUInt{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedPrimitiveIndex( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedObjectRayOrigin
+	/**
+	*name
+	*	rayQueryCommittedObjectRayOrigin
+	*/
+	/**@{*/
+	RetVec3 rayQueryCommittedObjectRayOrigin( RayQuery const & rayQuery )
+	{
+		return RetVec3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedObjectRayOrigin( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedObjectRayDirection
+	/**
+	*name
+	*	rayQueryCommittedObjectRayDirection
+	*/
+	/**@{*/
+	RetVec3 rayQueryCommittedObjectRayDirection( RayQuery const & rayQuery )
+	{
+		return RetVec3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedObjectRayDirection( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedObjectToWorld
+	/**
+	*name
+	*	rayQueryCommittedObjectToWorld
+	*/
+	/**@{*/
+	RetMat4x3 rayQueryCommittedObjectToWorld( RayQuery const & rayQuery )
+	{
+		return RetMat4x3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedObjectToWorld( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedWorldToObject
+	/**
+	*name
+	*	rayQueryCommittedWorldToObject
+	*/
+	/**@{*/
+	RetMat4x3 rayQueryCommittedWorldToObject( RayQuery const & rayQuery )
+	{
+		return RetMat4x3{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedWorldToObject( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateTriangleBarycentrics
+	/**
+	*name
+	*	rayQueryCandidateTriangleBarycentrics
+	*/
+	/**@{*/
+	RetVec2 rayQueryCandidateTriangleBarycentrics( RayQuery const & rayQuery )
+	{
+		return RetVec2{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateTriangleBarycentrics( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateTriangleFrontFace
+	/**
+	*name
+	*	rayQueryCandidateTriangleFrontFace
+	*/
+	/**@{*/
+	RetBoolean rayQueryCandidateTriangleFrontFace( RayQuery const & rayQuery )
+	{
+		return RetBoolean{ *findWriter( rayQuery )
+			, expr::makeRayQueryCandidateTriangleFrontFace( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedTriangleBarycentrics
+	/**
+	*name
+	*	rayQueryCommittedTriangleBarycentrics
+	*/
+	/**@{*/
+	RetVec2 rayQueryCommittedTriangleBarycentrics( RayQuery const & rayQuery )
+	{
+		return RetVec2{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedTriangleBarycentrics( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedTriangleFrontFace
+	/**
+	*name
+	*	rayQueryCommittedTriangleFrontFace
+	*/
+	/**@{*/
+	RetBoolean rayQueryCommittedTriangleFrontFace( RayQuery const & rayQuery )
+	{
+		return RetBoolean{ *findWriter( rayQuery )
+			, expr::makeRayQueryCommittedTriangleFrontFace( findExprCache( rayQuery )
+				, findTypesCache( rayQuery )
+				, makeExpr( rayQuery ) )
+			, areOptionalEnabled( rayQuery ) };
 	}
 	/**@}*/
 #pragma endregion
