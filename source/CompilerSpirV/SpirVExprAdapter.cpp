@@ -453,7 +453,7 @@ namespace spirv
 				// Replace RayDesc parameter with its four members
 				AST_Assert( rayDesc->getType()->getRawKind() == ast::type::Kind::eRayDesc );
 				uint32_t index = 0u;
-				for ( auto mbr : *getStructType( rayDesc->getType() ) )
+				for ( [[maybe_unused]] auto const & mbr : *getStructType( rayDesc->getType() ) )
 				{
 					args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, *rayDesc ), index, 0u ) );
 					++index;

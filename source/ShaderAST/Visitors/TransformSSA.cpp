@@ -1354,11 +1354,6 @@ namespace ast
 				StmtCloner::visitBufferReferenceDeclStmt( stmt );
 			}
 
-			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )override
-			{
-				StmtCloner::visitConstantBufferDeclStmt( stmt );
-			}
-
 			void visitDispatchMeshStmt( stmt::DispatchMesh const * stmt )override
 			{
 				declareStruct( stmt->getPayload()->getType() );
@@ -1409,11 +1404,6 @@ namespace ast
 				}
 
 				StmtCloner::visitReturnStmt( stmt );
-			}
-
-			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )override
-			{
-				StmtCloner::visitShaderBufferDeclStmt( stmt );
 			}
 
 			void visitStructureDeclStmt( stmt::StructureDecl const * stmt )override

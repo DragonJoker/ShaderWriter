@@ -22,7 +22,7 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled = true );
 
-		SDW_INL_API void end()
+		SDW_INL_API void end()const noexcept
 		{
 		}
 

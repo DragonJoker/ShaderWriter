@@ -710,7 +710,6 @@ namespace test
 	{
 	public:
 		ASTTest_API TestSuite( std::string const & name );
-		ASTTest_API ~TestSuite()noexcept override;
 
 	private:
 		std::unique_ptr< std::streambuf > tcout;

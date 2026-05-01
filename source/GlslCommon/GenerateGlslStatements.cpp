@@ -742,37 +742,52 @@ namespace glsl
 				return config.availableExtensions.contains( extension );
 			}
 
+			static void join( std::string & lhs
+				, std::string const & rhs
+				, std::string const & sep )
+			{
+				if ( lhs.empty() )
+				{
+					lhs = rhs;
+					return;
+				}
+
+				if ( rhs.empty() )
+				{
+					return;
+				}
+
+				lhs = lhs + sep + rhs;
+			}
+
 			static std::string getInOutLayout( StmtConfig const & config
 				, ast::stmt::InOutVariableDecl const & stmt )
 			{
-				std::string result = "layout(";
-				std::string sep;
+				std::string content;
 
 				if ( hasExtension( config, ARB_explicit_attrib_location )
 					&& hasExtension( config, ARB_separate_shader_objects ) )
 				{
-					result += getLocationName( *stmt.getVariable() ) + "=" + writeValue( stmt.getLocation() );
-					sep = ", ";
+					join( content, getLocationName( *stmt.getVariable() ) + "=" + writeValue( stmt.getLocation() ), ", " );
 				}
 
 				if ( config.shaderStage == ast::ShaderStage::eGeometry
 					&& stmt.getVariable()->isGeometryStream() )
 				{
-					result += sep + "stream=" + writeValue( stmt.getStreamIndex() );
-					sep = ", ";
+					join( content, "stream=" + writeValue( stmt.getStreamIndex() ), ", " );
 				}
 
 				if ( config.shaderStage == ast::ShaderStage::eFragment
 					&& stmt.getVariable()->isBlendIndex() )
 				{
-					result += sep + "index=" + writeValue( stmt.getBlendIndex() );
+					join( content, "index=" + writeValue( stmt.getBlendIndex() ), ", " );
 				}
 
-				result += ")";
+				std::string result;
 
-				if ( result == "layout()" )
+				if ( !content.empty() )
 				{
-					result.clear();
+					result = "layout(" + content + ")";
 				}
 
 				return result;
@@ -1185,24 +1200,6 @@ namespace glsl
 				return result;
 			}
 
-			static void join( std::string & lhs
-				, std::string const & rhs
-				, std::string const & sep )
-			{
-				if ( lhs.empty() )
-				{
-					lhs = rhs;
-					return;
-				}
-
-				if ( rhs.empty() )
-				{
-					return;
-				}
-
-				lhs = lhs + sep + rhs;
-			}
-
 			static bool isUnaryPre( ast::expr::Kind kind )
 			{
 				bool result;
@@ -1529,11 +1526,6 @@ namespace glsl
 			static bool isScopeBeginStatement( StatementType value )
 			{
 				return value == glsl::StatementType::eNone
-					//|| value == glsl::StatementType::eStructureMemberDecl
-					//|| value == glsl::StatementType::eVariableDecl
-					//|| value == glsl::StatementType::eBuiltinVariableDecl
-					//|| value == glsl::StatementType::eVariableBlockDecl
-					//|| value == glsl::StatementType::eScopeLine
 					|| value == glsl::StatementType::eStructureScopeBegin
 					|| value == glsl::StatementType::eFunctionScopeBegin
 					|| value == glsl::StatementType::eLexicalScopeBegin
@@ -1543,11 +1535,6 @@ namespace glsl
 			static bool isScopeEndStatement( StatementType value )
 			{
 				return value == glsl::StatementType::eNone
-					//|| value == glsl::StatementType::eStructureDecl
-					//|| value == glsl::StatementType::eStructureMemberDecl
-					//|| value == glsl::StatementType::eVariableDecl
-					//|| value == glsl::StatementType::eBuiltinVariableDecl
-					//|| value == glsl::StatementType::eScopeLine
 					|| value == glsl::StatementType::eStructureScopeEnd
 					|| value == glsl::StatementType::eFunctionScopeEnd
 					|| value == glsl::StatementType::eLexicalScopeEnd
@@ -2801,8 +2788,8 @@ namespace glsl
 			{
 				if ( !m_config.hasDescriptorSets )
 				{
-					ast::type::BaseStructPtr structType = stmt->getBuffer()->getDataType();
-					for ( auto & mbr : *structType )
+					ast::type::BaseStruct const & structType = *stmt->getBuffer()->getDataType();
+					for ( auto const & mbr : structType )
 					{
 						std::string text = "uniform ";
 						text += getTypeName( mbr.type ) + " " + mbr.name;
@@ -2970,19 +2957,18 @@ namespace glsl
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
 				auto type = stmt->getType();
-				std::string text = getTypeName( type->getReturnType() );
-				text += " " + stmt->getName() + "(";
-				std::string sep;
+				std::string content;
 
 				for ( auto & param : *type )
 				{
-					text += sep + helpers::getDirectionName( *param )
-						+ " " + getTypeName( param->getType() )
-						+ " " + param->getName() + helpers::getTypeArraySize( param->getType() );
-					sep = ", ";
+					helpers::join( content
+						, helpers::getDirectionName( *param )
+							+ " " + getTypeName( param->getType() )
+							+ " " + param->getName() + helpers::getTypeArraySize( param->getType() )
+						, ", " );
 				}
 
-				text += ")";
+				std::string text = getTypeName( type->getReturnType() ) + " " + stmt->getName() + "(" + content + ")";
 
 				if ( stmt->hasMaximalReconvergence() )
 				{
