@@ -7,7 +7,6 @@ See LICENSE file in root folder
 #include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayloadEXT.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
-#include "ShaderWriter/CompositeTypes/PerPrimitive.hpp"
 #include "ShaderWriter/CompositeTypes/PerVertex.hpp"
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 #include "ShaderWriter/VecTypes/Vec3.hpp"
@@ -129,14 +128,7 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//! vec4  gl_Position / SV_Position;
-		Vec4 position;
-		//! float gl_PointSize;
-		Float pointSize;
-		//! float gl_ClipDistance[] / SV_ClipDistance;
-		Array< Float > clipDistance;
-		//! float gl_CullDistance[] / SV_CullDistance;
-		Array< Float > cullDistance;
+		PerVertex vtx;
 	};
 	/**
 	*	Holds list of per vertex data

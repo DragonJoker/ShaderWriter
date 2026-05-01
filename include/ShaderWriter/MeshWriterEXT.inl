@@ -14,10 +14,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< EntryPoint::eMesh, DataT >{ writer, std::move( expr ), enabled }
-		, position{ getVec4Member( *this, ast::Builtin::ePosition ) }
-		, pointSize{ getFloatMember( *this, ast::Builtin::ePointSize ) }
-		, clipDistance{ getFloatMemberArray( *this, ast::Builtin::eClipDistance ) }
-		, cullDistance{ getFloatMemberArray( *this, ast::Builtin::eCullDistance ) }
+		, vtx{ *this }
 	{
 	}
 
@@ -28,23 +25,7 @@ namespace sdw
 	{
 		ast::type::IOStructPtr result = OutputT< EntryPoint::eMesh, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
-
-		if ( !result->hasMember( ast::Builtin::ePosition ) )
-		{
-			result->declMember( ast::Builtin::ePosition
-				, type::Kind::eVec4F
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::ePointSize
-				, type::Kind::eFloat
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eClipDistance
-				, type::Kind::eFloat
-				, 8u );
-			result->declMember( ast::Builtin::eCullDistance
-				, type::Kind::eFloat
-				, 8u );
-		}
-
+		PerVertex::fillType( *result );
 		return result;
 	}
 

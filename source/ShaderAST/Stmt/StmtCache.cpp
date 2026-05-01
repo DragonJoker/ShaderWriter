@@ -34,7 +34,6 @@ See LICENSE file in root folder
 #include "ShaderAST/Stmt/StmtOutputGeometryLayout.hpp"
 #include "ShaderAST/Stmt/StmtOutputMeshLayout.hpp"
 #include "ShaderAST/Stmt/StmtOutputTessellationControlLayout.hpp"
-#include "ShaderAST/Stmt/StmtPerPrimitiveDecl.hpp"
 #include "ShaderAST/Stmt/StmtPerVertexDecl.hpp"
 #include "ShaderAST/Stmt/StmtPushConstantsBufferDecl.hpp"
 #include "ShaderAST/Stmt/StmtReturn.hpp"
@@ -351,11 +350,6 @@ namespace ast::stmt
 			, topology
 			, order
 			, outputVertices );
-	}
-
-	PerPrimitiveDeclPtr StmtCache::makePerPrimitiveDecl( type::TypePtr type )
-	{
-		return makeStmt< PerPrimitiveDecl >( std::move( type ) );
 	}
 
 	PerVertexDeclPtr StmtCache::makePerVertexDecl( PerVertexDecl::Source source

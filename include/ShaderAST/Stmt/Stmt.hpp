@@ -17,7 +17,6 @@ namespace ast::stmt
 		eCompound,
 		eComment,
 		eVariableDecl,
-		ePerPrimitiveDecl,
 		ePerVertexDecl,
 		eInOutVariableDecl,
 		eSpecialisationConstantDecl,

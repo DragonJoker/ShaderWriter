@@ -301,11 +301,6 @@ namespace ast
 			, stmt->getOutputVertices() ) );
 	}
 
-	void StmtCloner::visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl const * stmt )
-	{
-		m_current->addStmt( m_stmtCache.makePerPrimitiveDecl( stmt->getType() ) );
-	}
-
 	void StmtCloner::visitPerVertexDeclStmt( stmt::PerVertexDecl const * stmt )
 	{
 		m_current->addStmt( m_stmtCache.makePerVertexDecl( stmt->getSource()

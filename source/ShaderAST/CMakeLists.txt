@@ -252,7 +252,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtOutputGeometryLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputMeshLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputTessellationControlLayout.hpp
-	${INCLUDE_DIR}/Stmt/StmtPerPrimitiveDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtPerVertexDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtPushConstantsBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtReturn.hpp
@@ -306,7 +305,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtOutputGeometryLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtOutputMeshLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtOutputTessellationControlLayout.cpp
-	${SOURCE_DIR}/Stmt/StmtPerPrimitiveDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtPerVertexDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtPushConstantsBufferDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtReturn.cpp

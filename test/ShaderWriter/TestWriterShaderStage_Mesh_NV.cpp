@@ -1074,9 +1074,9 @@ namespace
 					primOut.setMeshOutputCounts( 3_u, 1_u );
 
 					// Vertices position
-					vtxOut[0].position = vec4( vertices[0], 1.0 );
-					vtxOut[1].position = vec4( vertices[1], 1.0 );
-					vtxOut[2].position = vec4( vertices[2], 1.0 );
+					vtxOut[0].vtx.position = vec4( vertices[0], 1.0 );
+					vtxOut[1].vtx.position = vec4( vertices[1], 1.0 );
+					vtxOut[2].vtx.position = vec4( vertices[2], 1.0 );
 					// Vertices color
 					vtxOut[0].colour = vec4( colors[0], 1.0 );
 					vtxOut[1].colour = vec4( colors[1], 1.0 );
@@ -1210,7 +1210,7 @@ namespace
 					{
 						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
 						auto vertex = writer.declLocale( "vertex", getVertexAttributes( gtid, vertexIndex ) );
-						vtxOut[gtid].position = vertex.positionHS;
+						vtxOut[gtid].vtx.position = vertex.positionHS;
 						vtxOut[gtid].positionVS = vertex.positionVS;
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
@@ -1351,7 +1351,7 @@ namespace
 						auto instanceIndex = writer.declLocale( "instanceIndex", startInstance + instanceId );
 
 						auto vertex = writer.declLocale( "vertex", getVertexAttributes( meshletIndex, vertexIndex, instanceIndex ) );
-						vtxOut[gtid].position = vertex.positionHS;
+						vtxOut[gtid].vtx.position = vertex.positionHS;
 						vtxOut[gtid].positionVS = vertex.positionVS;
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
@@ -1518,7 +1518,7 @@ namespace
 					{
 						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
 						auto vertex = writer.declLocale( "vertex", getVertexAttributes( meshletIndex, vertexIndex ) );
-						vtxOut[gtid].position = vertex.positionHS;
+						vtxOut[gtid].vtx.position = vertex.positionHS;
 						vtxOut[gtid].positionVS = vertex.positionVS;
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
@@ -1650,7 +1650,7 @@ namespace
 					{
 						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
 						auto vertex = writer.declLocale( "vertex", getVertexAttributes( meshletIndex, vertexIndex ) );
-						vtxOut[gtid].position = vertex.positionHS;
+						vtxOut[gtid].vtx.position = vertex.positionHS;
 						vtxOut[gtid].positionVS = vertex.positionVS;
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
@@ -1859,7 +1859,7 @@ namespace
 						auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset + laneId].index );
 						auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
 
-						vtxOut[laneId].position = mvp * vertex.position;
+						vtxOut[laneId].vtx.position = mvp * vertex.position;
 						vtxOut[laneId].colour = vertex.colour;
 					}
 					sdwFI;

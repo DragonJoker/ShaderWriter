@@ -784,7 +784,7 @@ namespace
 					auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset() + laneId].index() );
 					auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
 
-					vtxOut[laneId].position = mvp * vertex.position();
+					vtxOut[laneId].vtx.position = mvp * vertex.position();
 					vtxOut[laneId].colour() = vertex.colour();
 				}
 				sdwFI;
@@ -893,7 +893,7 @@ namespace
 					auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset() + laneId].index() );
 					auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
 
-					vtxOut[laneId].position = mvp * vertex.position();
+					vtxOut[laneId].vtx.position = mvp * vertex.position();
 					vtxOut[laneId].colour() = vertex.colour();
 				}
 				sdwFI;
@@ -1002,7 +1002,7 @@ namespace
 					auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset() + laneId].index() );
 					auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
 
-					vtxOut[laneId].position = mvp * vertex.position();
+					vtxOut[laneId].vtx.position = mvp * vertex.position();
 					vtxOut[laneId].colour() = vertex.colour();
 				}
 				sdwFI;

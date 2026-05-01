@@ -2317,7 +2317,6 @@ namespace glsl
 						, m_adaptationData.writerConfig.shaderStage
 						, isInput
 						, m_maxPrimitives );
-					m_current->addStmt( m_stmtCache.makePerPrimitiveDecl( type ) );
 
 					if ( isInput )
 					{

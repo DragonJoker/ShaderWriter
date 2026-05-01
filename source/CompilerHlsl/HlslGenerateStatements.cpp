@@ -1780,11 +1780,6 @@ namespace hlsl
 				ast::Logger::logError( "ast::stmt::visitOutputTessellationControlLayoutStmt unexpected at that point" );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
-			{
-				ast::Logger::logError( "ast::stmt::PerPrimitiveDecl unexpected at that point" );
-			}
-
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 				ast::Logger::logError( "ast::stmt::PerVertexDecl unexpected at that point" );
