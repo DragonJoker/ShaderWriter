@@ -1,9 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#include "VulkanLayer/PipelineBuilder.hpp"
-
-#include "VulkanLayer/ProgramPipeline.hpp"
+#include "PipelineBuilder.hpp"
+#include "ProgramPipeline.hpp"
 
 #include <ShaderAST/Shader.hpp>
 
@@ -31,7 +30,7 @@ See LICENSE file in root folder
 #	include <sys/sysctl.h>
 #endif
 
-namespace ast::vk
+namespace test::vk
 {
 	namespace piperr
 	{

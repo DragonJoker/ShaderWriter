@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Shader.hpp"
 
+#include "ShaderAST/ShaderLog.hpp"
 #include "ShaderAST/Stmt/StmtSimple.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 
@@ -13,7 +14,7 @@ namespace ast
 {
 	namespace shader
 	{
-		static auto findVariable( Set< var::VariablePtr > const & vars
+		static auto findVariable( std::set< var::VariablePtr > const & vars
 			, std::string_view name )
 		{
 			return std::find_if( vars.begin()
@@ -35,11 +36,11 @@ namespace ast
 		, m_exprCache{ std::move( rhs.m_exprCache ) }
 		, m_container{ std::move( rhs.m_container ) }
 		, m_globalVariables{ std::move( rhs.m_globalVariables ) }
+		, m_bindingsPerSet{ std::move( rhs.m_bindingsPerSet ) }
 		, m_data{ std::move( rhs.m_data ) }
 	{
 		rhs.m_ownAllocator = std::make_unique< ShaderAllocator >();
 		rhs.m_allocator = rhs.m_ownAllocator->getBlock();
-		rhs.m_globalVariables = Set< var::VariablePtr >{ rhs.m_allocator.get() };
 		rhs.m_data = {};
 	}
 
@@ -52,7 +53,6 @@ namespace ast
 		, m_stmtCache{ std::make_unique< ast::stmt::StmtCache >( *m_allocator ) }
 		, m_exprCache{ std::make_unique< ast::expr::ExprCache >( *m_allocator ) }
 		, m_container{ m_stmtCache->makeContainer() }
-		, m_globalVariables{ m_allocator.get() }
 	{
 	}
 
@@ -104,36 +104,42 @@ namespace ast
 	{
 		m_data.samplers.try_emplace( std::move( name )
 				, SamplerInfo{ { std::move( type ), { binding, set } } } );
+		checkBindings( binding, set );
 	}
 
 	void Shader::registerUniformTexelBuffer( std::string name, type::TypePtr type, uint32_t binding, uint32_t set )
 	{
 		m_data.uniformTexels.try_emplace( std::move( name )
 				, TextureInfo{ { std::move( type ), { binding, set } } } );
+		checkBindings( binding, set );
 	}
 
 	void Shader::registerStorageTexelBuffer( std::string name, type::TypePtr type, uint32_t binding, uint32_t set )
 	{
 		m_data.storageTexels.try_emplace( std::move( name )
 				, ImageInfo{ { std::move( type ), { binding, set } } } );
+		checkBindings( binding, set );
 	}
 
 	void Shader::registerSampledImage( std::string name, type::TypePtr type, uint32_t binding, uint32_t set )
 	{
 		m_data.sampled.try_emplace( std::move( name )
 				, TextureInfo{ { std::move( type ), { binding, set } } } );
+		checkBindings( binding, set );
 	}
 
 	void Shader::registerCombinedImage( std::string name, type::TypePtr type, uint32_t binding, uint32_t set )
 	{
 		m_data.textures.try_emplace( std::move( name )
 				, TextureInfo{ { std::move( type ), { binding, set } } } );
+		checkBindings( binding, set );
 	}
 
 	void Shader::registerStorageImage( std::string name, type::TypePtr type, uint32_t binding, uint32_t set )
 	{
 		m_data.images.try_emplace( std::move( name )
 				, ImageInfo{ { std::move( type ), { binding, set } } } );
+		checkBindings( binding, set );
 	}
 
 	void Shader::setAccelerationStruct( type::TypePtr type, uint32_t binding, uint32_t set )
@@ -141,6 +147,7 @@ namespace ast
 		m_data.accelerationStruct = AccStructInfo{ static_cast< type::AccelerationStructure * >( type )
 			, binding
 			, set };
+		checkBindings( binding, set );
 	}
 
 	void Shader::registerInput( EntryPoint entryPoint
@@ -194,12 +201,14 @@ namespace ast
 		, SsboInfo const & info )
 	{
 		m_data.ssbos.try_emplace( std::move( name ), info );
+		checkBindings( info.binding.binding, info.binding.set );
 	}
 
 	void Shader::registerUbo( std::string name
 		, UboInfo const & info )
 	{
 		m_data.ubos.try_emplace( std::move( name ), info );
+		checkBindings( info.binding.binding, info.binding.set );
 	}
 
 	void Shader::registerPcb( std::string name
@@ -212,6 +221,7 @@ namespace ast
 		, ShaderRecordInfo const & info )
 	{
 		m_data.shaderRecords.try_emplace( std::move( name ), info );
+		checkBindings( info.binding.binding, info.binding.set );
 	}
 
 	AstShader Shader::getOpaqueHandle()const
@@ -224,5 +234,20 @@ namespace ast
 		AST_Assert( shader != nullptr );
 
 		return *reinterpret_cast< Shader const * >( shader );
+	}
+
+	void Shader::checkBindings( uint32_t binding, uint32_t set )
+	{
+		if ( binding == ~0u || set == ~0u )
+			return;
+
+		auto it = m_bindingsPerSet.try_emplace( set ).first;
+		auto [_, inserted] = it->second.emplace( binding );
+		if ( !inserted )
+		{
+			Logger::logError( "The set " + std::to_string( set ) + " already has a resource bound at index " + std::to_string( binding ) );
+			AST_Failure( "Duplicate binding" );
+
+		}
 	}
 }

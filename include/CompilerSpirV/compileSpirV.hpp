@@ -44,6 +44,12 @@ namespace spirv
 		using ast::Exception::Exception;
 	};
 
+	class ExtensionNotFoundException
+		: public ast::Exception
+	{
+		using ast::Exception::Exception;
+	};
+
 	struct SpirVExtension
 	{
 		uint32_t reqVersion{ vUnk };

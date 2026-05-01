@@ -1584,6 +1584,34 @@ namespace sdw
 			, makeExpr( *this, var )
 			, enabled };
 	}
+
+	inline RayQuery ShaderWriter::declRayQuery( std::string name
+		, sdw::type::RayFlag baseFlags
+		, bool enabled )
+	{
+		return declRayQuery( std::move( name )
+			, uint32_t( baseFlags )
+			, enabled );
+	}
+
+	inline RayQuery ShaderWriter::declRayQuery( std::string name
+		, uint32_t baseFlags
+		, bool enabled )
+	{
+		auto type = RayQuery::makeType( getTypesCache(), baseFlags );
+		auto var = registerLocale( std::move( name )
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( makeVariableDecl( getStmtCache()
+				, var ) );
+		}
+
+		return RayQuery{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Uniform buffer declaration

@@ -68,7 +68,6 @@ else ()
 endif ()
 
 add_subdirectory( ShaderAST )
-add_subdirectory( VulkanLayer )
 
 if ( SDW_BUILD_WRITER )
 	add_subdirectory( ShaderWriter )

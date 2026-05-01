@@ -2726,6 +2726,153 @@ namespace ast::expr
 			break;
 
 
+	// Ray queries Functions
+		case Intrinsic::eRayQueryTraceRay:
+			result = "RayQueryTraceRay";
+			break;
+
+		case Intrinsic::eRayQueryProceed:
+			result = "RayQueryProceed";
+			break;
+
+		case Intrinsic::eRayQueryAbort:
+			result = "RayQueryAbort";
+			break;
+
+		case Intrinsic::eRayQueryCandidateType:
+			result = "RayQueryCandidateType";
+			break;
+
+		case Intrinsic::eRayQueryCandidateProceduralPrimitiveNonOpaque:
+			result = "RayQueryCandidateProceduralPrimitiveNonOpaque";
+			break;
+
+		case Intrinsic::eRayQueryCommitNonOpaqueTriangleHit:
+			result = "RayQueryCommitNonOpaqueTriangleHit";
+			break;
+
+		case Intrinsic::eRayQueryCommitProceduralPrimitiveHit:
+			result = "RayQueryCommitProceduralPrimitiveHit";
+			break;
+
+		case Intrinsic::eRayQueryCommittedStatus:
+			result = "RayQueryCommittedStatus";
+			break;
+
+		case Intrinsic::eRayQueryGetRayFlags:
+			result = "RayQueryGetRayFlags";
+			break;
+
+		case Intrinsic::eRayQueryGetWorldRayOrigin:
+			result = "RayQueryGetWorldRayOrigin";
+			break;
+
+		case Intrinsic::eRayQueryGetWorldRayDirection:
+			result = "RayQueryGetWorldRayDirection";
+			break;
+
+		case Intrinsic::eRayQueryGetRayTMin:
+			result = "RayQueryGetRayTMin";
+			break;
+
+		case Intrinsic::eRayQueryCandidateTriangleRayT:
+			result = "RayQueryCandidateTriangleRayT";
+			break;
+
+		case Intrinsic::eRayQueryCommittedRayT:
+			result = "RayQueryCommittedRayT";
+			break;
+
+		case Intrinsic::eRayQueryCandidateInstanceIndex:
+			result = "RayQueryCandidateInstanceIndex";
+			break;
+
+		case Intrinsic::eRayQueryCandidateInstanceID:
+			result = "RayQueryCandidateInstanceID";
+			break;
+
+		case Intrinsic::eRayQueryCandidateInstanceContributionToHitGroupIndex:
+			result = "RayQueryCandidateInstanceContributionToHitGroupIndex";
+			break;
+
+		case Intrinsic::eRayQueryCandidateGeometryIndex:
+			result = "RayQueryCandidateGeometryIndex";
+			break;
+
+		case Intrinsic::eRayQueryCandidatePrimitiveIndex:
+			result = "RayQueryCandidatePrimitiveIndex";
+			break;
+
+		case Intrinsic::eRayQueryCandidateObjectRayOrigin:
+			result = "RayQueryCandidateObjectRayOrigin";
+			break;
+
+		case Intrinsic::eRayQueryCandidateObjectRayDirection:
+			result = "RayQueryCandidateObjectRayDirection";
+			break;
+
+		case Intrinsic::eRayQueryCandidateObjectToWorld:
+			result = "RayQueryCandidateObjectToWorld";
+			break;
+
+		case Intrinsic::eRayQueryCandidateWorldToObject:
+			result = "RayQueryCandidateWorldToObject";
+			break;
+
+		case Intrinsic::eRayQueryCommittedInstanceIndex:
+			result = "RayQueryCommittedInstanceIndex";
+			break;
+
+		case Intrinsic::eRayQueryCommittedInstanceID:
+			result = "RayQueryCommittedInstanceID";
+			break;
+
+		case Intrinsic::eRayQueryCommittedInstanceContributionToHitGroupIndex:
+			result = "RayQueryCommittedInstanceContributionToHitGroupIndex";
+			break;
+
+		case Intrinsic::eRayQueryCommittedGeometryIndex:
+			result = "RayQueryCommittedGeometryIndex";
+			break;
+
+		case Intrinsic::eRayQueryCommittedPrimitiveIndex:
+			result = "RayQueryCommittedPrimitiveIndex";
+			break;
+
+		case Intrinsic::eRayQueryCommittedObjectRayOrigin:
+			result = "RayQueryCommittedObjectRayOrigin";
+			break;
+
+		case Intrinsic::eRayQueryCommittedObjectRayDirection:
+			result = "RayQueryCommittedObjectRayDirection";
+			break;
+
+		case Intrinsic::eRayQueryCommittedObjectToWorld:
+			result = "RayQueryCommittedObjectToWorld";
+			break;
+
+		case Intrinsic::eRayQueryCommittedWorldToObject:
+			result = "RayQueryCommittedWorldToObject";
+			break;
+
+		case Intrinsic::eRayQueryCandidateTriangleBarycentrics:
+			result = "RayQueryCandidateTriangleBarycentrics";
+			break;
+
+		case Intrinsic::eRayQueryCandidateTriangleFrontFace:
+			result = "RayQueryCandidateTriangleFrontFace";
+			break;
+
+		case Intrinsic::eRayQueryCommittedTriangleBarycentrics:
+			result = "RayQueryCommittedTriangleBarycentrics";
+			break;
+
+		case Intrinsic::eRayQueryCommittedTriangleFrontFace:
+			result = "RayQueryCommittedTriangleFrontFace";
+			break;
+
+	
+
 	//Mesh Shader NV Functions
 		case Intrinsic::eSetMeshOutputCountsNV:
 			result = "SetMeshOutputCountsNV";

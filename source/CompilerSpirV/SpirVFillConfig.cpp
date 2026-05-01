@@ -84,14 +84,13 @@ namespace spirv
 					|| kind == ast::expr::Intrinsic::eReportIntersection
 					|| kind == ast::expr::Intrinsic::eExecuteCallable )
 				{
-					if ( isRayTraceStage( config.stage ) )
-					{
-						config.registerCapability( spv::CapabilityRayTracingKHR );
-					}
-					else
-					{
-						config.registerCapability( spv::CapabilityRayQueryKHR );
-					}
+					config.registerCapability( spv::CapabilityRayTracingKHR );
+				}
+				else if ( kind >= ast::expr::Intrinsic::eRayQueryTraceRay
+					&& kind <= ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace )
+				{
+					config.registerCapability( spv::CapabilityRayQueryKHR );
+					config.registerCapability( spv::CapabilityRayTraversalPrimitiveCullingKHR );
 				}
 				else if ( kind == ast::expr::Intrinsic::eSubgroupElect )
 				{

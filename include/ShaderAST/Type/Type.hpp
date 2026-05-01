@@ -88,11 +88,12 @@ namespace ast::type
 		eImage,
 		eCombinedImage,
 		eSampledImage,
-		eAccelerationStructure,// Submitted to extension enabling
-		eRayPayload,// Submitted to extension enabling
-		eCallableData,// Submitted to extension enabling
-		eHitAttribute,// Submitted to extension enabling
-		eRayDesc,// Submitted to extension enabling
+		eAccelerationStructure,// Subjected to extension enabling
+		eRayPayload,// Subjected to extension enabling
+		eCallableData,// Subjected to extension enabling
+		eHitAttribute,// Subjected to extension enabling
+		eRayDesc,// Subjected to extension enabling
+		eRayQuery,// Subjected to extension enabling
 		ePointer,
 		eGeometryInput,
 		eGeometryOutput,
@@ -371,6 +372,7 @@ namespace ast::type
 	SDAST_API bool isImageType( Kind kind );
 	SDAST_API bool isTextureType( Kind kind );
 	SDAST_API bool isAccelerationStructureType( Kind kind );
+	SDAST_API bool isRayQueryType( Kind kind );
 	SDAST_API bool isHitAttributeType( Kind kind );
 	SDAST_API bool isRayPayloadType( Kind kind );
 	SDAST_API bool isCallableDataType( Kind kind );
@@ -387,6 +389,7 @@ namespace ast::type
 	SDAST_API bool isTextureType( TypePtr type );
 	SDAST_API bool isImageType( TypePtr type );
 	SDAST_API bool isAccelerationStructureType( TypePtr type );
+	SDAST_API bool isRayQueryType( TypePtr type );
 	SDAST_API bool isHitAttributeType( TypePtr type );
 	SDAST_API bool isRayPayloadType( TypePtr type );
 	SDAST_API bool isCallableDataType( TypePtr type );
@@ -403,6 +406,7 @@ namespace ast::type
 	SDAST_API bool isTextureType( Type const & type );
 	SDAST_API bool isImageType( Type const & type );
 	SDAST_API bool isAccelerationStructureType( Type const & type );
+	SDAST_API bool isRayQueryType( Type const & type );
 	SDAST_API bool isHitAttributeType( Type const & type );
 	SDAST_API bool isRayPayloadType( Type const & type );
 	SDAST_API bool isCallableDataType( Type const & type );

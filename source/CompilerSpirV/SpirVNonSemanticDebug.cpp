@@ -203,7 +203,17 @@ namespace spirv::debug
 			return;
 		}
 
-		registerOpaqueType( "accelerationStructure", resultId );
+		registerOpaqueType( "rayQuery", resultId );
+	}
+
+	void NonSemanticDebug::registerRayQueryType( DebugId & resultId )
+	{
+		if ( !m_enabled )
+		{
+			return;
+		}
+
+		registerOpaqueType( "", resultId );
 	}
 
 	void NonSemanticDebug::registerMemberType( ast::type::Struct::Member const & member

@@ -25,7 +25,7 @@ namespace sdw
 	namespace structinst
 	{
 		template< typename Func >
-		void traverseType( ast::type::TypePtr type
+		void getDefaultValue( ast::type::TypePtr type
 			, ast::expr::ExprPtr & result
 			, Func func )
 		{
@@ -47,7 +47,7 @@ namespace sdw
 					for ( uint32_t i = 0u; i < arrayDim; ++i )
 					{
 						ast::expr::ExprPtr init;
-						traverseType( arrayType, init, func );
+						getDefaultValue( arrayType, init, func );
 						inits.emplace_back( std::move( init ) );
 					}
 
@@ -55,7 +55,7 @@ namespace sdw
 				}
 				else
 				{
-					traverseType( getNonArrayType( type ), result, func );
+					getDefaultValue( getNonArrayType( type ), result, func );
 				}
 				break;
 			case ast::type::Kind::eStruct:
@@ -67,7 +67,7 @@ namespace sdw
 					for ( auto & mbr : *structType )
 					{
 						ast::expr::ExprPtr init;
-						traverseType( mbr.type, init, func );
+						getDefaultValue( mbr.type, init, func );
 						inits.emplace_back( std::move( init ) );
 					}
 
@@ -75,61 +75,61 @@ namespace sdw
 				}
 				break;
 			case ast::type::Kind::eRayPayload:
-				traverseType( static_cast< ast::type::RayPayload const & >( *type ).getDataType(), result, func );
+				getDefaultValue( static_cast< ast::type::RayPayload const & >( *type ).getDataType(), result, func );
 				break;
 			case ast::type::Kind::eCallableData:
-				traverseType( static_cast< ast::type::CallableData const & >( *type ).getDataType(), result, func );
+				getDefaultValue( static_cast< ast::type::CallableData const & >( *type ).getDataType(), result, func );
 				break;
 			case ast::type::Kind::eHitAttribute:
-				traverseType( static_cast< ast::type::HitAttribute const & >( *type ).getDataType(), result, func );
+				getDefaultValue( static_cast< ast::type::HitAttribute const & >( *type ).getDataType(), result, func );
 				break;
 			case ast::type::Kind::ePointer:
-				traverseType( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), result, func );
+				getDefaultValue( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), result, func );
 				break;
 			case ast::type::Kind::eGeometryInput:
-				traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eGeometryOutput:
-				traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTessellationInputPatch:
-				traverseType( static_cast< ast::type::TessellationInputPatch const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TessellationInputPatch const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTessellationOutputPatch:
-				traverseType( static_cast< ast::type::TessellationOutputPatch const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TessellationOutputPatch const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTessellationControlInput:
-				traverseType( static_cast< ast::type::TessellationControlInput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TessellationControlInput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTessellationControlOutput:
-				traverseType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTessellationEvaluationInput:
-				traverseType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eFragmentInput:
-				traverseType( static_cast< ast::type::FragmentInput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::FragmentInput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eComputeInput:
-				traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eMeshVertexOutput:
-				traverseType( static_cast< ast::type::MeshVertexOutput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::MeshVertexOutput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eMeshPrimitiveOutput:
-				traverseType( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTaskPayloadNV:
-				traverseType( static_cast< ast::type::TaskPayloadNV const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TaskPayloadNV const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTaskPayload:
-				traverseType( static_cast< ast::type::TaskPayload const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TaskPayload const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTaskPayloadInNV:
-				traverseType( static_cast< ast::type::TaskPayloadInNV const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TaskPayloadInNV const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eTaskPayloadIn:
-				traverseType( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), result, func );
+				getDefaultValue( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), result, func );
 				break;
 			case ast::type::Kind::eVoid:
 			case ast::type::Kind::eUndefined:
@@ -142,6 +142,7 @@ namespace sdw
 			case ast::type::Kind::eCombinedImage:
 			case ast::type::Kind::eSampledImage:
 			case ast::type::Kind::eAccelerationStructure:
+			case ast::type::Kind::eRayQuery:
 				throw ast::Exception{ "Can't provide a default value for given type" };
 				break;
 			default:
@@ -156,7 +157,7 @@ namespace sdw
 	ast::expr::ExprPtr getZeroValue( ast::type::TypePtr ptype )
 	{
 		ast::expr::ExprPtr presult;
-		structinst::traverseType( ptype, presult
+		structinst::getDefaultValue( ptype, presult
 			, []( ast::type::TypePtr type ) -> ast::expr::ExprPtr
 			{
 				switch ( type->getRawKind() )

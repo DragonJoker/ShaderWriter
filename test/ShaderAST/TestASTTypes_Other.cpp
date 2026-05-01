@@ -27,6 +27,28 @@ namespace
 		astTestEnd()
 	}
 
+	TEST( OtherTypes, RayQuery )
+	{
+		astTestBegin( "testRayQuery" );
+		ast::type::TypesCache typesCache;
+		auto type = typesCache.getRayQuery( 0x52u );
+		astCheckNoThrow( ast::debug::getTypeName( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+		astCheck( type->getKind() == ast::type::Kind::eRayQuery )
+		astCheck( type->getBaseFlags() == 0x52u )
+		astCheck( !isStructType( type ) )
+		astCheck( !hasRuntimeArray( type ) )
+
+		auto type2 = typesCache.getRayQuery( 0x52u );
+		astCheck( type2 == type )
+		astTestEnd()
+
+		auto type3 = typesCache.getRayQuery( 0x51u );
+		astCheck( type3 != type )
+		astCheck( type3 != type2 )
+		astTestEnd()
+	}
+
 	TEST( OtherTypes, Array )
 	{
 		astTestBegin( "testArray" );

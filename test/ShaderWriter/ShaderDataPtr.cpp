@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "VulkanLayer/ShaderDataPtr.hpp"
+#include "ShaderDataPtr.hpp"
 
 #include <algorithm>
 #pragma warning( push )
@@ -10,14 +10,14 @@ See LICENSE file in root folder
 #include <iostream>
 #pragma warning( pop )
 
-namespace ast::vk
+namespace test::vk
 {
 	//*********************************************************************************************
 
 	namespace shddtptr
 	{
 		static std::ostream & operator<<( std::ostream & stream
-			, DescriptorBinding const & obj )
+			, ast::DescriptorBinding const & obj )
 		{
 			stream << obj.set << "." << obj.binding;
 			return stream;
@@ -28,19 +28,19 @@ namespace ast::vk
 		{
 			switch ( obj.type )
 			{
-			case DescriptorType::eUniformBuffer:
+			case ast::DescriptorType::eUniformBuffer:
 				stream << "UniformBuffer";
 				break;
-			case DescriptorType::eStorageBuffer:
+			case ast::DescriptorType::eStorageBuffer:
 				stream << "StorageBuffer";
 				break;
-			case DescriptorType::eSampler:
+			case ast::DescriptorType::eSampler:
 				stream << "Sampler";
 				break;
-			case DescriptorType::eTexture:
+			case ast::DescriptorType::eTexture:
 				stream << "Texture";
 				break;
-			case DescriptorType::eStorageImage:
+			case ast::DescriptorType::eStorageImage:
 				stream << "StorageImage";
 				break;
 
@@ -60,8 +60,8 @@ namespace ast::vk
 		}
 
 		template< typename DescT >
-		static std::map< DescriptorBinding, DescT const * > mergeDescriptors( std::map< DescriptorBinding, DescT const * > const & lhs
-			, std::map< DescriptorBinding, DescT const * > const & rhs )
+		static std::map< ast::DescriptorBinding, DescT const * > mergeDescriptors( std::map< ast::DescriptorBinding, DescT const * > const & lhs
+			, std::map< ast::DescriptorBinding, DescT const * > const & rhs )
 		{
 			if ( rhs.empty() )
 			{
@@ -73,7 +73,7 @@ namespace ast::vk
 				return rhs;
 			}
 
-			using DescriptorMapT = std::map< DescriptorBinding, DescT const * >;
+			using DescriptorMapT = std::map< ast::DescriptorBinding, DescT const * >;
 			using DescriptorMapVt = typename DescriptorMapT::value_type;
 			DescriptorMapT result{ lhs };
 
@@ -193,8 +193,8 @@ namespace ast::vk
 		}
 
 		template< typename ResT, typename LhsT, typename FuncT >
-		static void mergeAttributes( std::map< AttributeInfo, ResT const * > & result
-			, std::map< AttributeInfo, LhsT const * > const & lhs
+		static void mergeAttributes( std::map< ast::AttributeInfo, ResT const * > & result
+			, std::map< ast::AttributeInfo, LhsT const * > const & lhs
 			, FuncT func )
 		{
 			for ( auto & lit : lhs )
@@ -207,14 +207,14 @@ namespace ast::vk
 		}
 
 		template< typename ResT, typename LhsT, typename RhsT >
-		static std::map< AttributeInfo, ResT const * > exclAttributes( std::map< AttributeInfo, LhsT const * > const & lhs
-			, std::map< AttributeInfo, RhsT const * > const & rhs )
+		static std::map< ast::AttributeInfo, ResT const * > exclAttributes( std::map< ast::AttributeInfo, LhsT const * > const & lhs
+			, std::map< ast::AttributeInfo, RhsT const * > const & rhs )
 		{
-			using LhsMapT = std::map< AttributeInfo, LhsT const * >;
+			using LhsMapT = std::map< ast::AttributeInfo, LhsT const * >;
 			using LhsMapVt = typename LhsMapT::value_type;
-			using RhsMapT = std::map< AttributeInfo, RhsT const * >;
+			using RhsMapT = std::map< ast::AttributeInfo, RhsT const * >;
 			using RhsMapVt = typename RhsMapT::value_type;
-			std::map< AttributeInfo, ResT const * > result;
+			std::map< ast::AttributeInfo, ResT const * > result;
 
 			if ( lhs.empty() )
 			{
@@ -241,14 +241,14 @@ namespace ast::vk
 		}
 
 		template< typename ResT, typename LhsT, typename RhsT >
-		static std::map< AttributeInfo, ResT const * > interAttributes( std::map< AttributeInfo, LhsT const * > const & lhs
-			, std::map< AttributeInfo, RhsT const * > const & rhs )
+		static std::map< ast::AttributeInfo, ResT const * > interAttributes( std::map< ast::AttributeInfo, LhsT const * > const & lhs
+			, std::map< ast::AttributeInfo, RhsT const * > const & rhs )
 		{
-			using LhsMapT = std::map< AttributeInfo, LhsT const * >;
+			using LhsMapT = std::map< ast::AttributeInfo, LhsT const * >;
 			using LhsMapVt = typename LhsMapT::value_type;
-			using RhsMapT = std::map< AttributeInfo, RhsT const * >;
+			using RhsMapT = std::map< ast::AttributeInfo, RhsT const * >;
 			using RhsMapVt = typename RhsMapT::value_type;
-			std::map< AttributeInfo, ResT const * > result;
+			std::map< ast::AttributeInfo, ResT const * > result;
 			mergeAttributes( result
 				, lhs
 				, [&rhs]( LhsMapVt const & itLhs )
@@ -264,14 +264,14 @@ namespace ast::vk
 		}
 
 		template< typename ResT, typename LhsT, typename RhsT >
-		static std::map< AttributeInfo, ResT const * > unionAttributes( std::map< AttributeInfo, LhsT const * > const & lhs
-			, std::map< AttributeInfo, RhsT const * > const & rhs )
+		static std::map< ast::AttributeInfo, ResT const * > unionAttributes( std::map< ast::AttributeInfo, LhsT const * > const & lhs
+			, std::map< ast::AttributeInfo, RhsT const * > const & rhs )
 		{
-			using LhsMapT = std::map< AttributeInfo, LhsT const * >;
+			using LhsMapT = std::map< ast::AttributeInfo, LhsT const * >;
 			using LhsMapVt = typename LhsMapT::value_type;
-			using RhsMapT = std::map< AttributeInfo, RhsT const * >;
+			using RhsMapT = std::map< ast::AttributeInfo, RhsT const * >;
 			using RhsMapVt = typename RhsMapT::value_type;
-			std::map< AttributeInfo, ResT const * > result;
+			std::map< ast::AttributeInfo, ResT const * > result;
 
 			if ( lhs.empty() )
 			{
@@ -303,10 +303,10 @@ namespace ast::vk
 		}
 
 		template< typename ResT, typename LhsT, typename RhsT >
-		static std::map< InOutInfo, ResT const * > unionAttributes( std::map< InOutInfo, LhsT const * > const & lhs
-			, std::map< InOutInfo, RhsT const * > const & rhs )
+		static std::map< ast::InOutInfo, ResT const * > unionAttributes( std::map< ast::InOutInfo, LhsT const * > const & lhs
+			, std::map< ast::InOutInfo, RhsT const * > const & rhs )
 		{
-			std::map< InOutInfo, ResT const * > result;
+			std::map< ast::InOutInfo, ResT const * > result;
 
 			if ( lhs.empty() )
 			{
@@ -327,9 +327,9 @@ namespace ast::vk
 		}
 
 		template< typename DescT >
-		static std::map< DescriptorBinding, DescT const * > getPtr( std::map< std::string, DescT, std::less<> > const & rhs )
+		static std::map< ast::DescriptorBinding, DescT const * > getPtr( std::map< std::string, DescT, std::less<> > const & rhs )
 		{
-			std::map< DescriptorBinding, DescT const * > result;
+			std::map< ast::DescriptorBinding, DescT const * > result;
 
 			for ( auto & v : rhs )
 			{
@@ -339,7 +339,7 @@ namespace ast::vk
 			return result;
 		}
 
-		static ShaderDataPtr::PcbMap getPtr( ShaderData::PcbMap const & rhs )
+		static ShaderDataPtr::PcbMap getPtr( ast::ShaderData::PcbMap const & rhs )
 		{
 			ShaderDataPtr::PcbMap result;
 			result.reserve( rhs.size() );
@@ -352,8 +352,8 @@ namespace ast::vk
 			return result;
 		}
 
-		static ShaderDataPtr::InputMap getPtr( std::map< EntryPoint, ShaderData::InputMap, std::less<> > const & rhs
-			, EntryPoint entryPoint )
+		static ShaderDataPtr::InputMap getPtr( std::map< ast::EntryPoint, ast::ShaderData::InputMap, std::less<> > const & rhs
+			, ast::EntryPoint entryPoint )
 		{
 			auto it = rhs.find( entryPoint );
 			ShaderDataPtr::InputMap result;
@@ -369,8 +369,8 @@ namespace ast::vk
 			return result;
 		}
 
-		static ShaderDataPtr::OutputMap getPtr( std::map< EntryPoint, ShaderData::OutputMap, std::less<> > const & rhs
-			, EntryPoint entryPoint )
+		static ShaderDataPtr::OutputMap getPtr( std::map< ast::EntryPoint, ast::ShaderData::OutputMap, std::less<> > const & rhs
+			, ast::EntryPoint entryPoint )
 		{
 			auto it = rhs.find( entryPoint );
 			ShaderDataPtr::OutputMap result;
@@ -386,7 +386,7 @@ namespace ast::vk
 			return result;
 		}
 
-		static ShaderDataPtr::InOutMap getPtr( ShaderData::InOutMap const & rhs )
+		static ShaderDataPtr::InOutMap getPtr( ast::ShaderData::InOutMap const & rhs )
 		{
 			ShaderDataPtr::InOutMap result;
 
@@ -401,20 +401,20 @@ namespace ast::vk
 
 	//*********************************************************************************************
 
-	ShaderDataPtr::ShaderDataPtr( ShaderData::SsboMap const & pssbos
-		, ShaderData::UboMap const & pubos
-		, ShaderData::PcbMap const & ppcbs
-		, ShaderData::SamplerMap const & psamplers
-		, ShaderData::TextureMap const & ptextures
-		, ShaderData::TextureMap const & puniformTexels
-		, ShaderData::ImageMap const & pimages
-		, ShaderData::ImageMap const & pstorageTexels
-		, ShaderData::AllInputsMap const & pinputs
-		, ShaderData::AllOutputsMap const & poutputs
-		, ShaderData::InOutMap const & pinOuts
-		, AccStructInfo const & paccelerationStruct
+	ShaderDataPtr::ShaderDataPtr( ast::ShaderData::SsboMap const & pssbos
+		, ast::ShaderData::UboMap const & pubos
+		, ast::ShaderData::PcbMap const & ppcbs
+		, ast::ShaderData::SamplerMap const & psamplers
+		, ast::ShaderData::TextureMap const & ptextures
+		, ast::ShaderData::TextureMap const & puniformTexels
+		, ast::ShaderData::ImageMap const & pimages
+		, ast::ShaderData::ImageMap const & pstorageTexels
+		, ast::ShaderData::AllInputsMap const & pinputs
+		, ast::ShaderData::AllOutputsMap const & poutputs
+		, ast::ShaderData::InOutMap const & pinOuts
+		, ast::AccStructInfo const & paccelerationStruct
 		, uint32_t ptessellationControlPoints
-		, EntryPoint entryPoint
+		, ast::EntryPoint entryPoint
 		, ShaderStageFlags stages )
 		: ssbos{ shddtptr::getPtr( pssbos ) }
 		, ubos{ shddtptr::getPtr( pubos ) }
@@ -423,12 +423,12 @@ namespace ast::vk
 		, uniformTexels{ shddtptr::getPtr( puniformTexels ) }
 		, images{ shddtptr::getPtr( pimages ) }
 		, storageTexels{ shddtptr::getPtr( pstorageTexels ) }
+		, accelerationStruct{ &paccelerationStruct }
 		, descriptors{ gatherDescriptors( stages ) }
 		, pcbs{ shddtptr::getPtr( ppcbs ) }
 		, inputs{ shddtptr::getPtr( pinputs, entryPoint ) }
 		, outputs{ shddtptr::getPtr( poutputs, entryPoint ) }
 		, inOuts{ shddtptr::getPtr( pinOuts ) }
-		, accelerationStruct{ &paccelerationStruct }
 		, tessellationControlPoints{ ptessellationControlPoints }
 	{
 	}
@@ -448,18 +448,18 @@ namespace ast::vk
 
 		auto rhsInputs = rhs.inputs;
 		// Retrieve intersection of current outputs and rhs inputs
-		auto intersection = shddtptr::interAttributes< AttributeInfo >( outputs, rhsInputs );
+		auto intersection = shddtptr::interAttributes< ast::AttributeInfo >( outputs, rhsInputs );
 		// Remove this intersection from current outputs.
-		outputs = shddtptr::exclAttributes< OutputInfo >( outputs, intersection );
+		outputs = shddtptr::exclAttributes< ast::OutputInfo >( outputs, intersection );
 		// Remove it from rhs inputs too.
-		rhsInputs = shddtptr::exclAttributes< InputInfo >( rhsInputs, intersection );
+		rhsInputs = shddtptr::exclAttributes< ast::InputInfo >( rhsInputs, intersection );
 		// Add remaining rhsInputs to current inputs.
-		inputs = shddtptr::unionAttributes< InputInfo >( inputs, rhsInputs );
+		inputs = shddtptr::unionAttributes< ast::InputInfo >( inputs, rhsInputs );
 		// Add the rhs outputs to remaining current outputs.
-		outputs = shddtptr::unionAttributes< OutputInfo >( outputs, rhs.outputs );
+		outputs = shddtptr::unionAttributes< ast::OutputInfo >( outputs, rhs.outputs );
 
-		specConstants = shddtptr::unionAttributes< SpecConstantInfo >( specConstants, rhs.specConstants );
-		inOuts = shddtptr::unionAttributes< InOutInfo >( inOuts, rhs.inOuts );
+		specConstants = shddtptr::unionAttributes< ast::SpecConstantInfo >( specConstants, rhs.specConstants );
+		inOuts = shddtptr::unionAttributes< ast::InOutInfo >( inOuts, rhs.inOuts );
 
 		if ( rhs.accelerationStruct && !accelerationStruct )
 		{
@@ -481,8 +481,8 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( data->type );
 			all.emplace( binding
-				, DescriptorData{ DescriptorType::eStorageBuffer
-					, ( arraySize != type::NotArray ? arraySize : 1u )
+				, DescriptorData{ ast::DescriptorType::eStorageBuffer
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
 					, stages } );
 		}
 
@@ -490,8 +490,8 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( data->type );
 			all.emplace( binding
-				, DescriptorData{ DescriptorType::eUniformBuffer
-					, ( arraySize != type::NotArray ? arraySize : 1u )
+				, DescriptorData{ ast::DescriptorType::eUniformBuffer
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
 					, stages } );
 		}
 
@@ -499,8 +499,8 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( data->type );
 			all.emplace( binding
-				, DescriptorData{ DescriptorType::eSampler
-					, ( arraySize != type::NotArray ? arraySize : 1u )
+				, DescriptorData{ ast::DescriptorType::eSampler
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
 					, stages } );
 		}
 
@@ -508,8 +508,8 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( data->type );
 			all.emplace( binding
-				, DescriptorData{ DescriptorType::eTexture
-					, ( arraySize != type::NotArray ? arraySize : 1u )
+				, DescriptorData{ ast::DescriptorType::eTexture
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
 					, stages } );
 		}
 
@@ -517,8 +517,8 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( data->type );
 			all.emplace( binding
-				, DescriptorData{ DescriptorType::eUniformTexelBuffer
-					, ( arraySize != type::NotArray ? arraySize : 1u )
+				, DescriptorData{ ast::DescriptorType::eUniformTexelBuffer
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
 					, stages } );
 		}
 
@@ -526,8 +526,8 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( data->type );
 			all.emplace( binding
-				, DescriptorData{ DescriptorType::eStorageImage
-					, ( arraySize != type::NotArray ? arraySize : 1u )
+				, DescriptorData{ ast::DescriptorType::eStorageImage
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
 					, stages } );
 		}
 
@@ -535,8 +535,17 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( data->type );
 			all.emplace( binding
-				, DescriptorData{ DescriptorType::eStorageTexelBuffer
-					, ( arraySize != type::NotArray ? arraySize : 1u )
+				, DescriptorData{ ast::DescriptorType::eStorageTexelBuffer
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
+					, stages } );
+		}
+
+		if ( accelerationStruct && accelerationStruct->isValid() )
+		{
+			auto arraySize = getArraySize( accelerationStruct->type );
+			all.emplace( accelerationStruct->binding
+				, DescriptorData{ ast::DescriptorType::eAccelerationStructure
+					, ( arraySize != ast::type::NotArray ? arraySize : 1u )
 					, stages } );
 		}
 

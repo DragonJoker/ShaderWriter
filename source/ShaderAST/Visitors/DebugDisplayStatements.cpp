@@ -273,6 +273,80 @@ namespace ast::debug
 			return result;
 		}
 
+		static std::string getRayFlagsName( uint32_t rayFlags )
+		{
+			std::string result;
+
+			if ( rayFlags == 0u )
+			{
+				return "RAY_FLAG_NONE";
+			}
+
+			std::string sep;
+
+			if ( ( rayFlags & ast::type::RayFlag::eForceOpaque ) == ast::type::RayFlag::eForceOpaque )
+			{
+				result += sep + "ForceOpaque";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eForceNonOpaque ) == ast::type::RayFlag::eForceNonOpaque )
+			{
+				result += sep + "ForceNonOpaque";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eAcceptFirstHitAndEndSearch ) == ast::type::RayFlag::eAcceptFirstHitAndEndSearch )
+			{
+				result += sep + "AcceptFirstHitAndEndSearch";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eSkipClosestHitShader ) == ast::type::RayFlag::eSkipClosestHitShader )
+			{
+				result += sep + "SkipClosestHitShader";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullBackFacingTriangles ) == ast::type::RayFlag::eCullBackFacingTriangles )
+			{
+				result += sep + "CullBackFacingTriangles";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullFrontFacingTriangles ) == ast::type::RayFlag::eCullFrontFacingTriangles )
+			{
+				result += sep + "CullFrontFacingTriangles";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullOpaque ) == ast::type::RayFlag::eCullOpaque )
+			{
+				result += sep + "CullOpaque";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullNonOpaque ) == ast::type::RayFlag::eCullNonOpaque )
+			{
+				result += sep + "CullNonOpaque";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eSkipTriangles ) == ast::type::RayFlag::eSkipTriangles )
+			{
+				result += sep + "SkipTriangles";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eSkipProceduralPrimitives ) == ast::type::RayFlag::eSkipProceduralPrimitives )
+			{
+				result += sep + "SkipProceduralPrimitives";
+				sep = "|";
+			}
+
+			return result;
+		}
+
 		static std::string getTypeName( type::Kind kind )
 		{
 			std::string result{ "Unknown" };
@@ -284,15 +358,6 @@ namespace ast::debug
 				break;
 			case type::Kind::eVoid:
 				result = "Void";
-				break;
-			case type::Kind::eStruct:
-				result = "Struct";
-				break;
-			case type::Kind::eRayDesc:
-				result = "RayDesc";
-				break;
-			case type::Kind::eFunction:
-				result = "Function";
 				break;
 			case type::Kind::eBoolean:
 				result = "Boolean";
@@ -321,14 +386,14 @@ namespace ast::debug
 			case type::Kind::eUInt64:
 				result = "UInt64";
 				break;
+			case type::Kind::eHalf:
+				result = "Half";
+				break;
 			case type::Kind::eFloat:
 				result = "Float";
 				break;
 			case type::Kind::eDouble:
 				result = "Double";
-				break;
-			case type::Kind::eHalf:
-				result = "Half";
 				break;
 			case type::Kind::eVec2B:
 				result = "Vec2B";
@@ -411,6 +476,12 @@ namespace ast::debug
 			case type::Kind::eVec4U64:
 				result = "Vec4U64";
 				break;
+			case type::Kind::eVec2H:
+				result = "Vec2H";
+				break;
+			case type::Kind::eVec4H:
+				result = "Vec4H";
+				break;
 			case type::Kind::eVec2F:
 				result = "Vec2F";
 				break;
@@ -428,12 +499,6 @@ namespace ast::debug
 				break;
 			case type::Kind::eVec4D:
 				result = "Vec4D";
-				break;
-			case type::Kind::eVec2H:
-				result = "Vec2H";
-				break;
-			case type::Kind::eVec4H:
-				result = "Vec4H";
 				break;
 			case type::Kind::eMat2x2F:
 				result = "Mat2x2F";
@@ -489,11 +554,20 @@ namespace ast::debug
 			case type::Kind::eMat4x4D:
 				result = "Mat4x4D";
 				break;
-			case type::Kind::eImage:
-				result = "Image";
+			case type::Kind::eArray:
+				result = "Array";
+				break;
+			case type::Kind::eFunction:
+				result = "Function";
+				break;
+			case type::Kind::eStruct:
+				result = "Struct";
 				break;
 			case type::Kind::eSampler:
 				result = "Sampler";
+				break;
+			case type::Kind::eImage:
+				result = "Image";
 				break;
 			case type::Kind::eCombinedImage:
 				result = "CombinedImage";
@@ -501,8 +575,23 @@ namespace ast::debug
 			case type::Kind::eSampledImage:
 				result = "SampledImage";
 				break;
-			case type::Kind::eArray:
-				result = "Array";
+			case type::Kind::eAccelerationStructure:
+				result = "AccelerationStructure";
+				break;
+			case type::Kind::eRayPayload:
+				result = "RayPayload";
+				break;
+			case type::Kind::eCallableData:
+				result = "CallableData";
+				break;
+			case type::Kind::eHitAttribute:
+				result = "HitAttribute";
+				break;
+			case type::Kind::eRayDesc:
+				result = "RayDesc";
+				break;
+			case type::Kind::eRayQuery:
+				result = "RayQuery";
 				break;
 			case type::Kind::ePointer:
 				result = "Pointer";
@@ -513,6 +602,12 @@ namespace ast::debug
 			case type::Kind::eGeometryOutput:
 				result = "GeometryOutput";
 				break;
+			case type::Kind::eTessellationInputPatch:
+				result = "TessellationInputPatch";
+				break;
+			case type::Kind::eTessellationOutputPatch:
+				result = "TessellationOutputPatch";
+				break;
 			case type::Kind::eTessellationControlInput:
 				result = "TessellationControlInput";
 				break;
@@ -522,20 +617,11 @@ namespace ast::debug
 			case type::Kind::eTessellationEvaluationInput:
 				result = "TessellationEvaluationInput";
 				break;
-			case type::Kind::eTessellationInputPatch:
-				result = "TessellationInputPatch";
-				break;
-			case type::Kind::eTessellationOutputPatch:
-				result = "TessellationOutputPatch";
-				break;
-			case type::Kind::eComputeInput:
-				result = "ComputeInput";
-				break;
 			case type::Kind::eFragmentInput:
 				result = "FragmentInput";
 				break;
-			case type::Kind::eAccelerationStructure:
-				result = "AccelerationStructure";
+			case type::Kind::eComputeInput:
+				result = "ComputeInput";
 				break;
 			case type::Kind::eMeshVertexOutput:
 				result = "MeshVertexOutput";
@@ -555,11 +641,11 @@ namespace ast::debug
 			case type::Kind::eTaskPayloadIn:
 				result = "TaskPayloadIn";
 				break;
-			case type::Kind::eUniformBuffer:
-				result = "UniformBuffer";
-				break;
 			case type::Kind::eStorageBuffer:
 				result = "StorageBuffer";
+				break;
+			case type::Kind::eUniformBuffer:
+				result = "UniformBuffer";
 				break;
 			default:
 				break;
@@ -923,6 +1009,11 @@ namespace ast::debug
 				result += ", Array=" + getBoolName( static_cast< type::StorageBuffer const & >( type ).isArray() );
 				result += "]";
 				result += "<" + getTypeName( *static_cast< type::StorageBuffer const & >( type ).getDataType() );
+				result += ">";
+				break;
+			case type::Kind::eRayQuery:
+				result = getTypeName( getNonArrayKind( type ) );
+				result += "<" + getRayFlagsName( static_cast< type::RayQuery const & >( type ).getBaseFlags() );
 				result += ">";
 				break;
 			default:

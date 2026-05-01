@@ -1651,6 +1651,330 @@ namespace sdw
 	SDW_API RetVoid executeCallable( UInt32 const & sbtRecordIndex, CallableData const & callable );
 	/**@}*/
 #pragma endregion
+#pragma region rayQueryTraceRay
+	/**
+	*name
+	*	rayQueryTraceRay
+	*/
+	/**@{*/
+	SDW_API RetVoid rayQueryTraceRay( RayQuery const & rayQuery, AccelerationStructure const & topLevel, UInt32 const & rayFlags, UInt32 const & cullMask, RayDesc const & rayDesc );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryProceed
+	/**
+	*name
+	*	rayQueryProceed
+	*/
+	/**@{*/
+	SDW_API RetBoolean rayQueryProceed( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryAbort
+	/**
+	*name
+	*	rayQueryAbort
+	*/
+	/**@{*/
+	SDW_API RetVoid rayQueryAbort( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateType
+	/**
+	*name
+	*	rayQueryCandidateType
+	*/
+	/**@{*/
+	SDW_API RetUInt32 rayQueryCandidateType( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateProceduralPrimitiveNonOpaque
+	/**
+	*name
+	*	rayQueryCandidateProceduralPrimitiveNonOpaque
+	*/
+	/**@{*/
+	SDW_API RetBoolean rayQueryCandidateProceduralPrimitiveNonOpaque( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommitNonOpaqueTriangleHit
+	/**
+	*name
+	*	rayQueryCommitNonOpaqueTriangleHit
+	*/
+	/**@{*/
+	SDW_API RetVoid rayQueryCommitNonOpaqueTriangleHit( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommitProceduralPrimitiveHit
+	/**
+	*name
+	*	rayQueryCommitProceduralPrimitiveHit
+	*/
+	/**@{*/
+	SDW_API RetVoid rayQueryCommitProceduralPrimitiveHit( RayQuery const & rayQuery, Float const & t );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedStatus
+	/**
+	*name
+	*	rayQueryCommittedStatus
+	*/
+	/**@{*/
+	SDW_API RetUInt32 rayQueryCommittedStatus( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetRayFlags
+	/**
+	*name
+	*	rayQueryGetRayFlags
+	*/
+	/**@{*/
+	SDW_API RetUInt32 rayQueryGetRayFlags( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetWorldRayOrigin
+	/**
+	*name
+	*	rayQueryGetWorldRayOrigin
+	*/
+	/**@{*/
+	SDW_API RetVec3 rayQueryGetWorldRayOrigin( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetWorldRayDirection
+	/**
+	*name
+	*	rayQueryGetWorldRayDirection
+	*/
+	/**@{*/
+	SDW_API RetVec3 rayQueryGetWorldRayDirection( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryGetRayTMin
+	/**
+	*name
+	*	rayQueryGetRayTMin
+	*/
+	/**@{*/
+	SDW_API RetFloat rayQueryGetRayTMin( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateTriangleRayT
+	/**
+	*name
+	*	rayQueryCandidateTriangleRayT
+	*/
+	/**@{*/
+	SDW_API RetFloat rayQueryCandidateTriangleRayT( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedRayT
+	/**
+	*name
+	*	rayQueryCommittedRayT
+	*/
+	/**@{*/
+	SDW_API RetFloat rayQueryCommittedRayT( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateInstanceIndex
+	/**
+	*name
+	*	rayQueryCandidateInstanceIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCandidateInstanceIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateInstanceID
+	/**
+	*name
+	*	rayQueryCandidateInstanceID
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCandidateInstanceID( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateInstanceContributionToHitGroupIndex
+	/**
+	*name
+	*	rayQueryCandidateInstanceContributionToHitGroupIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCandidateInstanceContributionToHitGroupIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateGeometryIndex
+	/**
+	*name
+	*	rayQueryCandidateGeometryIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCandidateGeometryIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidatePrimitiveIndex
+	/**
+	*name
+	*	rayQueryCandidatePrimitiveIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCandidatePrimitiveIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateObjectRayOrigin
+	/**
+	*name
+	*	rayQueryCandidateObjectRayOrigin
+	*/
+	/**@{*/
+	SDW_API RetVec3 rayQueryCandidateObjectRayOrigin( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateObjectRayDirection
+	/**
+	*name
+	*	rayQueryCandidateObjectRayDirection
+	*/
+	/**@{*/
+	SDW_API RetVec3 rayQueryCandidateObjectRayDirection( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateObjectToWorld
+	/**
+	*name
+	*	rayQueryCandidateObjectToWorld
+	*/
+	/**@{*/
+	SDW_API RetMat4x3 rayQueryCandidateObjectToWorld( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateWorldToObject
+	/**
+	*name
+	*	rayQueryCandidateWorldToObject
+	*/
+	/**@{*/
+	SDW_API RetMat4x3 rayQueryCandidateWorldToObject( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedInstanceIndex
+	/**
+	*name
+	*	rayQueryCommittedInstanceIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCommittedInstanceIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedInstanceID
+	/**
+	*name
+	*	rayQueryCommittedInstanceID
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCommittedInstanceID( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedInstanceContributionToHitGroupIndex
+	/**
+	*name
+	*	rayQueryCommittedInstanceContributionToHitGroupIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCommittedInstanceContributionToHitGroupIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedGeometryIndex
+	/**
+	*name
+	*	rayQueryCommittedGeometryIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCommittedGeometryIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedPrimitiveIndex
+	/**
+	*name
+	*	rayQueryCommittedPrimitiveIndex
+	*/
+	/**@{*/
+	SDW_API RetUInt rayQueryCommittedPrimitiveIndex( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedObjectRayOrigin
+	/**
+	*name
+	*	rayQueryCommittedObjectRayOrigin
+	*/
+	/**@{*/
+	SDW_API RetVec3 rayQueryCommittedObjectRayOrigin( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedObjectRayDirection
+	/**
+	*name
+	*	rayQueryCommittedObjectRayDirection
+	*/
+	/**@{*/
+	SDW_API RetVec3 rayQueryCommittedObjectRayDirection( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedObjectToWorld
+	/**
+	*name
+	*	rayQueryCommittedObjectToWorld
+	*/
+	/**@{*/
+	SDW_API RetMat4x3 rayQueryCommittedObjectToWorld( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedWorldToObject
+	/**
+	*name
+	*	rayQueryCommittedWorldToObject
+	*/
+	/**@{*/
+	SDW_API RetMat4x3 rayQueryCommittedWorldToObject( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateTriangleBarycentrics
+	/**
+	*name
+	*	rayQueryCandidateTriangleBarycentrics
+	*/
+	/**@{*/
+	SDW_API RetVec2 rayQueryCandidateTriangleBarycentrics( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCandidateTriangleFrontFace
+	/**
+	*name
+	*	rayQueryCandidateTriangleFrontFace
+	*/
+	/**@{*/
+	SDW_API RetBoolean rayQueryCandidateTriangleFrontFace( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedTriangleBarycentrics
+	/**
+	*name
+	*	rayQueryCommittedTriangleBarycentrics
+	*/
+	/**@{*/
+	SDW_API RetVec2 rayQueryCommittedTriangleBarycentrics( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
+#pragma region rayQueryCommittedTriangleFrontFace
+	/**
+	*name
+	*	rayQueryCommittedTriangleFrontFace
+	*/
+	/**@{*/
+	SDW_API RetBoolean rayQueryCommittedTriangleFrontFace( RayQuery const & rayQuery );
+	/**@}*/
+#pragma endregion
 #pragma region setMeshOutputCountsNV
 	/**
 	*name

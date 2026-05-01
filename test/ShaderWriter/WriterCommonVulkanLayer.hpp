@@ -1,9 +1,9 @@
 #pragma once
 
-#if SDW_Test_HasVulkan && SDW_HasVulkanLayer
+#if SDW_Test_HasVulkan
 #	include "WriterCommon.hpp"
 
-#	include <VulkanLayer/VulkanLayer.hpp>
+#	include "VulkanLayer.hpp"
 
 namespace test::sdw_test
 {
@@ -12,7 +12,7 @@ namespace test::sdw_test
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex
 		, Compilers const & compilers );
-	void validateShaderOnIndex( ast::vk::ShaderPtrs const & shaders
+	void validateShaderOnIndex( vk::ShaderPtrs const & shaders
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex
 		, Compilers const & compilers );

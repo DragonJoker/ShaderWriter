@@ -8,7 +8,7 @@ See LICENSE file in root folder
 
 #include <map>
 
-namespace ast::vk
+namespace test::vk
 {
 	struct PipelineShaderStageCreateInfo
 	{

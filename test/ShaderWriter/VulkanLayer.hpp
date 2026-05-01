@@ -23,7 +23,7 @@ See LICENSE file in root folder
 #include <vector>
 #pragma warning( pop )
 
-namespace ast::vk
+namespace test::vk
 {
 	using ShaderPtrs = std::vector< ast::Shader const * >;
 	/**
@@ -33,7 +33,44 @@ namespace ast::vk
 	*	Copiable and movable.
 	*/
 	template< typename ValueT >
-	struct FixedSizeArrayT;
+	struct FixedSizeArrayT
+		: private std::vector< ValueT >
+	{
+		using VecT = std::vector< ValueT >;
+
+		FixedSizeArrayT()
+			: VecT{}
+		{
+		}
+
+		FixedSizeArrayT( ValueT const * pbegin
+			, ValueT const * pend )
+			: VecT{ pbegin, pend }
+		{
+		}
+
+		FixedSizeArrayT( size_t count
+			, ValueT const & value )
+			: VecT{}
+		{
+			VecT::resize( count, value );
+		}
+
+		explicit FixedSizeArrayT( ValueT const & value )
+			: FixedSizeArrayT{ 1u, value }
+		{
+		}
+
+		using VecT::empty;
+		using VecT::data;
+		using VecT::size;
+		using VecT::begin;
+		using VecT::end;
+		using VecT::cbegin;
+		using VecT::cend;
+		using VecT::operator[];
+		using VecT::at;
+	};
 	/**
 	*\brief
 	*	Holds the memory for an array in a Vulkan structure.
@@ -140,6 +177,114 @@ namespace ast::vk
 		, offsetof( VkWriteDescriptorSet, descriptorCount ) >;
 	/**
 	*\brief
+	*	Array owner for VkWriteDescriptorSetAccelerationStructureKHR::pAccelerationStructures.
+	*\remarks
+	*	Copiable and movable.
+	*/
+	struct AccelerationStructureWriteDescriptorSet
+	{
+		using VecT = FixedSizeArrayT< VkAccelerationStructureKHR >;
+
+		AccelerationStructureWriteDescriptorSet()
+			: write{ VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR, nullptr, 0u, nullptr }
+			, data{ VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET, nullptr, nullptr, 0u, 0u, 0u
+				, VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR, nullptr, nullptr, nullptr }
+		{
+			updateData( nullptr, 0u );
+		}
+
+		static VkAccelerationStructureKHR const * const * getAccStructPtr( VkWriteDescriptorSet const & data )
+		{
+			struct VkStructure
+			{
+				VkStructureType sType;
+				VkStructure * pNext;
+			};
+
+			if ( auto structType = reinterpret_cast< VkStructure const * >( data.pNext );
+				structType && structType->sType == VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR )
+			{
+				return &reinterpret_cast< VkWriteDescriptorSetAccelerationStructureKHR const * >( structType )->pAccelerationStructures;
+			}
+
+			return nullptr;
+		}
+
+		AccelerationStructureWriteDescriptorSet( VkWriteDescriptorSet && pwrite )
+			: values{ ( ( pwrite.descriptorCount && getAccStructPtr( pwrite ) )
+				? VecT{ *getAccStructPtr( pwrite ), *getAccStructPtr( pwrite ) + pwrite.descriptorCount }
+				: ( pwrite.descriptorCount
+					? [&pwrite](){ return VecT{ size_t( pwrite.descriptorCount ), VkAccelerationStructureKHR{} }; }()
+					: VecT{} ) ) }
+			, write{ VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR, nullptr, 0u, nullptr }
+			, data{ pwrite }
+		{
+			updateData();
+		}
+
+		AccelerationStructureWriteDescriptorSet( AccelerationStructureWriteDescriptorSet const & rhs )noexcept
+			: values{ rhs.values }
+			, write{ rhs.write }
+			, data{ rhs.data }
+		{
+			updateData();
+		}
+
+		AccelerationStructureWriteDescriptorSet & operator=( AccelerationStructureWriteDescriptorSet const & rhs )noexcept
+		{
+			values = rhs.values;
+			write = rhs.write;
+			data = rhs.data;
+			updateData();
+
+			return *this;
+		}
+
+		AccelerationStructureWriteDescriptorSet( AccelerationStructureWriteDescriptorSet && rhs )noexcept
+			: values{ std::move( rhs.values ) }
+			, write{ rhs.write }
+			, data{ rhs.data }
+		{
+			rhs.write = {};
+			rhs.data = {};
+			updateData();
+		}
+
+		AccelerationStructureWriteDescriptorSet & operator=( AccelerationStructureWriteDescriptorSet && rhs )noexcept
+		{
+			values = std::move( rhs.values );
+			write = rhs.write;
+			data = rhs.data;
+
+			rhs.write = {};
+			rhs.data = {};
+			updateData();
+
+			return *this;
+		}
+
+		VecT values;
+		VkWriteDescriptorSetAccelerationStructureKHR write;
+		VkWriteDescriptorSet data;
+
+	private:
+		void updateData( VkAccelerationStructureKHR * ptr
+			, uint32_t size )
+		{
+			write.pAccelerationStructures = ptr;
+			write.accelerationStructureCount = size;
+			data.descriptorCount = size;
+			data.pNext = &write;
+		}
+
+		void updateData()
+		{
+			updateData( values.data()
+				, uint32_t( values.size() ) );
+		}
+	};
+	/**
+	*\brief
 	*	Array owner for VkWriteDescriptorSet::pBufferInfo.
 	*\remarks
 	*	Copiable and movable.
@@ -166,7 +311,8 @@ namespace ast::vk
 	*/
 	using WriteDescriptorSet = std::variant< ImageWriteDescriptorSet
 		, BufferWriteDescriptorSet
-		, BufferViewWriteDescriptorSet >;
+		, BufferViewWriteDescriptorSet
+		, AccelerationStructureWriteDescriptorSet >;
 
 	using SpecializationInfoOpt = std::optional< SpecializationInfo >;
 	using VkSpecializationInfoOpt = std::optional< VkSpecializationInfo >;

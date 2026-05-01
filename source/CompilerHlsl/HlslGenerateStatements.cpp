@@ -752,6 +752,26 @@ namespace hlsl
 					{
 						doProcessMemoryBarrier( *expr );
 					}
+					else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eRayQueryTraceRay
+						&& expr->getIntrinsic() <= ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace )
+					{
+						m_result += doSubmit( *expr->getArgList()[0] );
+						m_result += "." + getHlslName( expr->getIntrinsic() ) + "(";
+
+						if ( expr->getArgList().size() > 1u )
+						{
+							m_result += doSubmit( *expr->getArgList()[1] );
+
+							for ( size_t i = 2; i < expr->getArgList().size(); ++i )
+							{
+								auto & arg = expr->getArgList()[i];
+								m_result += ", ";
+								m_result += doSubmit( *arg );
+							}
+						}
+
+						m_result += ")";
+					}
 					else
 					{
 						m_result += getHlslName( expr->getIntrinsic() ) + "(";
@@ -1278,18 +1298,37 @@ namespace hlsl
 				m_result += m_indent + stmt->getText() + "\n";
 			}
 
+			static bool isControlStmt( ast::stmt::Stmt const & stmt )
+			{
+				return stmt.getKind() == ast::stmt::Kind::eIf
+					|| stmt.getKind() == ast::stmt::Kind::eElseIf
+					|| stmt.getKind() == ast::stmt::Kind::eElse
+					|| stmt.getKind() == ast::stmt::Kind::eFor
+					|| stmt.getKind() == ast::stmt::Kind::eWhile
+					|| stmt.getKind() == ast::stmt::Kind::eDoWhile
+					|| stmt.getKind() == ast::stmt::Kind::eSwitch
+					|| stmt.getKind() == ast::stmt::Kind::eSwitchCase;
+			}
+
 			void visitCompoundStmt( ast::stmt::Compound const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += "\n";
-				if ( !m_allowSingleLineCompound || stmt->size() != 1u )
+				bool allowSingleLineCompound = m_allowSingleLineCompound
+					&& stmt->size() == 1u
+					&& isControlStmt( *stmt->back() );
+				if ( !allowSingleLineCompound )
 					m_result += m_indent + "{\n";
 				auto save = m_indent;
 				m_indent += "\t";
 				visitContainerStmt( stmt );
 				m_indent = save;
 
-				if ( !m_allowSingleLineCompound || stmt->size() != 1u )
+				if ( allowSingleLineCompound && m_appendSemiColon )
+				{
+					m_result += ";";
+				}
+				else if ( !allowSingleLineCompound )
 				{
 					if ( m_appendSemiColon )
 						m_result += m_indent + "};\n";

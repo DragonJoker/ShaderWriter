@@ -68,6 +68,7 @@ def printHeader( outs, match ):
 	outs.write( "\n*/" )
 	outs.write( '\n#include "ShaderWriter/Helpers.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"' )
+	outs.write( '\n#include "ShaderWriter/BaseTypes/RayQuery.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Void.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Array.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Boolean.hpp"' )

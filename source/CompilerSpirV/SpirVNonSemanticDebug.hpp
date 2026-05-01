@@ -61,6 +61,7 @@ namespace spirv::debug
 		void registerImageType( ast::type::ImagePtr type
 			, DebugId & resultId );
 		void registerAccelerationStructureType( DebugId & resultId );
+		void registerRayQueryType( DebugId & resultId );
 		void registerMemberType( ast::type::Struct::Member const & member
 			, DebugId const & subTypeId
 			, glsl::Statement const * debugStatement

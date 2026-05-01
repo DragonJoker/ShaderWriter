@@ -465,6 +465,10 @@ namespace spirv
 					config.registerCapability( spv::CapabilityRayQueryKHR );
 				}
 			}
+			else if ( isRayQueryType( kind ) )
+			{
+				config.registerCapability( spv::CapabilityRayQueryKHR );
+			}
 		}
 
 		static void checkType( ast::type::ImageConfiguration const & image
@@ -1570,7 +1574,14 @@ namespace spirv
 			registerExtension( EXT_shader_atomic_float_add );
 			break;
 		case spv::CapabilityRayTraversalPrimitiveCullingKHR:
-			registerExtension( KHR_ray_tracing );
+			if ( isRayTraceStage( stage ) )
+			{
+				registerExtension( KHR_ray_tracing );
+			}
+			else
+			{
+				registerExtension( KHR_ray_query );
+			}
 			break;
 		case spv::CapabilityRayTracingProvisionalKHR:
 			registerExtension( KHR_ray_tracing );
@@ -1580,6 +1591,9 @@ namespace spirv
 			break;
 		case spv::CapabilityQuadControlKHR:
 			registerExtension( KHR_quad_control );
+			break;
+		case spv::CapabilityRayQueryKHR:
+			registerExtension( KHR_ray_query );
 			break;
 		case spv::CapabilityMax:
 			break;
@@ -1627,7 +1641,7 @@ namespace spirv
 		if ( spirvConfig.availableExtensions
 			&& !spirvConfig.availableExtensions->contains( extension ) )
 		{
-			throw ast::Exception{ "Extension [" + extension.name + "] was not found in the list of available extension (SPIR-V " + hlp::printSpvVersion( spirvConfig.specVersion ) + ")" };
+			throw ExtensionNotFoundException{ "Extension [" + extension.name + "] was not found in the list of available extension (SPIR-V " + hlp::printSpvVersion( spirvConfig.specVersion ) + ")" };
 		}
 
 		requiredExtensions.insert( extension );
@@ -3173,6 +3187,12 @@ namespace spirv
 		return makeInstruction< AccelerationStructureTypeInstruction >( nameCache, resultId );
 	}
 
+	InstructionPtr makeRayQueryTypeInstruction( NamesCache & nameCache
+		, ValueId resultId )
+	{
+		return makeInstruction< RayQueryTypeInstruction >( nameCache, resultId );
+	}
+
 	InstructionPtr makeBaseTypeInstruction( NamesCache & nameCache
 		, ast::type::Kind kind
 		, ValueId id )
@@ -3242,6 +3262,14 @@ namespace spirv
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpExecuteCallableKHR > >( nameCache, operands );
 		case spv::OpTraceRayKHR:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTraceRayKHR > >( nameCache, operands );
+		case spv::OpRayQueryInitializeKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpRayQueryInitializeKHR > >( nameCache, operands );
+		case spv::OpRayQueryTerminateKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpRayQueryTerminateKHR > >( nameCache, operands );
+		case spv::OpRayQueryGenerateIntersectionKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpRayQueryGenerateIntersectionKHR > >( nameCache, operands );
+		case spv::OpRayQueryConfirmIntersectionKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpRayQueryConfirmIntersectionKHR > >( nameCache, operands );
 		case spv::OpWritePackedPrimitiveIndices4x8NV:
 			return makeInstruction< WritePackedPrimitiveIndices4x8Instruction >( nameCache, operands );
 		case spv::OpSetMeshOutputsEXT:
@@ -3455,6 +3483,44 @@ namespace spirv
 			return makeInstruction< GroupNonUniformQuadAnyInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadAllKHR:
 			return makeInstruction< GroupNonUniformQuadAllInstruction >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryProceedKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryProceedKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionTypeKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionTypeKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetRayTMinKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetRayTMinKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetRayFlagsKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetRayFlagsKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionTKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionTKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionInstanceCustomIndexKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionInstanceCustomIndexKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionInstanceIdKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionInstanceIdKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionGeometryIndexKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionGeometryIndexKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionPrimitiveIndexKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionPrimitiveIndexKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionBarycentricsKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionBarycentricsKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionFrontFaceKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionFrontFaceKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionCandidateAABBOpaqueKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionCandidateAABBOpaqueKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionObjectRayDirectionKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionObjectRayDirectionKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionObjectRayOriginKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionObjectRayOriginKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetWorldRayDirectionKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetWorldRayDirectionKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetWorldRayOriginKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetWorldRayOriginKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionObjectToWorldKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionObjectToWorldKHR > >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpRayQueryGetIntersectionWorldToObjectKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpRayQueryGetIntersectionWorldToObjectKHR > >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}

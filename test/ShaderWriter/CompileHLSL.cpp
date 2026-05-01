@@ -257,17 +257,43 @@ namespace test
 	{
 		struct HLSLContext
 		{
-			std::vector< uint32_t > const & getShaderModels()const
+			struct Config
 			{
-				return m_shaderModels;
+				uint32_t shaderModel;
+				uint32_t raytracingTier;
+			};
+
+			HLSLContext()
+			{
+				for ( auto shaderModel : m_availableShaderModels )
+				{
+					if ( shaderModel < 60u )
+					{
+						m_configs.push_back( Config{ shaderModel, 0u } );
+						continue;
+					}
+
+					for ( auto raytracingTier : m_availableRaytracingTiers )
+					{
+						m_configs.push_back( Config{ shaderModel, raytracingTier } );
+					}
+				}
+			}
+
+			std::vector< Config > const & getConfigs()const
+			{
+				return m_configs;
 			}
 
 		private:
 #if SDW_Test_Coverage
-			std::vector< uint32_t > m_shaderModels{ 40u, 60u, 67u };
+			std::vector< uint32_t > m_availableShaderModels{ 40u, 60u, 67u };
 #else
-			std::vector< uint32_t > m_shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u, 67u };
+			std::vector< uint32_t > m_availableShaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u, 67u };
 #endif
+			std::vector< uint32_t > m_availableRaytracingTiers{ 0u, 10u, 11u };
+
+			std::vector< Config > m_configs;
 		};
 	}
 
@@ -280,12 +306,18 @@ namespace test
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
-		return testCounts.hlsl().getShaderModels()[infoIndex];
+		return testCounts.hlsl().getConfigs()[infoIndex].shaderModel;
+	}
+
+	uint32_t retrieveHLSLRaytracingTier( sdw_test::TestCounts const & testCounts
+		, [[maybe_unused]] uint32_t infoIndex )
+	{
+		return testCounts.hlsl().getConfigs()[infoIndex].raytracingTier;
 	}
 
 	uint32_t retrieveHLSLInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
-		return uint32_t( testCounts.hlsl().getShaderModels().size() );
+		return uint32_t( testCounts.hlsl().getConfigs().size() );
 	}
 
 	bool createHLSLContext()
@@ -316,7 +348,7 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex )
 	{
-		auto shaderModel = testCounts.hlsl().getShaderModels()[infoIndex];
+		auto shaderModel = testCounts.hlsl().getConfigs()[infoIndex].shaderModel;
 
 		if ( isRayTraceStage( type )
 			|| isMeshStage( type )
@@ -339,14 +371,51 @@ namespace test
 
 namespace test
 {
-	static std::vector< uint32_t > const & getShaderModels()
+	struct HLSLContext
 	{
+		struct Config
+		{
+			uint32_t shaderModel;
+			uint32_t raytracingTier;
+		};
+
+		HLSLContext()
+		{
+			for ( auto shaderModel : m_availableShaderModels )
+			{
+				if ( shaderModel < 60u )
+				{
+					m_configs.push_back( Config{ shaderModel, 0u } );
+					continue;
+				}
+
+				for ( auto raytracingTier : m_availableRaytracingTiers )
+				{
+					m_configs.push_back( Config{ shaderModel, raytracingTier } );
+				}
+			}
+		}
+
+		std::vector< Config > const & getConfigs()const
+		{
+			return m_configs;
+		}
+
+	private:
 #if SDW_Test_Coverage
-		static std::vector< uint32_t > shaderModels{ 40u, 60u, 67u };
+		std::vector< uint32_t > m_availableShaderModels{ 40u, 60u, 67u };
 #else
-		static std::vector< uint32_t > shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u, 67u };
+		std::vector< uint32_t > m_availableShaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u, 67u };
 #endif
-		return shaderModels;
+		std::vector< uint32_t > m_availableRaytracingTiers{ 0u, 10u, 11u };
+
+		std::vector< Config > m_configs;
+	};
+
+	static HLSLContext const & getHLSLContext()
+	{
+		static HLSLContext const context;
+		return context;
 	}
 
 	bool retrieveIsHLSLInitialised( sdw_test::TestCounts const & testCounts
@@ -355,15 +424,21 @@ namespace test
 		return false;
 	}
 
+	uint32_t retrieveHLSLRaytracingTier( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return getHLSLContext().getConfigs()[infoIndex].raytracingTier;
+	}
+
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return getShaderModels()[infoIndex];
+		return getHLSLContext().getConfigs()[infoIndex].shaderModel;
 	}
 
 	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts )
 	{
-		return uint32_t( getShaderModels().size() );
+		return uint32_t( getHLSLContext().getConfigs().size() );
 	}
 
 	bool createHLSLContext()

@@ -659,6 +659,21 @@ namespace ast::type
 		return isAccelerationStructureType( *type );
 	}
 
+	bool isRayQueryType( Kind kind )
+	{
+		return kind == Kind::eRayQuery;
+	}
+
+	bool isRayQueryType( Type const & type )
+	{
+		return isRayQueryType( type.getKind() );
+	}
+
+	bool isRayQueryType( TypePtr type )
+	{
+		return isRayQueryType( *type );
+	}
+
 	bool isHitAttributeType( Kind kind )
 	{
 		return kind == Kind::eRayPayload;

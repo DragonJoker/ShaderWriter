@@ -662,8 +662,8 @@ namespace
 		sdwTestBegin( "bufferReference" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 		{
-			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
-			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
+			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 0u );
+			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 1u, 0u );
 			auto InIndices = writer.declBufferReference< sdw::ArrayStorageBufferT< sdw::Int > >( "InIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
 			writer.implementMain( 32u

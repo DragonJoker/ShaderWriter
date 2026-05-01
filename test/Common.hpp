@@ -304,6 +304,8 @@ inline std::string toString( ast::type::Kind const & v )
 		return "HitAttribute";
 	case ast::type::Kind::eRayDesc:
 		return "RayDesc";
+	case ast::type::Kind::eRayQuery:
+		return "RayQuery";
 	case ast::type::Kind::ePointer:
 		return "Pointer";
 	case ast::type::Kind::eGeometryInput:
@@ -336,10 +338,10 @@ inline std::string toString( ast::type::Kind const & v )
 		return "TaskPayloadInNV";
 	case ast::type::Kind::eTaskPayloadIn:
 		return "TaskPayloadIn";
-	case ast::type::Kind::eUniformBuffer:
-		return "UniformBuffer";
 	case ast::type::Kind::eStorageBuffer:
 		return "StorageBuffer";
+	case ast::type::Kind::eUniformBuffer:
+		return "UniformBuffer";
 	default:
 		return "Unknown";
 	}
@@ -710,6 +712,7 @@ namespace test
 	{
 	public:
 		ASTTest_API TestSuite( std::string const & name );
+		ASTTest_API ~TestSuite()noexcept override;
 
 	private:
 		std::unique_ptr< std::streambuf > tcout;

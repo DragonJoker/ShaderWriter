@@ -1055,6 +1055,152 @@ namespace glsl
 			break;
 
 
+	// Ray queries Functions
+		case ast::expr::Intrinsic::eRayQueryTraceRay:
+			result = "rayQueryInitializeEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryProceed:
+			result = "rayQueryProceedEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryAbort:
+			result = "rayQueryTerminateEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateType:
+			result = "rayQueryGetIntersectionTypeEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateProceduralPrimitiveNonOpaque:
+			result = "rayQueryGetIntersectionCandidateAABBOpaqueEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommitNonOpaqueTriangleHit:
+			result = "rayQueryConfirmIntersectionEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommitProceduralPrimitiveHit:
+			result = "rayQueryGenerateIntersectionEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedStatus:
+			result = "rayQueryGetIntersectionTypeEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetRayFlags:
+			result = "rayQueryGetRayFlagsEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayOrigin:
+			result = "rayQueryGetWorldRayOriginEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetWorldRayDirection:
+			result = "rayQueryGetWorldRayDirectionEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryGetRayTMin:
+			result = "rayQueryGetRayTMinEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleRayT:
+			result = "rayQueryGetIntersectionTEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedRayT:
+			result = "rayQueryGetIntersectionTEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceIndex:
+			result = "rayQueryGetIntersectionInstanceCustomIndexEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceID:
+			result = "rayQueryGetIntersectionInstanceIdEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateInstanceContributionToHitGroupIndex:
+			result = "rayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateGeometryIndex:
+			result = "rayQueryGetIntersectionGeometryIndexEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidatePrimitiveIndex:
+			result = "rayQueryGetIntersectionPrimitiveIndexEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayOrigin:
+			result = "rayQueryGetIntersectionObjectRayOriginEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectRayDirection:
+			result = "rayQueryGetIntersectionObjectRayDirectionEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateObjectToWorld:
+			result = "rayQueryGetIntersectionObjectToWorldEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateWorldToObject:
+			result = "rayQueryGetIntersectionWorldToObjectEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceIndex:
+			result = "rayQueryGetIntersectionInstanceCustomIndexEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceID:
+			result = "rayQueryGetIntersectionInstanceIdEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedInstanceContributionToHitGroupIndex:
+			result = "rayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedGeometryIndex:
+			result = "rayQueryGetIntersectionGeometryIndexEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedPrimitiveIndex:
+			result = "rayQueryGetIntersectionPrimitiveIndexEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayOrigin:
+			result = "rayQueryGetIntersectionObjectRayOriginEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectRayDirection:
+			result = "rayQueryGetIntersectionObjectRayDirectionEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedObjectToWorld:
+			result = "rayQueryGetIntersectionObjectToWorldEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedWorldToObject:
+			result = "rayQueryGetIntersectionWorldToObjectEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleBarycentrics:
+			result = "rayQueryGetIntersectionBarycentricsEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCandidateTriangleFrontFace:
+			result = "rayQueryGetIntersectionFrontFaceEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleBarycentrics:
+			result = "rayQueryGetIntersectionBarycentricsEXT";
+			break;
+
+		case ast::expr::Intrinsic::eRayQueryCommittedTriangleFrontFace:
+			result = "rayQueryGetIntersectionFrontFaceEXT";
+			break;
+
+
 	//Mesh Shader Functions
 		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8NV:
 			result = "writePackedPrimitiveIndices4x8NV";

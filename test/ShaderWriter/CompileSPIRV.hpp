@@ -6,11 +6,11 @@
 #	include <CompilerSpirV/compileSpirV.hpp>
 #endif
 
-#if SDW_Test_HasVulkan && SDW_HasVulkanLayer
+#if SDW_Test_HasVulkan
 #	pragma GCC diagnostic push
 #	pragma GCC diagnostic ignored "-Wold-style-cast"
 #	include <vulkan/vulkan.h>
-#	include <VulkanLayer/VulkanLayer.hpp>
+#	include "VulkanLayer.hpp"
 #	pragma GCC diagnostic pop
 #endif
 
@@ -37,10 +37,10 @@ namespace test
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex );
-#if SDW_Test_HasVulkan && SDW_HasVulkanLayer
-	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts
+#if SDW_Test_HasVulkan
+	vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex );
-	bool validateProgram( ast::vk::ProgramPipeline const & program
+	bool validateProgram( vk::ProgramPipeline const & program
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex );

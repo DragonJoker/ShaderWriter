@@ -762,6 +762,11 @@ namespace ast::type
 		return m_accelerationStructure.get();
 	}
 
+	RayQueryPtr TypesCache::getRayQuery( uint32_t baseFlags )
+	{
+		return m_rayQueries.getType( baseFlags );
+	}
+
 	HitAttributePtr TypesCache::getHitAttribute( TypePtr dataType )
 	{
 		return m_hitAttribute.getType( dataType );

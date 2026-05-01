@@ -123,7 +123,8 @@ namespace checks
 		type::Scope memoryScope;
 		type::MemorySemantics semantics;
 	};
-	using Barrier = testing::TestWithParam< BarrierParam >;
+	using ControlBarrier = testing::TestWithParam< BarrierParam >;
+	using MemoryBarrier = testing::TestWithParam< BarrierParam >;
 
 	static std::string getName( type::Scope p )
 	{
@@ -17828,7 +17829,7 @@ namespace checks
 
 	// Shader Invocation and Memory Control Functions
 
-	TEST_P( Barrier, ControlBarrier )
+	TEST_P( ControlBarrier, ControlBarrier )
 	{
 		auto memoryScope = GetParam().memoryScope;
 		auto semantics = GetParam().semantics;
@@ -17856,8 +17857,11 @@ namespace checks
 		}
 		astTestEnd()
 	}
+	INSTANTIATE_TEST_SUITE_P( , ControlBarrier
+		, testing::ValuesIn( barrierParams )
+		, astTestNameP( BarrierParam, getBarrierParamName ) );
 
-	TEST_P( Barrier, MemoryBarrier )
+	TEST_P( MemoryBarrier, MemoryBarrier )
 	{
 		auto memoryScope = GetParam().memoryScope;
 		auto semantics = GetParam().semantics;
@@ -17882,8 +17886,7 @@ namespace checks
 		}
 		astTestEnd()
 	}
-
-	INSTANTIATE_TEST_SUITE_P( MemoryBarrier, Barrier
+	INSTANTIATE_TEST_SUITE_P( , MemoryBarrier
 		, testing::ValuesIn( barrierParams )
 		, astTestNameP( BarrierParam, getBarrierParamName ) );
 
@@ -18000,6 +18003,893 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
+	// Ray queries Functions
+
+	TEST( Intrinsic, RayQueryTraceRay )
+	{
+		astTestBegin( "testRayQueryTraceRay" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto topLevel = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getAccelerationStructure(), "topLevel" ) );
+			auto rayFlags = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getUInt32(), "rayFlags" ) );
+			auto cullMask = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getUInt32(), "cullMask" ) );
+			auto rayDesc = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayDesc(), "rayDesc" ) );
+			auto result = expr::makeRayQueryTraceRay( exprCache
+				, typesCache
+				, std::move( rayQuery )
+				, std::move( topLevel )
+				, std::move( rayFlags )
+				, std::move( cullMask )
+				, std::move( rayDesc ) );
+			checkExprDependant( testCounts, *result, "testRayQueryTraceRay", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto topLevel = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getAccelerationStructure(), "topLevel" ) );
+			auto rayFlags = exprCache.makeLiteral( typesCache, uint32_t( 1 ) );
+			auto cullMask = exprCache.makeLiteral( typesCache, uint32_t( 1 ) );
+			auto rayDesc = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayDesc(), "rayDesc" ) );
+			auto result = expr::makeRayQueryTraceRay( exprCache
+				, typesCache
+				, std::move( rayQuery )
+				, std::move( topLevel )
+				, std::move( rayFlags )
+				, std::move( cullMask )
+				, std::move( rayDesc ) );
+			checkExprDependant( testCounts, *result, "testRayQueryTraceRay", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryProceed )
+	{
+		astTestBegin( "testRayQueryProceed" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryProceed( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryProceed", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryProceed( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryProceed", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryAbort )
+	{
+		astTestBegin( "testRayQueryAbort" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryAbort( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryAbort", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryAbort( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryAbort", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateType )
+	{
+		astTestBegin( "testRayQueryCandidateType" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateType( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateType", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateType( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateType", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateProceduralPrimitiveNonOpaque )
+	{
+		astTestBegin( "testRayQueryCandidateProceduralPrimitiveNonOpaque" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateProceduralPrimitiveNonOpaque( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateProceduralPrimitiveNonOpaque", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateProceduralPrimitiveNonOpaque( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateProceduralPrimitiveNonOpaque", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommitNonOpaqueTriangleHit )
+	{
+		astTestBegin( "testRayQueryCommitNonOpaqueTriangleHit" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommitNonOpaqueTriangleHit( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommitNonOpaqueTriangleHit", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommitNonOpaqueTriangleHit( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommitNonOpaqueTriangleHit", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommitProceduralPrimitiveHit )
+	{
+		astTestBegin( "testRayQueryCommitProceduralPrimitiveHit" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto t = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getFloat(), "t" ) );
+			auto result = expr::makeRayQueryCommitProceduralPrimitiveHit( exprCache
+				, typesCache
+				, std::move( rayQuery )
+				, std::move( t ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommitProceduralPrimitiveHit", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto t = exprCache.makeLiteral( typesCache, 1.0f );
+			auto result = expr::makeRayQueryCommitProceduralPrimitiveHit( exprCache
+				, typesCache
+				, std::move( rayQuery )
+				, std::move( t ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommitProceduralPrimitiveHit", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedStatus )
+	{
+		astTestBegin( "testRayQueryCommittedStatus" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedStatus( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedStatus", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedStatus( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedStatus", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryGetRayFlags )
+	{
+		astTestBegin( "testRayQueryGetRayFlags" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetRayFlags( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetRayFlags", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetRayFlags( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetRayFlags", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryGetWorldRayOrigin )
+	{
+		astTestBegin( "testRayQueryGetWorldRayOrigin" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetWorldRayOrigin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetWorldRayOrigin", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetWorldRayOrigin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetWorldRayOrigin", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryGetWorldRayDirection )
+	{
+		astTestBegin( "testRayQueryGetWorldRayDirection" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetWorldRayDirection( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetWorldRayDirection", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetWorldRayDirection( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetWorldRayDirection", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryGetRayTMin )
+	{
+		astTestBegin( "testRayQueryGetRayTMin" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetRayTMin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetRayTMin", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryGetRayTMin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryGetRayTMin", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateTriangleRayT )
+	{
+		astTestBegin( "testRayQueryCandidateTriangleRayT" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateTriangleRayT( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateTriangleRayT", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateTriangleRayT( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateTriangleRayT", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedRayT )
+	{
+		astTestBegin( "testRayQueryCommittedRayT" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedRayT( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedRayT", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedRayT( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedRayT", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateInstanceIndex )
+	{
+		astTestBegin( "testRayQueryCandidateInstanceIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateInstanceIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateInstanceIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateInstanceIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateInstanceIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateInstanceID )
+	{
+		astTestBegin( "testRayQueryCandidateInstanceID" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateInstanceID( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateInstanceID", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateInstanceID( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateInstanceID", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateInstanceContributionToHitGroupIndex )
+	{
+		astTestBegin( "testRayQueryCandidateInstanceContributionToHitGroupIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateInstanceContributionToHitGroupIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateInstanceContributionToHitGroupIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateInstanceContributionToHitGroupIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateInstanceContributionToHitGroupIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateGeometryIndex )
+	{
+		astTestBegin( "testRayQueryCandidateGeometryIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateGeometryIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateGeometryIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateGeometryIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateGeometryIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidatePrimitiveIndex )
+	{
+		astTestBegin( "testRayQueryCandidatePrimitiveIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidatePrimitiveIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidatePrimitiveIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidatePrimitiveIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidatePrimitiveIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateObjectRayOrigin )
+	{
+		astTestBegin( "testRayQueryCandidateObjectRayOrigin" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateObjectRayOrigin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateObjectRayOrigin", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateObjectRayOrigin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateObjectRayOrigin", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateObjectRayDirection )
+	{
+		astTestBegin( "testRayQueryCandidateObjectRayDirection" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateObjectRayDirection( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateObjectRayDirection", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateObjectRayDirection( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateObjectRayDirection", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateObjectToWorld )
+	{
+		astTestBegin( "testRayQueryCandidateObjectToWorld" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateObjectToWorld( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateObjectToWorld", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateObjectToWorld( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateObjectToWorld", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateWorldToObject )
+	{
+		astTestBegin( "testRayQueryCandidateWorldToObject" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateWorldToObject( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateWorldToObject", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateWorldToObject( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateWorldToObject", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedInstanceIndex )
+	{
+		astTestBegin( "testRayQueryCommittedInstanceIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedInstanceIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedInstanceIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedInstanceIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedInstanceIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedInstanceID )
+	{
+		astTestBegin( "testRayQueryCommittedInstanceID" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedInstanceID( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedInstanceID", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedInstanceID( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedInstanceID", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedInstanceContributionToHitGroupIndex )
+	{
+		astTestBegin( "testRayQueryCommittedInstanceContributionToHitGroupIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedInstanceContributionToHitGroupIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedInstanceContributionToHitGroupIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedInstanceContributionToHitGroupIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedInstanceContributionToHitGroupIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedGeometryIndex )
+	{
+		astTestBegin( "testRayQueryCommittedGeometryIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedGeometryIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedGeometryIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedGeometryIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedGeometryIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedPrimitiveIndex )
+	{
+		astTestBegin( "testRayQueryCommittedPrimitiveIndex" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedPrimitiveIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedPrimitiveIndex", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedPrimitiveIndex( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedPrimitiveIndex", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedObjectRayOrigin )
+	{
+		astTestBegin( "testRayQueryCommittedObjectRayOrigin" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedObjectRayOrigin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedObjectRayOrigin", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedObjectRayOrigin( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedObjectRayOrigin", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedObjectRayDirection )
+	{
+		astTestBegin( "testRayQueryCommittedObjectRayDirection" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedObjectRayDirection( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedObjectRayDirection", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedObjectRayDirection( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedObjectRayDirection", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedObjectToWorld )
+	{
+		astTestBegin( "testRayQueryCommittedObjectToWorld" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedObjectToWorld( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedObjectToWorld", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedObjectToWorld( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedObjectToWorld", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedWorldToObject )
+	{
+		astTestBegin( "testRayQueryCommittedWorldToObject" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedWorldToObject( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedWorldToObject", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedWorldToObject( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedWorldToObject", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateTriangleBarycentrics )
+	{
+		astTestBegin( "testRayQueryCandidateTriangleBarycentrics" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateTriangleBarycentrics( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateTriangleBarycentrics", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateTriangleBarycentrics( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateTriangleBarycentrics", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCandidateTriangleFrontFace )
+	{
+		astTestBegin( "testRayQueryCandidateTriangleFrontFace" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateTriangleFrontFace( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateTriangleFrontFace", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCandidateTriangleFrontFace( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCandidateTriangleFrontFace", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedTriangleBarycentrics )
+	{
+		astTestBegin( "testRayQueryCommittedTriangleBarycentrics" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedTriangleBarycentrics( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedTriangleBarycentrics", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedTriangleBarycentrics( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedTriangleBarycentrics", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, RayQueryCommittedTriangleFrontFace )
+	{
+		astTestBegin( "testRayQueryCommittedTriangleFrontFace" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedTriangleFrontFace( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedTriangleFrontFace", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto rayQuery = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getRayQuery( 0xFFu ), "rayQuery" ) );
+			auto result = expr::makeRayQueryCommittedTriangleFrontFace( exprCache
+				, typesCache
+				, std::move( rayQuery ) );
+			checkExprDependant( testCounts, *result, "testRayQueryCommittedTriangleFrontFace", __LINE__ );
+		}
+		astTestEnd()
+	}
+	
 
 	//Mesh Shader NV Functions
 

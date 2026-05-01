@@ -6,6 +6,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
+#include "ShaderWriter/BaseTypes/RayQuery.hpp"
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
 #include "ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp"
 #include "ShaderWriter/CompositeTypes/BufferReference.hpp"
@@ -773,6 +774,12 @@ namespace sdw
 		AccelerationStructure declAccelerationStructure( std::string name
 			, BindingT binding
 			, SetT set
+			, bool enabled = true );
+		SDW_INL_API RayQuery declRayQuery( std::string name
+			, ast::type::RayFlag baseFlag
+			, bool enabled = true );
+		SDW_INL_API RayQuery declRayQuery( std::string name
+			, uint32_t baseFlags // combination of ast::type::RayFlag
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion

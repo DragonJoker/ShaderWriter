@@ -9,7 +9,7 @@ See LICENSE file in root folder
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
-namespace ast::vk
+namespace test::vk
 {
 	template< typename AshesType >
 	struct VkStructTraits;
@@ -884,10 +884,7 @@ namespace ast::vk
 	template<> struct VkStructTraits< VkPhysicalDeviceRayTracingPipelinePropertiesKHR >{ static VkStructureType constexpr value = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR; };
 #endif
 #if VK_KHR_ray_query
-	template<> struct VkStructTraits< VkPhysicalDeviceRayQueryFeaturesKHR >
-	{
-		static VkStructureType constexpr value = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_QUERY_FEATURES_KHR;
-	};
+	template<> struct VkStructTraits< VkPhysicalDeviceRayQueryFeaturesKHR >{ static VkStructureType constexpr value = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_QUERY_FEATURES_KHR; };
 #endif
 #if VK_KHR_video_encode_queue
 	template<> struct VkStructTraits< VkVideoEncodeInfoKHR >{ static VkStructureType constexpr value = VK_STRUCTURE_TYPE_VIDEO_ENCODE_INFO_KHR; };

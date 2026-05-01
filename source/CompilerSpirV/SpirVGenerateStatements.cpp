@@ -1878,7 +1878,8 @@ namespace spirv
 					auto id = doSubmit( *arg );
 
 					if ( arg->getType()->getRawKind() != ast::type::Kind::eRayPayload
-						&& arg->getType()->getRawKind() != ast::type::Kind::eCallableData )
+						&& arg->getType()->getRawKind() != ast::type::Kind::eCallableData
+						&& arg->getType()->getRawKind() != ast::type::Kind::eRayQuery )
 					{
 						id = loadVariable( id, *arg );
 					}
@@ -1889,6 +1890,10 @@ namespace spirv
 				if ( ( opCode >= spv::OpEmitVertex && opCode <= spv::OpEndStreamPrimitive )
 					|| opCode == spv::OpExecuteCallableKHR
 					|| opCode == spv::OpTraceRayKHR
+					|| opCode == spv::OpRayQueryInitializeKHR
+					|| opCode == spv::OpRayQueryTerminateKHR
+					|| opCode == spv::OpRayQueryGenerateIntersectionKHR
+					|| opCode == spv::OpRayQueryConfirmIntersectionKHR
 					|| opCode == spv::OpWritePackedPrimitiveIndices4x8NV
 					|| opCode == spv::OpSetMeshOutputsEXT )
 				{

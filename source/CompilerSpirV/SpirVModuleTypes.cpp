@@ -104,6 +104,13 @@ namespace spirv
 			return typesCache.getImage( config );
 		}
 
+		static ast::type::RayQueryPtr getUnqualifiedType( ast::type::TypesCache & typesCache
+			, ast::type::RayQuery const & qualified )
+		{
+			// Ignore cull flags, they're not in the type, in SPIR-V.
+			return typesCache.getRayQuery( 0u );
+		}
+
 		static ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Type const & qualified )
 		{
@@ -141,6 +148,10 @@ namespace spirv
 			else if ( qualified.getRawKind() == ast::type::Kind::eStorageBuffer )
 			{
 				result = getUnqualifiedType( typesCache, *static_cast< ast::type::StorageBuffer const & >( qualified ).getDataType() );
+			}
+			else if ( qualified.getRawKind() == ast::type::Kind::eRayQuery )
+			{
+				result = getUnqualifiedType( typesCache, static_cast< ast::type::RayQuery const & >( qualified ) );
 			}
 			else if ( qualified.isMember() )
 			{
@@ -1150,6 +1161,17 @@ namespace spirv
 		return resultId;
 	}
 
+	TypeId ModuleTypes::doRegisterRayQueryType( ast::type::RayQueryPtr type )
+	{
+		TypeId result{ 0u, type };
+		result.id.id = m_module.getNextId();
+		m_declarations.push_back( makeRayQueryTypeInstruction( m_module.getNameCache()
+			, result.id ) );
+		auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type ), result ).first->second;
+		m_nonSemanticDebug.registerRayQueryType( resultId );
+		return resultId;
+	}
+
 	TypeId ModuleTypes::doRegisterStructType( ast::type::StructPtr type
 		, uint32_t
 		, TypeId const &
@@ -1295,6 +1317,10 @@ namespace spirv
 		else if ( kind == ast::type::Kind::eAccelerationStructure )
 		{
 			result = doRegisterAccelerationStructureType( static_cast< ast::type::AccelerationStructure * >( type ) );
+		}
+		else if ( kind == ast::type::Kind::eRayQuery )
+		{
+			result = doRegisterRayQueryType( static_cast< ast::type::RayQuery * >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eStruct
 			|| kind == ast::type::Kind::eRayDesc )

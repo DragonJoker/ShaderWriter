@@ -519,20 +519,24 @@ namespace test::sdw_test
 							if ( compilers.forceDisplay && availableExtensions )
 								testCounts.printBlock( print );
 						}
-						catch ( spirv::UnsupportedExtensionException & )
+						catch ( spirv::UnsupportedExtensionException & exc )
 						{
-							return;
+							testCounts.printBlock( testCounts.testName + " - Write - " + exc.what() );
+						}
+						catch ( spirv::ExtensionNotFoundException & exc )
+						{
+							testCounts.printBlock( testCounts.testName + " - Write - " + exc.what() );
 						}
 						catch ( std::exception & exc )
 						{
 							if ( error )
 								testCounts.printError( exc.what() );
 							else
-								testCounts.printBlock( exc.what() );
+								testCounts.printBlock( testCounts.testName + " - Write - " + exc.what() );
 						}
 						catch ( ... )
 						{
-							testCounts.printError( "Unknown exception" );
+							testCounts.printError( testCounts.testName + " - Write - Unknown exception" );
 						}
 					};
 				astOn( "Vulkan " + printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
@@ -626,7 +630,7 @@ namespace test::sdw_test
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
 	{
-#if SDW_Test_HasVulkan && SDW_HasVulkanLayer
+#if SDW_Test_HasVulkan
 		if ( compilers.spirV.enable )
 		{
 			auto count = testCounts.getSpirvInfosSize();
@@ -646,8 +650,8 @@ namespace test::sdw_test
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
 	{
-#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
-		auto shadersSpan = ast::vk::convert( shaders );
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
+		auto shadersSpan = vk::convert( shaders );
 		auto count = testCounts.getSpirvInfosSize();
 		for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 		{
@@ -660,8 +664,8 @@ namespace test::sdw_test
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
 	{
-#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
-		auto shadersSpan = ast::vk::convert( shaders );
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
+		auto shadersSpan = vk::convert( shaders );
 		auto count = testCounts.getSpirvInfosSize();
 		for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 		{

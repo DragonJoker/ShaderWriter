@@ -86,6 +86,7 @@ namespace sdw
 	struct Boolean;
 	struct AccelerationStructure;
 	struct RayDesc;
+	struct RayQuery;
 
 	template< ast::type::Kind KindT >
 	struct ArithmeticValue;

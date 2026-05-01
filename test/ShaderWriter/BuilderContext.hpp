@@ -6,7 +6,7 @@ See LICENSE file in root folder
 
 #include "VulkanLayer.hpp"
 
-namespace ast::vk
+namespace test::vk
 {
 	struct BuilderContext
 	{

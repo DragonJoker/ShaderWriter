@@ -18,61 +18,118 @@ namespace hlsl
 {
 	namespace
 	{
+		std::string printRaytracingTier( uint32_t tier )
+		{
+			auto major = tier / 10u;
+			auto minor = tier % 10u;
+			return std::to_string( major ) + "_" + std::to_string( minor );
+		}
+
+		std::string printShaderModel( uint32_t shaderModel
+			, ast::ShaderStage type )
+		{
+			auto major = shaderModel / 10u;
+			auto minor = shaderModel % 10u;
+			auto model = std::to_string( major ) + "_" + std::to_string( minor );
+
+			switch ( type )
+			{
+			case ast::ShaderStage::eVertex:
+				model = "vs_" + model;
+				break;
+			case ast::ShaderStage::eTessellationControl:
+				model = "hs_" + model;
+				break;
+			case ast::ShaderStage::eTessellationEvaluation:
+				model = "ds_" + model;
+				break;
+			case ast::ShaderStage::eGeometry:
+				model = "gs_" + model;
+				break;
+			case ast::ShaderStage::eCompute:
+				model = "cs_" + model;
+				break;
+			case ast::ShaderStage::eFragment:
+				model = "ps_" + model;
+				break;
+			case ast::ShaderStage::eMeshNV:
+			case ast::ShaderStage::eMesh:
+				model = "ms_" + model;
+				break;
+			case ast::ShaderStage::eTaskNV:
+			case ast::ShaderStage::eTask:
+				model = "as_" + model;
+				break;
+			case ast::ShaderStage::eCallable:
+			case ast::ShaderStage::eRayGeneration:
+			case ast::ShaderStage::eRayIntersection:
+			case ast::ShaderStage::eRayMiss:
+			case ast::ShaderStage::eRayAnyHit:
+			case ast::ShaderStage::eRayClosestHit:
+				model = "lib_" + model;
+				break;
+			default:
+				break;
+			}
+
+			return model;
+		}
+
 		void checkConfig( HlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig )
 		{
 			if ( isRayTraceStage( writerConfig.shaderStage ) && writerConfig.shaderModel < hlsl::v6_3 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Ray Tracing stage for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported raytracing stage for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( isMeshStage( writerConfig.shaderStage ) && writerConfig.shaderModel < hlsl::v6_5 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Mesh/Amplification stage for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Mesh/Amplification stage for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresWaveOps && writerConfig.shaderModel < hlsl::v6_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Wave ops for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Wave ops for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresQuadControl && writerConfig.shaderModel < hlsl::v6_7 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Quad control ops for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Quad control ops for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresFullQuads && writerConfig.shaderModel < hlsl::v6_7 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Full Quads for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Full Quads for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresMaximalReconvergence && writerConfig.shaderModel < hlsl::v6_7 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Maximal Reconvergence for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Maximal Reconvergence for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresControlBarrier
 				&& writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 				&& writerConfig.shaderModel < hlsl::v6_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported control barrier for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported control barrier for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( writerConfig.shaderModel < hlsl::v5_0
 				&& ( writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 					|| writerConfig.shaderStage == ast::ShaderStage::eTessellationEvaluation ) )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Tessellation stage for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Tessellation stage for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresDouble && writerConfig.shaderModel <= hlsl::v4_1 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported double type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported double type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresInt8 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported byte type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported byte type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresAtomicAddFloat )
@@ -82,7 +139,7 @@ namespace hlsl
 
 			if ( intrinsicsConfig.requiresInt16 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported short type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported short type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresSInt64 )
@@ -92,37 +149,48 @@ namespace hlsl
 
 			if ( intrinsicsConfig.requiresUInt64 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported uint64_t type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported uint64_t type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresUAV && writerConfig.shaderModel <= hlsl::v4_1 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported UAV for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported UAV for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresInterpolate && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported interpolate for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported interpolate for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresShadowOnTiled && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported sample shadow for tiled resource, for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported sample shadow for tiled resource, for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresGather && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported gather, for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported gather, for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresSampledIndex && writerConfig.shaderModel < hlsl::v4_1 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported SV_SampleIndex for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported SV_SampleIndex for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresInterlockedOperations && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported Interlocked operations for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Interlocked operations for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
+			}
+
+			if ( intrinsicsConfig.requiredRaytracingTier > writerConfig.rayTracingTier )
+			{
+				throw UnsupportedExtensionException{ "Unsupported raytracing tier " + printRaytracingTier( intrinsicsConfig.requiredRaytracingTier ) };
+			}
+
+			if ( intrinsicsConfig.requiredRaytracingTier >= hlsl::t1_1
+				&& writerConfig.shaderModel < hlsl::v6_5 )
+			{
+				throw UnsupportedExtensionException{ "Unsupported raytracing tier " + printRaytracingTier( intrinsicsConfig.requiredRaytracingTier ) + " for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 		}
 	}

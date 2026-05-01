@@ -29,6 +29,7 @@ namespace ast
 		eUniformTexelBuffer,
 		eStorageTexelBuffer,
 		eShaderRecordBuffer,
+		eAccelerationStructure,
 		eCount,
 	};
 
@@ -319,6 +320,9 @@ namespace ast
 		SDAST_API static Shader const & fromOpaqueHandle( AstShader shader );
 
 	private:
+		void checkBindings( uint32_t binding, uint32_t set );
+
+	private:
 		ast::ShaderStage m_type;
 		std::unique_ptr< ShaderAllocator > m_ownAllocator;
 		ShaderAllocatorBlockPtr m_allocator;
@@ -326,7 +330,8 @@ namespace ast
 		std::unique_ptr< ast::stmt::StmtCache > m_stmtCache;
 		std::unique_ptr< ast::expr::ExprCache > m_exprCache;
 		stmt::ContainerPtr m_container;
-		Set< var::VariablePtr > m_globalVariables;
+		std::set< var::VariablePtr > m_globalVariables;
+		std::unordered_map< uint32_t, std::unordered_set< uint32_t > > m_bindingsPerSet;
 		ShaderData m_data;
 	};
 }

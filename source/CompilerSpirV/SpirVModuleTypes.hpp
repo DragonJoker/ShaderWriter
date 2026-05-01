@@ -12,6 +12,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeAccelerationStructure.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
+#include <ShaderAST/Type/TypeRayQuery.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Type/TypeSampler.hpp>
 
@@ -101,6 +102,7 @@ namespace spirv
 		TypeId doRegisterImageType( ast::type::ImagePtr type );
 		TypeId doRegisterSampledImageType( ast::type::SampledImagePtr type );
 		TypeId doRegisterAccelerationStructureType( ast::type::AccelerationStructurePtr type );
+		TypeId doRegisterRayQueryType( ast::type::RayQueryPtr type );
 		TypeId doRegisterBaseType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId const & parentId

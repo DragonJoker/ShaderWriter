@@ -16,11 +16,10 @@
 
 #include "./vulkan/vulkan.h"
 
-#if SDW_HasVulkanLayer
-#	include <VulkanLayer/PipelineBuilder.hpp>
-#	include <VulkanLayer/ProgramPipeline.hpp>
-#	include <VulkanLayer/MakeVkType.hpp>
-#endif
+#include "PipelineBuilder.hpp"
+#include "ProgramPipeline.hpp"
+#include "MakeVkType.hpp"
+
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
@@ -391,7 +390,7 @@ namespace test
 			}
 
 			// initialize the VkApplicationInfo structure
-			auto appInfo = ast::vk::makeVkStruct< VkApplicationInfo >();
+			auto appInfo = vk::makeVkStruct< VkApplicationInfo >();
 			appInfo.pApplicationName = "Test";
 			appInfo.applicationVersion = VK_MAKE_API_VERSION( 0, MAIN_VERSION_MAJOR, MAIN_VERSION_MINOR, MAIN_VERSION_BUILD );
 			appInfo.pEngineName = "Test";
@@ -399,7 +398,7 @@ namespace test
 			appInfo.apiVersion = info.apiVersion;
 
 			// initialize the VkInstanceCreateInfo structure
-			auto instInfo = ast::vk::makeVkStruct< VkInstanceCreateInfo >();
+			auto instInfo = vk::makeVkStruct< VkInstanceCreateInfo >();
 			instInfo.pNext = nullptr;
 			instInfo.flags = 0;
 			instInfo.pApplicationInfo = &appInfo;
@@ -454,7 +453,7 @@ namespace test
 					| VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT
 					| VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
 					| VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-				auto createInfo = ast::vk::makeVkStruct< VkDebugUtilsMessengerCreateInfoEXT >( 0u
+				auto createInfo = vk::makeVkStruct< VkDebugUtilsMessengerCreateInfoEXT >( 0u
 					, severityFlags
 					, typeFlags
 					, dbgFunc
@@ -508,7 +507,7 @@ namespace test
 
 					--gpuIndex;
 					auto gpu = info.gpus[gpuIndex];
-					auto queue_info = ast::vk::makeVkStruct< VkDeviceQueueCreateInfo >();
+					auto queue_info = vk::makeVkStruct< VkDeviceQueueCreateInfo >();
 					queue_info.queueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 
 					vkGetPhysicalDeviceQueueFamilyProperties( gpu, &info.queueFamilyCount, nullptr );
@@ -542,20 +541,21 @@ namespace test
 					};
 					std::vector< VkStructure * > featuresStructs;
 					VkPhysicalDeviceFeatures features{};
-					auto features2 = ast::vk::makeVkStruct< VkPhysicalDeviceFeatures2 >();
-					auto features12 = ast::vk::makeVkStruct< VkPhysicalDeviceVulkan12Features >();
-					auto features11 = ast::vk::makeVkStruct< VkPhysicalDeviceVulkan11Features >();
-					auto drawParamsFeatures = ast::vk::makeVkStruct< VkPhysicalDeviceShaderDrawParametersFeatures >();
-					auto accelFeature = ast::vk::makeVkStruct< VkPhysicalDeviceAccelerationStructureFeaturesKHR >();
-					auto rtPipelineFeature = ast::vk::makeVkStruct< VkPhysicalDeviceRayTracingPipelineFeaturesKHR >();
-					auto demoteFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT >();
-					auto terminateFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR >();
-					auto meshNVFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
-					auto atomicFloatFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderAtomicFloatFeaturesEXT >();
-					auto float16Int8Feature = ast::vk::makeVkStruct< VkPhysicalDeviceFloat16Int8FeaturesKHR >();
-					auto storage8BitFeature = ast::vk::makeVkStruct< VkPhysicalDevice8BitStorageFeaturesKHR >();
-					auto storage16BitFeature = ast::vk::makeVkStruct< VkPhysicalDevice16BitStorageFeaturesKHR >();
-					auto bufferDeviceAddressFeature = ast::vk::makeVkStruct< VkPhysicalDeviceBufferDeviceAddressFeaturesEXT >();
+					auto features2 = vk::makeVkStruct< VkPhysicalDeviceFeatures2 >();
+					auto features12 = vk::makeVkStruct< VkPhysicalDeviceVulkan12Features >();
+					auto features11 = vk::makeVkStruct< VkPhysicalDeviceVulkan11Features >();
+					auto drawParamsFeatures = vk::makeVkStruct< VkPhysicalDeviceShaderDrawParametersFeatures >();
+					auto accelFeature = vk::makeVkStruct< VkPhysicalDeviceAccelerationStructureFeaturesKHR >();
+					auto rtPipelineFeature = vk::makeVkStruct< VkPhysicalDeviceRayTracingPipelineFeaturesKHR >();
+					auto demoteFeature = vk::makeVkStruct< VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT >();
+					auto terminateFeature = vk::makeVkStruct< VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR >();
+					auto meshNVFeature = vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
+					auto atomicFloatFeature = vk::makeVkStruct< VkPhysicalDeviceShaderAtomicFloatFeaturesEXT >();
+					auto float16Int8Feature = vk::makeVkStruct< VkPhysicalDeviceFloat16Int8FeaturesKHR >();
+					auto storage8BitFeature = vk::makeVkStruct< VkPhysicalDevice8BitStorageFeaturesKHR >();
+					auto storage16BitFeature = vk::makeVkStruct< VkPhysicalDevice16BitStorageFeaturesKHR >();
+					auto bufferDeviceAddressFeature = vk::makeVkStruct< VkPhysicalDeviceBufferDeviceAddressFeaturesEXT >();
+					auto rayQueryFeature = vk::makeVkStruct< VkPhysicalDeviceRayQueryFeaturesKHR >();
 					bool hasFeatures2 = false;
 					bool hasVulkan1_1 = false;
 					bool hasVulkan1_2 = false;
@@ -689,11 +689,19 @@ namespace test
 										info.deviceExtensionNames.push_back( "VK_KHR_acceleration_structure" );
 										featuresStructs.push_back( reinterpret_cast< VkStructure * >( &accelFeature ) );
 
-										if ( hasSpirv1_4
-											&& isExtensionSupported( "VK_KHR_ray_tracing_pipeline", device_extensions ) )
+										if ( hasSpirv1_4 )
 										{
-											info.deviceExtensionNames.push_back( "VK_KHR_ray_tracing_pipeline" );
-											featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rtPipelineFeature ) );
+											if ( isExtensionSupported( "VK_KHR_ray_tracing_pipeline", device_extensions ) )
+											{
+												info.deviceExtensionNames.push_back( "VK_KHR_ray_tracing_pipeline" );
+												featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rtPipelineFeature ) );
+											}
+
+											if ( isExtensionSupported( "VK_KHR_ray_query", device_extensions ) )
+											{
+												info.deviceExtensionNames.push_back( "VK_KHR_ray_query" );
+												featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rayQueryFeature ) );
+											}
 										}
 									}
 								}
@@ -732,7 +740,7 @@ namespace test
 						vkGetPhysicalDeviceFeatures( gpu, &features );
 					}
 
-					auto device_info = ast::vk::makeVkStruct< VkDeviceCreateInfo >();
+					auto device_info = vk::makeVkStruct< VkDeviceCreateInfo >();
 					device_info.queueCreateInfoCount = 1;
 					device_info.pQueueCreateInfos = &queue_info;
 					device_info.enabledExtensionCount = uint32_t( info.deviceExtensionNames.size() );
@@ -767,7 +775,7 @@ namespace test
 
 				if ( info.canCompile )
 				{
-					auto createInfo = ast::vk::makeVkStruct< VkShaderModuleCreateInfo >();
+					auto createInfo = vk::makeVkStruct< VkShaderModuleCreateInfo >();
 					createInfo.pCode = spirv.data();
 					createInfo.codeSize = size_t( uint64_t( spirv.size() ) * sizeof( uint32_t ) );
 					VkShaderModule shaderModule;
@@ -1019,7 +1027,6 @@ namespace test
 		return result;
 	}
 
-#if SDW_HasVulkanLayer
 	namespace
 	{
 		uint32_t getSize( VkFormat format )
@@ -1068,8 +1075,8 @@ namespace test
 			}
 		}
 
-		VkRenderPass createRenderPass( ast::vk::ProgramPipeline const & program
-			, ast::vk::BuilderContext const & context
+		VkRenderPass createRenderPass( vk::ProgramPipeline const & program
+			, vk::BuilderContext const & context
 			, std::string & errors
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex )
@@ -1120,7 +1127,7 @@ namespace test
 					, VK_ACCESS_HOST_READ_BIT
 					, VK_DEPENDENCY_BY_REGION_BIT } );
 
-			auto renderPassCreate = ast::vk::makeVkStruct< VkRenderPassCreateInfo >( 0u
+			auto renderPassCreate = vk::makeVkStruct< VkRenderPassCreateInfo >( 0u
 				, uint32_t( attachments.size() )
 				, attachments.data()
 				, uint32_t( subpasses.size() )
@@ -1134,7 +1141,7 @@ namespace test
 				, infoIndex
 				, [&]()
 				{
-					return ast::vk::checkError( vkCreateRenderPass( context.device
+					return vk::checkError( vkCreateRenderPass( context.device
 						, &renderPassCreate
 						, context.allocator
 						, &renderPass ) );
@@ -1154,14 +1161,14 @@ namespace test
 			return renderPass;
 		}
 
-		VkPipeline createComputePipeline( ast::vk::PipelineBuilder const & builder
-			, ast::vk::PipelineShaderStageCreateInfo const & shaderStage
+		VkPipeline createComputePipeline( vk::PipelineBuilder const & builder
+			, vk::PipelineShaderStageCreateInfo const & shaderStage
 			, VkPipelineLayout pipelineLayout
 			, std::string & errors
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex )
 		{
-			auto createInfos = ast::vk::makeVkStruct< VkComputePipelineCreateInfo >( 0u
+			auto createInfos = vk::makeVkStruct< VkComputePipelineCreateInfo >( 0u
 				, shaderStage.data
 				, pipelineLayout
 				, nullptr
@@ -1173,7 +1180,7 @@ namespace test
 				, infoIndex
 				, [&]()
 				{
-					return ast::vk::checkError( builder.createComputePipeline( createInfos, &pipeline ) );
+					return vk::checkError( builder.createComputePipeline( createInfos, &pipeline ) );
 				} ) )
 			{
 				if ( pipeline )
@@ -1190,9 +1197,9 @@ namespace test
 			return pipeline;
 		}
 
-		VkPipeline createGraphicsPipeline( ast::vk::ProgramPipeline const & program
-			, ast::vk::PipelineBuilder const & builder
-			, ast::vk::PipelineShaderStageArray const & shaderStages
+		VkPipeline createGraphicsPipeline( vk::ProgramPipeline const & program
+			, vk::PipelineBuilder const & builder
+			, vk::PipelineShaderStageArray const & shaderStages
 			, VkPipelineLayout pipelineLayout
 			, VkRenderPass renderPass
 			, std::string & errors
@@ -1203,7 +1210,7 @@ namespace test
 			auto attachmentsMap = program.getAttachmentDescriptions();
 
 			// Pipeline shader stage states
-			ast::vk::VkPipelineShaderStageArray vkShaderStages;
+			vk::VkPipelineShaderStageArray vkShaderStages;
 
 			for ( auto & stage : shaderStages )
 			{
@@ -1224,22 +1231,22 @@ namespace test
 			VkVertexInputBindingDescription binding{ 0u
 				, size
 				, VK_VERTEX_INPUT_RATE_VERTEX };
-			auto vertexInputState = ast::vk::makeVkStruct< VkPipelineVertexInputStateCreateInfo >( 0u
+			auto vertexInputState = vk::makeVkStruct< VkPipelineVertexInputStateCreateInfo >( 0u
 				, size ? 1u : 0u
 				, size ? &binding : nullptr
 				, size ? uint32_t( vertexAttributes.size() ) : 0u
 				, size ? vertexAttributes.data() : nullptr );
-			auto inputAssemblyState = ast::vk::makeVkStruct< VkPipelineInputAssemblyStateCreateInfo >(0u
+			auto inputAssemblyState = vk::makeVkStruct< VkPipelineInputAssemblyStateCreateInfo >(0u
 				, ( hasTessellation ? VK_PRIMITIVE_TOPOLOGY_PATCH_LIST : VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST )
 				, VK_FALSE );
 			VkViewport viewport{ 0.0f, 0.0f, 800.0f, 600.0f, 0.0f, 1.0f };
 			VkRect2D scissor{ { 0, 0 }, { 800u, 600u } };
-			auto viewportState = ast::vk::makeVkStruct< VkPipelineViewportStateCreateInfo >( 0u
+			auto viewportState = vk::makeVkStruct< VkPipelineViewportStateCreateInfo >( 0u
 				, 1u
 				, &viewport
 				, 1u
 				, &scissor );
-			auto rasterizationState = ast::vk::makeVkStruct< VkPipelineRasterizationStateCreateInfo >( 0u
+			auto rasterizationState = vk::makeVkStruct< VkPipelineRasterizationStateCreateInfo >( 0u
 				, VK_FALSE
 				, VK_FALSE
 				, VK_POLYGON_MODE_FILL
@@ -1250,7 +1257,7 @@ namespace test
 				, 0.0f
 				, 0.0f
 				, 1.0f );
-			auto multisampleState = ast::vk::makeVkStruct< VkPipelineMultisampleStateCreateInfo >( 0u
+			auto multisampleState = vk::makeVkStruct< VkPipelineMultisampleStateCreateInfo >( 0u
 				, VK_SAMPLE_COUNT_1_BIT
 				, VK_FALSE
 				, 0.0f
@@ -1259,7 +1266,7 @@ namespace test
 				, VK_FALSE );
 			std::vector< VkPipelineColorBlendAttachmentState > colorBlendAttachments;
 			colorBlendAttachments.resize( attachmentsMap.size(), VkPipelineColorBlendAttachmentState{} );
-			auto colorBlendState = ast::vk::makeVkStruct< VkPipelineColorBlendStateCreateInfo >( 0u
+			auto colorBlendState = vk::makeVkStruct< VkPipelineColorBlendStateCreateInfo >( 0u
 				, VK_FALSE
 				, VK_LOGIC_OP_COPY
 				, uint32_t( colorBlendAttachments.size() )
@@ -1268,9 +1275,9 @@ namespace test
 			colorBlendState.blendConstants[1] = {};
 			colorBlendState.blendConstants[2] = {};
 			colorBlendState.blendConstants[3] = {};
-			auto tessellationState = ast::vk::makeVkStruct< VkPipelineTessellationStateCreateInfo >( 0u
+			auto tessellationState = vk::makeVkStruct< VkPipelineTessellationStateCreateInfo >( 0u
 				, program.getTessellationControlPoints() );
-			auto createInfos = ast::vk::makeVkStruct< VkGraphicsPipelineCreateInfo >( 0u
+			auto createInfos = vk::makeVkStruct< VkGraphicsPipelineCreateInfo >( 0u
 				, uint32_t( vkShaderStages.size() )
 				, vkShaderStages.data()
 				, &vertexInputState
@@ -1294,7 +1301,7 @@ namespace test
 				, infoIndex
 				, [&]()
 				{
-					return ast::vk::checkError( builder.createGraphicsPipeline( createInfos, &pipeline ) );
+					return vk::checkError( builder.createGraphicsPipeline( createInfos, &pipeline ) );
 				} ) )
 			{
 				if ( pipeline )
@@ -1316,10 +1323,10 @@ namespace test
 		}
 	}
 
-	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts
+	vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex )
 	{
-		ast::vk::BuilderContext result
+		vk::BuilderContext result
 		{
 			retrieveInfo( testCounts, infoIndex )->context->device,
 			nullptr,
@@ -1333,7 +1340,7 @@ namespace test
 		return result;
 	}
 
-	bool validateProgram( ast::vk::ProgramPipeline const & program
+	bool validateProgram( vk::ProgramPipeline const & program
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex )
@@ -1345,8 +1352,8 @@ namespace test
 		}
 
 		auto context = createBuilderContext( testCounts, infoIndex );
-		ast::vk::PipelineBuilder builder{ context, program };
-		ast::vk::VkShaderModuleArray modules;
+		vk::PipelineBuilder builder{ context, program };
+		vk::VkShaderModuleArray modules;
 		try
 		{
 			modules = builder.createShaderModules();
@@ -1363,7 +1370,7 @@ namespace test
 		}
 
 		bool result = false;
-		ast::vk::VkDescriptorSetLayoutArray descriptorLayouts;
+		vk::VkDescriptorSetLayoutArray descriptorLayouts;
 		astCheckNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() )
 		VkPipelineLayout pipelineLayout{};
 		astCheckNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) )
@@ -1374,12 +1381,12 @@ namespace test
 		}
 		else
 		{
-			ast::vk::PipelineShaderStageArray shaderStages;
+			vk::PipelineShaderStageArray shaderStages;
 			astCheckNoThrow( shaderStages = builder.createShaderStages( modules, {} ) )
 
 			if ( shaderStages.size() == 1u )
 			{
-				if ( program.getStageFlags() != ast::vk::makeFlag( ast::ShaderStage::eCompute ) )
+				if ( program.getStageFlags() != vk::makeFlag( ast::ShaderStage::eCompute ) )
 				{
 					testCounts.printError( "Not enough shader stages" );
 				}
@@ -1439,7 +1446,6 @@ namespace test
 		return result;
 	}
 
-#endif
 #if SDW_HasCompilerSpirV
 
 	spirv::SpirVExtensionSet getSpirVExtensions( spirv::SpirVConfig const & config
@@ -1482,6 +1488,8 @@ namespace test
 				result.emplace( spirv::EXT_demote_to_helper_invocation );
 			if ( find( "VK_KHR_ray_tracing_pipeline" ) )
 				result.emplace( spirv::KHR_ray_tracing );
+			if ( find( "VK_KHR_ray_query" ) )
+				result.emplace( spirv::KHR_ray_query );
 		}
 
 		if ( config.specVersion >= spirv::v1_3 )
@@ -1639,7 +1647,7 @@ namespace test
 	}
 
 #if SDW_HasVulkanLayer
-	bool validateProgram( ast::vk::ProgramPipeline const & program
+	bool validateProgram( ProgramPipeline const & program
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex )
@@ -1671,6 +1679,7 @@ namespace test
 		{
 			result.emplace( spirv::EXT_demote_to_helper_invocation );
 			result.emplace( spirv::KHR_ray_tracing );
+			result.emplace( spirv::KHR_ray_query );
 		}
 
 		if ( config.specVersion >= spirv::v1_3 )

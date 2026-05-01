@@ -320,6 +320,80 @@ namespace hlsl
 				return false;
 			}
 		}
+
+		static std::string getRayFlagsName( uint32_t rayFlags )
+		{
+			std::string result;
+
+			if ( rayFlags == 0u )
+			{
+				return "RAY_FLAG_NONE";
+			}
+
+			std::string sep;
+
+			if ( ( rayFlags & ast::type::RayFlag::eForceOpaque ) == ast::type::RayFlag::eForceOpaque )
+			{
+				result += sep + "RAY_FLAG_FORCE_OPAQUE";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eForceNonOpaque ) == ast::type::RayFlag::eForceNonOpaque )
+			{
+				result += sep + "RAY_FLAG_FORCE_NON_OPAQUE";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eAcceptFirstHitAndEndSearch ) == ast::type::RayFlag::eAcceptFirstHitAndEndSearch )
+			{
+				result += sep + "RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eSkipClosestHitShader ) == ast::type::RayFlag::eSkipClosestHitShader )
+			{
+				result += sep + "RAY_FLAG_SKIP_CLOSEST_HIT_SHADER";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullBackFacingTriangles ) == ast::type::RayFlag::eCullBackFacingTriangles )
+			{
+				result += sep + "RAY_FLAG_CULL_BACK_FACING_TRIANGLES";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullFrontFacingTriangles ) == ast::type::RayFlag::eCullFrontFacingTriangles )
+			{
+				result += sep + "RAY_FLAG_CULL_FRONT_FACING_TRIANGLES";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullOpaque ) == ast::type::RayFlag::eCullOpaque )
+			{
+				result += sep + "RAY_FLAG_CULL_OPAQUE";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eCullNonOpaque ) == ast::type::RayFlag::eCullNonOpaque )
+			{
+				result += sep + "RAY_FLAG_CULL_NON_OPAQUE";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eSkipTriangles ) == ast::type::RayFlag::eSkipTriangles )
+			{
+				result += sep + "RAY_FLAG_SKIP_TRIANGLES";
+				sep = "|";
+			}
+
+			if ( ( rayFlags & ast::type::RayFlag::eSkipProceduralPrimitives ) == ast::type::RayFlag::eSkipProceduralPrimitives )
+			{
+				result += sep + "RAY_FLAG_SKIP_PROCEDURAL_PRIMITIVES";
+				sep = "|";
+			}
+
+			return result;
+		}
 	}
 
 	std::string getTypeName( ast::type::Kind kind )
@@ -550,6 +624,9 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eAccelerationStructure:
 			result = "RaytracingAccelerationStructure";
+			break;
+		case ast::type::Kind::eRayQuery:
+			result = "RayQuery";
 			break;
 		default:
 			break;
@@ -1040,6 +1117,10 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eStorageBuffer:
 			result = getTypeName( static_cast< ast::type::StorageBuffer const & >( *type ).getDataType() );
+			break;
+		case ast::type::Kind::eRayQuery:
+			result = std::string{ "RayQuery" }
+				+ "<" + HlslHelpersInternal::getRayFlagsName( static_cast< ast::type::RayQuery const & >( *type ).getBaseFlags() ) + ">";
 			break;
 		default:
 			result = getTypeName( type->getKind() );
@@ -3584,7 +3665,19 @@ namespace hlsl
 				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eCombinedImage:
 				case ast::type::Kind::eSampledImage:
+					return;
 				case ast::type::Kind::eAccelerationStructure:
+					if ( isRayTraceStage( config.stage ) )
+					{
+						config.requiredRaytracingTier = std::max( config.requiredRaytracingTier, t1_0 );
+					}
+					else
+					{
+						config.requiredRaytracingTier = std::max( config.requiredRaytracingTier, t1_1 );
+					}
+					return;
+				case ast::type::Kind::eRayQuery:
+					config.requiredRaytracingTier = std::max( config.requiredRaytracingTier, t1_1 );
 					return;
 				default:
 					break;
