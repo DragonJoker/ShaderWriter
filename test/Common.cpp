@@ -264,17 +264,6 @@ namespace test
 	TestSuite::TestSuite( std::string const & name )
 		: tcout{ std::make_unique< test::LogStreambuf< test::StreamLogStreambufTraits > >( "TestWriter" + name, std::cout ) }
 	{
-		ast::Logger::setErrorCallback( []( std::string const & message, bool newLine )
-			{
-				std::cout << message;
-				if ( newLine )
-					std::cout << std::endl;
-			} );
-	}
-
-	TestSuite::~TestSuite()noexcept
-	{
-		ast::Logger::setErrorCallback( []( std::string const &, bool ){} );
 	}
 
 	//*********************************************************************************************

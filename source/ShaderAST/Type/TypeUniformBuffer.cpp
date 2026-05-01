@@ -7,10 +7,10 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	UniformBuffer::UniformBuffer( TypesCache & typesCache
-		, std::string name
+		, std::string const & name
 		, MemoryLayout layout )
 		: Type{ typesCache, Kind::eUniformBuffer, true }
-		, m_interface{ typesCache, layout, std::move( name ) }
+		, m_interface{ typesCache, layout, name }
 	{
 	}
 }

@@ -187,11 +187,14 @@ namespace sdw
 		, CreatorT creator );
 }
 
-#define SDW_DeclValue( expdecl, name )\
+#define SDW_DeclValueBase( expdecl, name )\
 	expdecl name( name && rhs )noexcept = default;\
 	expdecl name( name const & rhs ) = default;\
 	expdecl name & operator=( name && rhs )noexcept = default;\
 	expdecl name & operator=( name const & rhs ) = default;\
+	expdecl ~name()override = default
+
+#define SDW_DeclValue( expdecl, name )\
 	expdecl name( sdw::ReturnWrapperT< name > const & rhs )\
 		: name{ findWriterMandat( rhs )\
 			, makeExpr( findWriterMandat( rhs ), rhs )\
@@ -224,7 +227,7 @@ namespace sdw
 		}\
 		return *this;\
 	}\
-	expdecl ~name()override = default
+	SDW_DeclValueBase( expdecl, name )
 
 #include "Value.inl"
 

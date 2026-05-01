@@ -1319,505 +1319,431 @@ namespace spirv
 			}
 		}
 
+		static void join( std::string & lhs, std::string_view rhs, std::string_view sep )
+		{
+			if ( lhs.empty() )
+			{
+				lhs = rhs;
+			}
+			else if ( !rhs.empty() )
+			{
+				lhs += std::string{ sep } + std::string{ rhs };
+			}
+		}
+
 		static std::string getSelectionControlName( uint32_t value )
 		{
-			auto stream = getStream();
-			std::string sep;
-			stream << "[";
+			std::string content;
 
 			if ( value & uint32_t( spv::SelectionControlFlattenMask ) )
 			{
-				stream << sep << "Flatten";
-				sep = "|";
+				join( content, "Flatten", "|" );
 			}
 
 			if ( value & uint32_t( spv::SelectionControlDontFlattenMask ) )
 			{
-				stream << sep << "DontFlatten";
-				sep = "|";
+				join( content, "DontFlatten", "|" );
 			}
 
 			if ( value == uint32_t( spv::SelectionControlMaskNone ) )
 			{
-				stream << sep << "None";
+				content = "None";
 			}
 
-			stream << "]";
-			return stream.str();
+			return "[" + content + "]";
 		}
 
 		static std::string getMemoryAccessName( uint32_t value )
 		{
-			auto stream = getStream();
-			std::string sep;
-			stream << "[";
+			std::string content;
 
 			if ( value & uint32_t( spv::MemoryAccessAlignedMask ) )
 			{
-				stream << sep << "Aligned";
-				sep = "|";
+				join( content, "Aligned", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemoryAccessVolatileMask ) )
 			{
-				stream << sep << "Volatile";
-				sep = "|";
+				join( content, "Volatile", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemoryAccessNontemporalMask ) )
 			{
-				stream << sep << "Nontemporal";
-				sep = "|";
+				join( content, "Nontemporal", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemoryAccessMakePointerAvailableMask ) )
 			{
-				stream << sep << "MakePointerAvailableMask";
-				sep = "|";
+				join( content, "MakePointerAvailableMask", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemoryAccessMakePointerVisibleMask ) )
 			{
-				stream << sep << "MakePointerVisibleMask";
-				sep = "|";
+				join( content, "MakePointerVisibleMask", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemoryAccessNonPrivatePointerMask ) )
 			{
-				stream << sep << "NonPrivatePointerMask";
-				sep = "|";
+				join( content, "NonPrivatePointerMask", "|" );
 			}
 
 			if ( value == uint32_t( spv::MemoryAccessMaskNone ) )
 			{
-				stream << sep << "None";
+				content = "None";
 			}
 
-			stream << "]";
-			return stream.str();
+			return "[" + content + "]";
 		}
 
 		static std::string getLoopControlName( uint32_t value )
 		{
-			auto stream = getStream();
-			std::string sep;
-			stream << "[";
+			std::string content;
 
 			if ( value & uint32_t( spv::LoopControlUnrollMask ) )
 			{
-				stream << sep << "Unroll";
-				sep = "|";
+				join( content, "Unroll", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlDontUnrollMask ) )
 			{
-				stream << sep << "DontUnroll";
-				sep = "|";
+				join( content, "DontUnroll", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlDependencyInfiniteMask ) )
 			{
-				stream << sep << "DependencyInfinite";
-				sep = "|";
+				join( content, "DependencyInfinite", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlDependencyLengthMask ) )
 			{
-				stream << sep << "DependencyLength";
-				sep = "|";
+				join( content, "DependencyLength", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlMinIterationsMask ) )
 			{
-				stream << sep << "MinIterations";
-				sep = "|";
+				join( content, "MinIterations", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlMaxIterationsMask ) )
 			{
-				stream << sep << "MaxIterations";
-				sep = "|";
+				join( content, "MaxIterations", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlIterationMultipleMask ) )
 			{
-				stream << sep << "IterationMultiple";
-				sep = "|";
+				join( content, "IterationMultiple", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlPeelCountMask ) )
 			{
-				stream << sep << "PeelCount";
-				sep = "|";
+				join( content, "PeelCount", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlPartialCountMask ) )
 			{
-				stream << sep << "PartialCount";
-				sep = "|";
+				join( content, "PartialCount", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlInitiationIntervalINTELMask ) )
 			{
-				stream << sep << "InitiationIntervalINTEL";
-				sep = "|";
+				join( content, "InitiationIntervalINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlMaxConcurrencyINTELMask ) )
 			{
-				stream << sep << "MaxConcurrencyINTEL";
-				sep = "|";
+				join( content, "MaxConcurrencyINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlDependencyArrayINTELMask ) )
 			{
-				stream << sep << "DependencyArrayINTEL";
-				sep = "|";
+				join( content, "DependencyArrayINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlPipelineEnableINTELMask ) )
 			{
-				stream << sep << "PipelineEnableINTEL";
-				sep = "|";
+				join( content, "PipelineEnableINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlLoopCoalesceINTELMask ) )
 			{
-				stream << sep << "LoopCoalesceINTEL";
-				sep = "|";
+				join( content, "LoopCoalesceINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlMaxInterleavingINTELMask ) )
 			{
-				stream << sep << "MaxInterleavingINTEL";
-				sep = "|";
+				join( content, "MaxInterleavingINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlSpeculatedIterationsINTELMask ) )
 			{
-				stream << sep << "SpeculatedIterationsINTEL";
-				sep = "|";
+				join( content, "SpeculatedIterationsINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::LoopControlNoFusionINTELMask ) )
 			{
-				stream << sep << "NoFusionINTEL";
-				sep = "|";
+				join( content, "NoFusionINTEL", "|" );
 			}
 
 			if ( value == uint32_t( spv::LoopControlMaskNone ) )
 			{
-				stream << sep << "None";
+				content = "None";
 			}
 
-			stream << "]";
-			return stream.str();
+			return "[" + content + "]";
 		}
 
 		static std::string getImageOperandsName( uint32_t value )
 		{
-			auto stream = getStream();
-			std::string sep;
-			stream << "[";
+			std::string content;
 
 			if ( value & uint32_t( spv::ImageOperandsBiasMask ) )
 			{
-				stream << sep << "Bias";
-				sep = "|";
+				join( content, "Bias", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsLodMask ) )
 			{
-				stream << sep << "Lod";
-				sep = "|";
+				join( content, "Lod", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsGradMask ) )
 			{
-				stream << sep << "Grad";
-				sep = "|";
+				join( content, "Grad", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsConstOffsetMask ) )
 			{
-				stream << sep << "ConstOffset";
-				sep = "|";
+				join( content, "ConstOffset", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsOffsetMask ) )
 			{
-				stream << sep << "Offset";
-				sep = "|";
+				join( content, "Offset", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsConstOffsetsMask ) )
 			{
-				stream << sep << "ConstOffsets";
-				sep = "|";
+				join( content, "ConstOffsets", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsSampleMask ) )
 			{
-				stream << sep << "Sample";
-				sep = "|";
+				join( content, "Sample", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsMinLodMask ) )
 			{
-				stream << sep << "MinLod";
-				sep = "|";
+				join( content, "MinLod", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsMakeTexelAvailableMask ) )
 			{
-				stream << sep << "MakeTexelAvailable";
-				sep = "|";
+				join( content, "MakeTexelAvailable", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsMakeTexelVisibleMask ) )
 			{
-				stream << sep << "MakeTexelVisible";
-				sep = "|";
+				join( content, "MakeTexelVisible", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsNonPrivateTexelMask ) )
 			{
-				stream << sep << "NonPrivateTexel";
-				sep = "|";
+				join( content, "NonPrivateTexel", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsVolatileTexelMask ) )
 			{
-				stream << sep << "VolatileTexel";
-				sep = "|";
+				join( content, "VolatileTexel", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsSignExtendMask ) )
 			{
-				stream << sep << "SignExtend";
-				sep = "|";
+				join( content, "SignExtend", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsZeroExtendMask ) )
 			{
-				stream << sep << "ZeroExtend";
-				sep = "|";
+				join( content, "ZeroExtend", "|" );
 			}
 
 			if ( value & uint32_t( spv::ImageOperandsNontemporalMask ) )
 			{
-				stream << sep << "Nontemporal";
-				sep = "|";
+				join( content, "Nontemporal", "|" );
 			}
 
 			if ( value == uint32_t( spv::ImageOperandsMaskNone ) )
 			{
-				stream << sep << "None";
+				content = "None";
 			}
 
-			stream << "]";
-			return stream.str();
+			return "[" + content + "]";
 		}
 
 		static std::string getMemorySemanticsName( uint32_t value )
 		{
-			auto stream = getStream();
-			std::string sep;
-			stream << "[";
+			std::string content;
 
 			if ( value & uint32_t( spv::MemorySemanticsAcquireMask ) )
 			{
-				stream << sep << "Acquire";
-				sep = "|";
+				join( content, "Acquire", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsReleaseMask ) )
 			{
-				stream << sep << "Release";
-				sep = "|";
+				join( content, "Release", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsAcquireReleaseMask ) )
 			{
-				stream << sep << "AcquireRelease";
-				sep = "|";
+				join( content, "AcquireRelease", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsSequentiallyConsistentMask ) )
 			{
-				stream << sep << "SequentiallyConsistent";
-				sep = "|";
+				join( content, "SequentiallyConsistent", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsUniformMemoryMask ) )
 			{
-				stream << sep << "UniformMemory";
-				sep = "|";
+				join( content, "UniformMemory", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsSubgroupMemoryMask ) )
 			{
-				stream << sep << "SubgroupMemory";
-				sep = "|";
+				join( content, "SubgroupMemory", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsWorkgroupMemoryMask ) )
 			{
-				stream << sep << "WorkgroupMemory";
-				sep = "|";
+				join( content, "WorkgroupMemory", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsCrossWorkgroupMemoryMask ) )
 			{
-				stream << sep << "CrossWorkgroupMemory";
-				sep = "|";
+				join( content, "CrossWorkgroupMemory", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsAtomicCounterMemoryMask ) )
 			{
-				stream << sep << "AtomicCounterMemory";
-				sep = "|";
+				join( content, "AtomicCounterMemory", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsImageMemoryMask ) )
 			{
-				stream << sep << "ImageMemory";
-				sep = "|";
+				join( content, "ImageMemory", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsOutputMemoryMask ) )
 			{
-				stream << sep << "OutputMemory";
-				sep = "|";
+				join( content, "OutputMemory", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsMakeAvailableMask ) )
 			{
-				stream << sep << "MakeAvailable";
-				sep = "|";
+				join( content, "MakeAvailable", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsMakeVisibleMask ) )
 			{
-				stream << sep << "MakeVisible";
-				sep = "|";
+				join( content, "MakeVisible", "|" );
 			}
 
 			if ( value & uint32_t( spv::MemorySemanticsVolatileMask ) )
 			{
-				stream << sep << "Volatile";
-				sep = "|";
+				join( content, "Volatile", "|" );
 			}
 
 			if ( value == uint32_t( spv::MemorySemanticsMaskNone ) )
 			{
-				stream << sep << "None";
+				content = "None";
 			}
 
-			stream << "]";
-			return stream.str();
+			return "[" + content + "]";
 		}
 
 		static std::string getFunctionControlMaskName( uint32_t value )
 		{
-			auto stream = getStream();
-			std::string sep;
-			stream << "[";
+			std::string content;
 
 			if ( value & uint32_t( spv::FunctionControlOptNoneINTELMask ) )
 			{
-				stream << sep << "OptNoneINTEL";
+				content = "OptNoneINTEL";
 			}
 			else if ( value == uint32_t( spv::FunctionControlMaskNone ) )
 			{
-				stream << sep << "None";
+				content = "None";
 			}
 			else
 			{
 				if ( value & uint32_t( spv::FunctionControlInlineMask ) )
 				{
-					stream << sep << "Inline";
-					sep = "|";
+					join( content, "Inline", "|" );
 				}
 
 				if ( value & uint32_t( spv::FunctionControlDontInlineMask ) )
 				{
-					stream << sep << "DontInline";
-					sep = "|";
+					join( content, "DontInline", "|" );
 				}
 
 				if ( value & uint32_t( spv::FunctionControlPureMask ) )
 				{
-					stream << sep << "Pure";
-					sep = "|";
+					join( content, "Pure", "|" );
 				}
 
 				if ( value & uint32_t( spv::FunctionControlConstMask ) )
 				{
-					stream << sep << "Const";
-					sep = "|";
+					join( content, "Const", "|" );
 				}
 			}
 
-			stream << "]";
-			return stream.str();
+			return "[" + content + "]";
 		}
 
 		static std::string getFPFastMathModeName( uint32_t value )
 		{
-			auto stream = getStream();
-			std::string sep;
-			stream << "[";
+			std::string content;
 
 			if ( value & uint32_t( spv::FPFastMathModeNotNaNMask ) )
 			{
-				stream << sep << "NotNaN";
-				sep = "|";
+				join( content, "NotNaN", "|" );
 			}
 
 			if ( value & uint32_t( spv::FPFastMathModeNotInfMask ) )
 			{
-				stream << sep << "NotInf";
-				sep = "|";
+				join( content, "NotInf", "|" );
 			}
 
 			if ( value & uint32_t( spv::FPFastMathModeNSZMask ) )
 			{
-				stream << sep << "NSZ";
-				sep = "|";
+				join( content, "NSZ", "|" );
 			}
 
 			if ( value & uint32_t( spv::FPFastMathModeAllowRecipMask ) )
 			{
-				stream << sep << "AllowRecip";
-				sep = "|";
+				join( content, "AllowRecip", "|" );
 			}
 
 			if ( value & uint32_t( spv::FPFastMathModeFastMask ) )
 			{
-				stream << sep << "Fast";
-				sep = "|";
+				join( content, "Fast", "|" );
 			}
 
 			if ( value & uint32_t( spv::FPFastMathModeAllowContractFastINTELMask ) )
 			{
-				stream << sep << "AllowContractFastINTEL";
-				sep = "|";
+				join( content, "AllowContractFastINTEL", "|" );
 			}
 
 			if ( value & uint32_t( spv::FPFastMathModeAllowReassocINTELMask ) )
 			{
-				stream << sep << "AllowReassocINTEL";
-				sep = "|";
+				join( content, "AllowReassocINTEL", "|" );
 			}
 
 			if ( value == uint32_t( spv::FPFastMathModeMaskNone ) )
 			{
-				stream << sep << "None";
+				content = "None";
 			}
 
-			stream << "]";
-			return stream.str();
+			return "[" + content + "]";
 		}
 
 		template< typename InstructionType >

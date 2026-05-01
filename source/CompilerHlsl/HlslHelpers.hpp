@@ -39,6 +39,7 @@ namespace hlsl
 	std::string getName( ast::type::ImageDim value );
 	bool isUnaryPre( ast::expr::Kind kind );
 	std::string adaptName( std::string const & name );
+	void join( std::string & lhs, std::string_view rhs, std::string_view sep );
 
 	struct Semantic
 	{

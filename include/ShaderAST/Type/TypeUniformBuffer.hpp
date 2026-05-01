@@ -14,7 +14,7 @@ namespace ast::type
 	{
 	public:
 		SDAST_API UniformBuffer( TypesCache & typesCache
-			, std::string name
+			, std::string const & name
 			, MemoryLayout layout );
 
 		BaseStructPtr getDataType()const

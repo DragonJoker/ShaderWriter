@@ -560,16 +560,14 @@ namespace hlsl
 					m_result += " = ";
 				}
 
-				m_result += "{";
-				std::string sep;
+				std::string content;
 
 				for ( auto & init : expr->getInitialisers() )
 				{
-					m_result += sep + doSubmit( *init );
-					sep = ", ";
+					join( content, doSubmit( *init ), ", " );
 				}
 
-				m_result += "}";
+				m_result += "{" + content + "}";
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )override
@@ -591,17 +589,14 @@ namespace hlsl
 			{
 				AST_Assert( expr->getComposite() != ast::expr::CompositeType::eCombine
 					&& "Unexpected combine() at this point" );
-				m_result += getCtorName( expr->getComposite(), getScalarType( expr->getComponent() ) ) + "(";
-				std::string sep;
+				std::string content;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					m_result += sep;
-					m_result += doSubmit( *arg );
-					sep = ", ";
+					join( content , doSubmit( *arg ), ", " );
 				}
 
-				m_result += ")";
+				m_result += getCtorName( expr->getComposite(), getScalarType( expr->getComponent() ) ) + "(" + content + ")";
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
@@ -628,17 +623,14 @@ namespace hlsl
 				}
 
 				m_result += doSubmit( *expr->getFn() );
-				m_result += "(";
-				std::string sep;
+				std::string content;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					m_result += sep;
-					m_result += doSubmit( *arg );
-					sep = ", ";
+					join( content, doSubmit( *arg ), ", " );
 				}
 
-				m_result += ")";
+				m_result += "(" + content + ")";
 			}
 
 			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
@@ -660,17 +652,14 @@ namespace hlsl
 				if ( expr->getImageAccess() < ast::expr::StorageImageAccess::eImageLoad1DF
 					|| expr->getImageAccess() > ast::expr::StorageImageAccess::eImageLoad2DMSArrayU )
 				{
-					m_result += getHlslName( expr->getImageAccess() ) + "(";
-					std::string sep;
+					std::string content;
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						m_result += sep;
-						m_result += doSubmit( *arg );
-						sep = ", ";
+						join( content, doSubmit( *arg ), ", " );
 					}
 
-					m_result += ")";
+					m_result += getHlslName( expr->getImageAccess() ) + "(" + content + ")";
 				}
 				else
 				{
@@ -724,19 +713,14 @@ namespace hlsl
 
 					auto mbrArg = std::move( args.front() );
 					args.erase( args.begin() );
-
-					m_result += mbrArg;
-					m_result += "." + getHlslName( expr->getIntrinsic() ) + "(";
-					std::string sep;
+					std::string content;
 
 					for ( auto const & arg : args )
 					{
-						m_result += sep;
-						m_result += arg;
-						sep = ", ";
+						join( content, arg, ", " );
 					}
 
-					m_result += ")";
+					m_result += mbrArg + "." + getHlslName( expr->getIntrinsic() ) + "(" + content + ")";
 				}
 				else
 				{
@@ -774,17 +758,14 @@ namespace hlsl
 					}
 					else
 					{
-						m_result += getHlslName( expr->getIntrinsic() ) + "(";
-						std::string sep;
+						std::string content;
 
 						for ( auto & arg : expr->getArgList() )
 						{
-							m_result += sep;
-							m_result += doSubmit( *arg );
-							sep = ", ";
+							join( content, doSubmit( *arg ), ", " );
 						}
 
-						m_result += ")";
+						m_result += getHlslName( expr->getIntrinsic() ) + "(" + content + ")";
 					}
 				}
 			}
@@ -1093,17 +1074,14 @@ namespace hlsl
 
 			void doProcessNonMemberTexture( ast::expr::CombinedImageAccessCall const & expr )
 			{
-				m_result += getHlslName( expr.getCombinedImageAccess() ) + "(";
-				std::string sep;
+				std::string content;
 
 				for ( auto & arg : expr.getArgList() )
 				{
-					m_result += sep;
-					m_result += doSubmit( *arg );
-					sep = ", ";
+					join( content, doSubmit( *arg ), ", " );
 				}
 
-				m_result += ")";
+				m_result += getHlslName( expr.getCombinedImageAccess() ) + "(" + content + ")";
 			}
 
 			void doProcessTextureGather( ast::expr::CombinedImageAccessCall const & expr )
@@ -1589,39 +1567,39 @@ namespace hlsl
 					m_result += m_indent + "[WaveOpsIncludeHelperLanes]\n";
 				}
 
-				m_result += m_indent + getTypeName( retType );
-				m_result += " " + stmt->getName() + "(";
-				std::string sep;
+				std::string content;
 				Semantic sem{ "", 0u };
 
 				for ( auto const & param : params )
 				{
 					if ( param->isBuiltin() )
 					{
-						m_result += sep + getDirectionName( *param )
-							+ helpers::writeIOMember( m_writerConfig.shaderStage
-								, param->getType()
-								, param->getName()
-								, param->getBuiltin()
-								, true
-								, ast::type::Struct::InvalidLocation
-								, ast::type::Struct::InvalidLocation
-								, sem
-								, sem );
+						join( content
+							, getDirectionName( *param )
+								+ helpers::writeIOMember( m_writerConfig.shaderStage
+									, param->getType()
+									, param->getName()
+									, param->getBuiltin()
+									, true
+									, ast::type::Struct::InvalidLocation
+									, ast::type::Struct::InvalidLocation
+									, sem
+									, sem )
+							, m_indent + "\n\t, " );
 					}
 					else
 					{
-						m_result += sep + getDirectionName( *param )
-							+ getAttributeName( param->getType() )
-							+ getTypeName( param->getType() ) + " "
-							+ adaptName( param->getName() )
-							+ getTypeArraySize( param->getType() );
+						join( content
+							, getDirectionName( *param )
+								+ getAttributeName( param->getType() )
+								+ getTypeName( param->getType() ) + " "
+								+ adaptName( param->getName() )
+								+ getTypeArraySize( param->getType() )
+							, m_indent + "\n\t, " );
 					}
-
-					sep = m_indent + "\n\t, ";
 				}
 
-				m_result += ")";
+				m_result += m_indent + getTypeName( retType ) + " " + stmt->getName() + "(" + content + ")";
 				m_appendSemiColon = false;
 				doAppendLineEnd();
 				m_result += "\n" + m_indent + "{\n";

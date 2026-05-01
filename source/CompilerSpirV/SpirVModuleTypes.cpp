@@ -105,7 +105,7 @@ namespace spirv
 		}
 
 		static ast::type::RayQueryPtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::RayQuery const & qualified )
+			, [[maybe_unused]] ast::type::RayQuery const & qualified )
 		{
 			// Ignore cull flags, they're not in the type, in SPIR-V.
 			return typesCache.getRayQuery( 0u );

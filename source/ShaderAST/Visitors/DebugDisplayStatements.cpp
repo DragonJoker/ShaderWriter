@@ -273,75 +273,71 @@ namespace ast::debug
 			return result;
 		}
 
+		static void join( std::string & lhs, std::string_view rhs, std::string_view sep )
+		{
+			if ( lhs.empty() )
+				lhs = rhs;
+			else if ( !rhs.empty() )
+				lhs += std::string{ sep } + std::string{ rhs };
+		}
+
 		static std::string getRayFlagsName( uint32_t rayFlags )
 		{
-			std::string result;
-
 			if ( rayFlags == 0u )
 			{
-				return "RAY_FLAG_NONE";
+				return "None";
 			}
 
-			std::string sep;
+			std::string result;
 
 			if ( ( rayFlags & ast::type::RayFlag::eForceOpaque ) == ast::type::RayFlag::eForceOpaque )
 			{
-				result += sep + "ForceOpaque";
-				sep = "|";
+				join( result, "ForceOpaque", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eForceNonOpaque ) == ast::type::RayFlag::eForceNonOpaque )
 			{
-				result += sep + "ForceNonOpaque";
-				sep = "|";
+				join( result, "ForceNonOpaque", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eAcceptFirstHitAndEndSearch ) == ast::type::RayFlag::eAcceptFirstHitAndEndSearch )
 			{
-				result += sep + "AcceptFirstHitAndEndSearch";
-				sep = "|";
+				join( result, "AcceptFirstHitAndEndSearch", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eSkipClosestHitShader ) == ast::type::RayFlag::eSkipClosestHitShader )
 			{
-				result += sep + "SkipClosestHitShader";
-				sep = "|";
+				join( result, "SkipClosestHitShader", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eCullBackFacingTriangles ) == ast::type::RayFlag::eCullBackFacingTriangles )
 			{
-				result += sep + "CullBackFacingTriangles";
-				sep = "|";
+				join( result, "CullBackFacingTriangles", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eCullFrontFacingTriangles ) == ast::type::RayFlag::eCullFrontFacingTriangles )
 			{
-				result += sep + "CullFrontFacingTriangles";
-				sep = "|";
+				join( result, "CullFrontFacingTriangles", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eCullOpaque ) == ast::type::RayFlag::eCullOpaque )
 			{
-				result += sep + "CullOpaque";
-				sep = "|";
+				join( result, "CullOpaque", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eCullNonOpaque ) == ast::type::RayFlag::eCullNonOpaque )
 			{
-				result += sep + "CullNonOpaque";
-				sep = "|";
+				join( result, "CullNonOpaque", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eSkipTriangles ) == ast::type::RayFlag::eSkipTriangles )
 			{
-				result += sep + "SkipTriangles";
-				sep = "|";
+				join( result, "SkipTriangles", "|" );
 			}
 
 			if ( ( rayFlags & ast::type::RayFlag::eSkipProceduralPrimitives ) == ast::type::RayFlag::eSkipProceduralPrimitives )
 			{
-				result += sep + "SkipProceduralPrimitives";
-				sep = "|";
+				join( result, "SkipProceduralPrimitives", "|" );
 			}
 
 			return result;
@@ -1309,16 +1305,14 @@ namespace ast::debug
 				wrap( expr->getIdentifier() );
 			}
 		
-			m_result += " = {";
-			std::string sep;
+			std::string content;
 
 			for ( auto & init : expr->getInitialisers() )
 			{
-				m_result += sep + submit( *init );
-				sep = ", ";
+				helpers::join( content, submit( *init ), ", " );
 			}
 
-			m_result += "}";
+			m_result += " = {" + content + "}";
 		}
 
 		void visitAliasExpr( expr::Alias const * expr )override
@@ -1353,16 +1347,14 @@ namespace ast::debug
 			m_result += "ctor<";
 			m_result += helpers::getCompositeName( expr->getComposite() ) + ", ";
 			m_result += helpers::getTypeName( expr->getComponent() ) + ">(";
-			std::string sep;
+			std::string content;
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				m_result += sep;
-				arg->accept( this );
-				sep = ", ";
+				helpers::join( content, submit( *arg ), ", " );
 			}
 
-			m_result += ")";
+			m_result += content + ")";
 		}
 
 		void visitMbrSelectExpr( expr::MbrSelect const * expr )override
@@ -1783,18 +1775,16 @@ namespace ast::debug
 			declareStruct( type->getReturnType() );
 			text += helpers::getTypeName( *type->getReturnType() );
 			text += " " + stmt->getName() + "(";
-			std::string sep;
+			std::string content;
 
 			for ( auto & param : *type )
 			{
 				declareStruct( param->getType() );
 				parseType( param->getType() );
-				text += sep;
-				text += helpers::displayVar( param );
-				sep = ", ";
+				helpers::join( content, helpers::displayVar( param ), ", " );
 			}
 
-			text += ")";
+			text += content + ")";
 			addStatement( std::move( text ) );
 			visitCompoundStmt( stmt );
 		}

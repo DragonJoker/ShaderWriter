@@ -15,7 +15,7 @@ namespace sdw
 	struct RayQuery
 		: public Value
 	{
-		SDW_DeclValue( SDW_API, RayQuery );
+		SDW_DeclValueBase( SDW_API, RayQuery );
 
 		SDW_API RayQuery( ShaderWriter & writer
 			, expr::ExprPtr expr

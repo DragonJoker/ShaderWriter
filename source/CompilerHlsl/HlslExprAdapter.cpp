@@ -487,10 +487,10 @@ namespace hlsl
 	void ExprAdapter::visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )
 	{
 		auto arrayIndex = doSubmit( expr->getRHS() );
-		auto arrayOuter = doSubmit( expr->getLHS() );
 
-		if ( arrayOuter->getKind() == ast::expr::Kind::eMbrSelect
-			&& getArraySize( arrayOuter->getType() ) == ast::type::NotArray )
+		if ( auto arrayOuter = doSubmit( expr->getLHS() );
+			arrayOuter->getKind() == ast::expr::Kind::eMbrSelect
+				&& getArraySize( arrayOuter->getType() ) == ast::type::NotArray )
 		{
 			auto & mbrSelect = static_cast< ast::expr::MbrSelect const & >( *arrayOuter );
 			auto mbr = mbrSelect.getOuterType()->getMember( mbrSelect.getMemberIndex() );
@@ -834,12 +834,12 @@ namespace hlsl
 		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallot )
 		{
 			ast::expr::ExprList args;
-			for ( auto & arg : expr->getArgList() )
+			for ( auto const & arg : expr->getArgList() )
 			{
 				args.emplace_back( doSubmit( *arg ) );
 			}
 
-			auto & arg = *args.front();
+			auto const & arg = *args.front();
 			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
@@ -849,7 +849,7 @@ namespace hlsl
 			|| expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount )
 		{
 			ast::expr::ExprList args;
-			for ( auto & arg : expr->getArgList() )
+			for ( auto const & arg : expr->getArgList() )
 			{
 				if ( arg->getKind() == ast::expr::Kind::eIdentifier )
 					args.emplace_back( m_adaptationData.replaceSubgroupBallotResult( static_cast< ast::expr::Identifier const & >( *arg ).getVariable() ) );
@@ -868,7 +868,7 @@ namespace hlsl
 				|| expr->getIntrinsic() == ast::expr::Intrinsic::eExecuteCallable
 				|| expr->getIntrinsic() == ast::expr::Intrinsic::eReportIntersection;
 
-			for ( auto & arg : expr->getArgList() )
+			for ( auto const & arg : expr->getArgList() )
 			{
 				args.emplace_back( doSubmit( *arg ) );
 			}

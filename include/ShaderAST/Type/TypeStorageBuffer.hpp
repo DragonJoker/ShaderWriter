@@ -14,7 +14,7 @@ namespace ast::type
 	{
 	public:
 		SDAST_API StorageBuffer( TypesCache & typesCache
-			, std::string name
+			, std::string const & name
 			, MemoryLayout layout
 			, bool isArray );
 

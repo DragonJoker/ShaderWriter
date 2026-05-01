@@ -7,11 +7,11 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	StorageBuffer::StorageBuffer( TypesCache & typesCache
-		, std::string name
+		, std::string const & name
 		, MemoryLayout layout
 		, bool isArray )
 		: Type{ typesCache, Kind::eStorageBuffer, true }
-		, m_interface{ typesCache, layout, std::move( name ) }
+		, m_interface{ typesCache, layout, name }
 		, m_isArray{ isArray }
 	{
 	}
