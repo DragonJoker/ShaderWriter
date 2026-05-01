@@ -36,7 +36,6 @@ See LICENSE file in root folder
 #include "StmtOutputGeometryLayout.hpp"
 #include "StmtOutputMeshLayout.hpp"
 #include "StmtOutputTessellationControlLayout.hpp"
-#include "StmtPerPrimitiveDecl.hpp"
 #include "StmtPerVertexDecl.hpp"
 #include "StmtPushConstantsBufferDecl.hpp"
 #include "StmtReturn.hpp"
@@ -94,7 +93,6 @@ namespace ast::stmt
 		SDAST_API virtual void visitOutputGeometryLayoutStmt( OutputGeometryLayout const * ) = 0;
 		SDAST_API virtual void visitOutputMeshLayoutStmt( OutputMeshLayout const * ) = 0;
 		SDAST_API virtual void visitOutputTessellationControlLayoutStmt( OutputTessellationControlLayout const * ) = 0;
-		SDAST_API virtual void visitPerPrimitiveDeclStmt( PerPrimitiveDecl const * ) = 0;
 		SDAST_API virtual void visitPerVertexDeclStmt( PerVertexDecl const * ) = 0;
 		SDAST_API virtual void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl const * ) = 0;
 		SDAST_API virtual void visitReturnStmt( Return const * ) = 0;
@@ -261,10 +259,6 @@ namespace ast::stmt
 		}
 
 		void visitOutputTessellationControlLayoutStmt( OutputTessellationControlLayout const * stmt )override
-		{
-		}
-
-		void visitPerPrimitiveDeclStmt( PerPrimitiveDecl const * stmt )override
 		{
 		}
 

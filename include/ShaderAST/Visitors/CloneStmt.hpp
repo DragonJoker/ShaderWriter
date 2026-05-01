@@ -62,7 +62,6 @@ namespace ast
 		SDAST_API void visitOutputMeshLayoutStmt( stmt::OutputMeshLayout const * stmt )override;
 		SDAST_API void visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout const * stmt )override;
 		SDAST_API void visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout const * stmt )override;
-		SDAST_API void visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl const * stmt )override;
 		SDAST_API void visitPerVertexDeclStmt( stmt::PerVertexDecl const * stmt )override;
 		SDAST_API void visitReturnStmt( stmt::Return const * stmt )override;
 		SDAST_API void visitSampledImageDeclStmt( stmt::SampledImageDecl const * stmt )override;

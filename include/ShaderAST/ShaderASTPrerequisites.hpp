@@ -454,7 +454,6 @@ namespace ast
 		class OutputGeometryLayout;
 		class OutputMeshLayout;
 		class OutputTessellationControlLayout;
-		class PerPrimitiveDecl;
 		class PerVertexDecl;
 		class PushConstantsBufferDecl;
 		class Return;
@@ -512,7 +511,6 @@ namespace ast
 		using OutputGeometryLayoutPtr = StmtPtrT< OutputGeometryLayout >;
 		using OutputMeshLayoutPtr = StmtPtrT< OutputMeshLayout >;
 		using OutputTessellationControlLayoutPtr = StmtPtrT< OutputTessellationControlLayout >;
-		using PerPrimitiveDeclPtr = StmtPtrT< PerPrimitiveDecl >;
 		using PerVertexDeclPtr = StmtPtrT< PerVertexDecl >;
 		using PushConstantsBufferDeclPtr = StmtPtrT< PushConstantsBufferDecl >;
 		using ReturnPtr = StmtPtrT< Return >;

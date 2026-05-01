@@ -484,8 +484,6 @@ inline std::string toString( ast::stmt::Kind const & v )
 		return "Comment";
 	case ast::stmt::Kind::eVariableDecl:
 		return "VariableDecl";
-	case ast::stmt::Kind::ePerPrimitiveDecl:
-		return "PerPrimitiveDecl";
 	case ast::stmt::Kind::ePerVertexDecl:
 		return "PerVertexDecl";
 	case ast::stmt::Kind::eInOutVariableDecl:

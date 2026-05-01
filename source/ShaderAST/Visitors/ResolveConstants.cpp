@@ -556,9 +556,6 @@ namespace ast
 					void visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout const * stmt )override
 					{
 					}
-					void visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl const * stmt )override
-					{
-					}
 					void visitPerVertexDeclStmt( stmt::PerVertexDecl const * stmt )override
 					{
 					}

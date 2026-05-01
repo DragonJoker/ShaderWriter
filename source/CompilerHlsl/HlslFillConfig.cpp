@@ -515,33 +515,6 @@ namespace hlsl
 				checkType( stmt->getVariable()->getType(), m_result );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
-			{
-				auto index = 0u;
-				auto type = getNonArrayType( stmt->getType() );
-				auto structType = getStructType( type );
-				AST_Assert( structType );
-
-				for ( auto & member : *structType )
-				{
-					auto name = ast::getName( member.builtin );
-					auto var = ( m_shader.hasGlobalVariable( name )
-						? m_shader.getGlobalVariable( name )
-						: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
-
-					if ( structType->isOutput() )
-					{
-						m_adaptationData.addPendingOutput( var, index );
-					}
-					else
-					{
-						m_adaptationData.addPendingInput( var, index );
-					}
-
-					++index;
-				}
-			}
-
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 				auto index = 0u;

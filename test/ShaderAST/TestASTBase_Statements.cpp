@@ -2004,20 +2004,6 @@ namespace
 		astRequire( static_cast< expr::Identifier const & >( *stmt->getPayload() ).getVariable()->getName() == "payload" )
 		astTestEnd()
 	}
-
-	TEST( Statements, PerPrimitiveDecl )
-	{
-		astTestBegin( "testPerPrimitiveDecl" );
-		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		type::TypesCache typesCache;
-		auto stmt = stmtCache.makePerPrimitiveDecl( typesCache.getInt32() );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eVertex );
-
-		astRequire( stmt->getKind() == stmt::Kind::ePerPrimitiveDecl )
-		astCheck( stmt->getType()->getKind() == type::Kind::eInt32 )
-		astTestEnd()
-	}
 }
 
 astTestSuiteMain()

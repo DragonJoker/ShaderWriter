@@ -1922,12 +1922,6 @@ namespace ast::debug
 			addStatement( "TessControlOutput" );
 		}
 
-		void visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl const * stmt )override
-		{
-			declareStruct( stmt->getType() );
-			addStatement( "PerPrimitive " + getTypeName( stmt->getType() ) );
-		}
-
 		void visitPerVertexDeclStmt( stmt::PerVertexDecl const * stmt )override
 		{
 			declareStruct( stmt->getType() );

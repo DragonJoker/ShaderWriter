@@ -3244,10 +3244,6 @@ namespace glsl
 				doAddSimpleStatement( text, ExprsColumns{}, *stmt );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
-			{
-			}
-
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 				if ( stmt->getSource() != ast::stmt::PerVertexDecl::Source::eMeshOutput )

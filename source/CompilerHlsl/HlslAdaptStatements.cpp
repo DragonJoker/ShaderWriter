@@ -351,11 +351,6 @@ namespace hlsl
 				declareType( stmt->getType() );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
-			{
-				declareType( stmt->getType() );
-			}
-
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 				declareType( stmt->getType() );

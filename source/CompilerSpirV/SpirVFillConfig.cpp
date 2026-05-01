@@ -838,10 +838,6 @@ namespace spirv
 				doTraverseType( stmt->getType() );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
-			{
-			}
-
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 			}

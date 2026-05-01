@@ -7,7 +7,6 @@ See LICENSE file in root folder
 #include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayloadEXT.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
-#include "ShaderWriter/CompositeTypes/PerPrimitive.hpp"
 #include "ShaderWriter/CompositeTypes/PerVertex.hpp"
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 #include "ShaderWriter/VecTypes/Vec3.hpp"

@@ -3047,11 +3047,6 @@ namespace spirv
 					, stmt->getPrimitiveOrdering() );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
-			{
-				ast::Logger::logError( "Unexpected PerPrimitiveDecl statement." );
-			}
-
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 				consumeDebugStatement( glsl::StatementType::eVariableDecl );

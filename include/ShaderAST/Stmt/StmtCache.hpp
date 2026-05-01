@@ -64,7 +64,6 @@ namespace ast::stmt
 		SDAST_API OutputGeometryLayoutPtr makeOutputGeometryLayout( type::TypePtr type, type::OutputLayout layout, uint32_t primCount );
 		SDAST_API OutputMeshLayoutPtr makeOutputMeshLayout( type::TypePtr type, type::OutputTopology topology, uint32_t maxVertices, uint32_t maxPrimitives );
 		SDAST_API OutputTessellationControlLayoutPtr makeOutputTessellationControlLayout( type::TypePtr type, type::PatchDomain domain, type::Partitioning partitioning, type::OutputTopology topology, type::PrimitiveOrdering order, uint32_t outputVertices );
-		SDAST_API PerPrimitiveDeclPtr makePerPrimitiveDecl( type::TypePtr type );
 		SDAST_API PerVertexDeclPtr makePerVertexDecl( PerVertexDecl::Source source, type::TypePtr type );
 		SDAST_API PushConstantsBufferDeclPtr makePushConstantsBufferDecl( std::string name, type::MemoryLayout layout );
 		SDAST_API ReturnPtr makeReturn();

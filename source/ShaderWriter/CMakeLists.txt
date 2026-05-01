@@ -225,7 +225,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/IOStructInstanceHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/MixedStructHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/MixedStructInstanceHelper.hpp
-	${INCLUDE_DIR}/CompositeTypes/PerPrimitive.hpp
 	${INCLUDE_DIR}/CompositeTypes/PerVertex.hpp
 	${INCLUDE_DIR}/CompositeTypes/PushConstantBuffer.hpp
 	${INCLUDE_DIR}/CompositeTypes/PushConstantBuffer.inl
@@ -243,7 +242,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/CompositeTypes/ArrayStorageBuffer.cpp
-	${SOURCE_DIR}/CompositeTypes/PerPrimitive.cpp
 	${SOURCE_DIR}/CompositeTypes/PerVertex.cpp
 	${SOURCE_DIR}/CompositeTypes/PushConstantBuffer.cpp
 	${SOURCE_DIR}/CompositeTypes/RayDesc.cpp
