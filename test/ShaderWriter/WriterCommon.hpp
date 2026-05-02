@@ -41,7 +41,7 @@
 #define CompilerHLSLToggleAll( v ) test::HlslCompiler{ v }
 #define CompilerHLSLDisabled test::HlslCompiler{ false }
 #define CompilerHLSLEnableAll test::HlslCompiler{ true }
-#define CompilerHLSLEnableOne( major, minor ) test::HlslCompiler{ major, minor }
+#define CompilerHLSLEnableOne( mdlMajor, mdlMinor, rttMajor, rttMinor ) test::HlslCompiler{ mdlMajor, mdlMinor, rttMajor, rttMinor }
 
 #define Compilers_None { true, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLDisabled, ForceDisplayShaders }
 #define Compilers_GLSL { false, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLEnableAll, ForceDisplayShaders }
@@ -56,7 +56,7 @@
 
 #define Compilers_AllButSPIRV16 { true, CompilerSPIRVIgnoreVersion( 1, 6 ), CompilerHLSLEnableAll, CompilerGLSLEnableAll, ForceDisplayShaders }
 #define Compilers_OnlyOneSPIRV( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ) { false, CompilerSPIRVEnableOne( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ), CompilerHLSLDisabled, CompilerGLSLDisabled, ForceDisplayShaders }
-#define Compilers_OnlyOneHLSL( major, minor ) { false, CompilerSPIRVDisabled, CompilerHLSLEnableOne( major, minor ), CompilerGLSLDisabled, ForceDisplayShaders }
+#define Compilers_OnlyOneHLSL( mdlMajor, mdlMinor, rttMajor, rttMinor ) { false, CompilerSPIRVDisabled, CompilerHLSLEnableOne( mdlMajor, mdlMinor, rttMajor, rttMinor ), CompilerGLSLDisabled, ForceDisplayShaders }
 #define Compilers_OnlyOneGLSL( major, minor ) { false, CompilerSPIRVDisabled, CompilerHLSLDisabled, CompilerGLSLEnableOne( major, minor ), ForceDisplayShaders }
 
 #ifndef CurrentCompilers
@@ -115,7 +115,8 @@ namespace test
 			SDWTest_API uint32_t getSpirvInfosSize()const;
 
 			SDWTest_API bool isHlslInitialised( uint32_t infoIndex )const;
-			SDWTest_API bool isHlslRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
+			SDWTest_API bool isHlslModelRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
+			SDWTest_API bool isHlslRaytracingTierRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
 			SDWTest_API uint32_t getHlslVersion( uint32_t infoIndex )const;
 			SDWTest_API uint32_t getHlslRaytracingTier( uint32_t infoIndex )const;
 			SDWTest_API uint32_t getHlslInfosSize()const;
@@ -209,15 +210,17 @@ namespace test
 	{
 		bool enable;
 		uint32_t requestedModel{};
+		uint32_t requestedRaytracingTier{ ~0u };
 
 		constexpr HlslCompiler( bool enableAll )
 			: enable{ enableAll }
 		{
 		}
 
-		constexpr HlslCompiler( uint32_t major, uint32_t minor )
+		constexpr HlslCompiler( uint32_t mdlMajor, uint32_t mdlMinor, uint32_t rttMajor, uint32_t rttMinor )
 			: enable{ true }
-			, requestedModel{ MakeHLSLVersion( major, minor ) }
+			, requestedModel{ MakeHLSLVersion( mdlMajor, mdlMinor ) }
+			, requestedRaytracingTier{ MakeHLSLVersion( rttMajor, rttMinor ) }
 		{
 		}
 	};

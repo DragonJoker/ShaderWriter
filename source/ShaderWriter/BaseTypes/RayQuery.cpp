@@ -23,44 +23,34 @@ namespace sdw
 		}
 	}
 
-	RayQuery::RayQuery( Value rhs )
-		: Value{ std::move( rhs ) }
-	{
-		if ( getType()
-			&& getType()->getKind() != type::Kind::eRayQuery )
-		{
-			throw ast::Exception{ "Wrong type for ray query." };
-		}
-	}
-
 	ast::type::TypePtr RayQuery::makeType( ast::type::TypesCache & cache, uint32_t baseFlags )
 	{
 		return cache.getRayQuery( baseFlags );
 	}
 
-	ReturnWrapperT< Boolean > RayQuery::isCommittedStatusNone( UInt32 const & value )const
+	ReturnWrapperT< Boolean > RayQuery::isCommittedStatusNone()const
 	{
-		return value == uint32_t( type::CommittedStatus::eNone );
+		return committedStatus() == uint32_t( type::CommittedStatus::eNone );
 	};
 
-	ReturnWrapperT< Boolean > RayQuery::isCommittedStatusTriangle( UInt32 const & value )const
+	ReturnWrapperT< Boolean > RayQuery::isCommittedStatusTriangle()const
 	{
-		return value == uint32_t( type::CommittedStatus::eTriangle );
+		return committedStatus() == uint32_t( type::CommittedStatus::eTriangle );
 	}
 
-	ReturnWrapperT< Boolean > RayQuery::isCommittedStatusProceduralPrimitive( UInt32 const & value )const
+	ReturnWrapperT< Boolean > RayQuery::isCommittedStatusProceduralPrimitive()const
 	{
-		return value == uint32_t( type::CommittedStatus::eProceduralPrimitive );
+		return committedStatus() == uint32_t( type::CommittedStatus::eProceduralPrimitive );
 	}
 
-	ReturnWrapperT< Boolean > RayQuery::isCandidateTypeNonOpaqueTriangle( UInt32 const & value )const
+	ReturnWrapperT< Boolean > RayQuery::isCandidateTypeNonOpaqueTriangle()const
 	{
-		return value == uint32_t( type::CandidateType::eNonOpaqueTriangle );
+		return candidateType() == uint32_t( type::CandidateType::eNonOpaqueTriangle );
 	}
 
-	ReturnWrapperT< Boolean > RayQuery::isCandidateTypeProceduralPrimitive( UInt32 const & value )const
+	ReturnWrapperT< Boolean > RayQuery::isCandidateTypeProceduralPrimitive()const
 	{
-		return value == uint32_t( type::CandidateType::eProceduralPrimitive );
+		return candidateType() == uint32_t( type::CandidateType::eProceduralPrimitive );
 	}
 
 	void RayQuery::traceRay( AccelerationStructure const & topLevel, uint32_t rayFlags, UInt32 const & cullMask, RayDesc const & rayDesc )const

@@ -253,37 +253,37 @@ namespace sdw
 				case ast::type::Kind::eMat2x2F:
 					return makeExpr( mat2x2( vec2( 0.0_f ), vec2( 0.0_f ) ) );
 				case ast::type::Kind::eMat2x3F:
-					return makeExpr( mat2x3( vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ) ) );
+					return makeExpr( mat2x3( vec3( 0.0_f ), vec3( 0.0_f ) ) );
 				case ast::type::Kind::eMat2x4F:
-					return makeExpr( mat2x4( vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ) ) );
+					return makeExpr( mat2x4( vec4( 0.0_f ), vec4( 0.0_f ) ) );
 				case ast::type::Kind::eMat3x2F:
-					return makeExpr( mat3x2( vec3( 0.0_f ), vec3( 0.0_f ) ) );
+					return makeExpr( mat3x2( vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ) ) );
 				case ast::type::Kind::eMat3x3F:
 					return makeExpr( mat3x3( vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ) ) );
 				case ast::type::Kind::eMat3x4F:
-					return makeExpr( mat3x4( vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ) ) );
+					return makeExpr( mat3x4( vec4( 0.0_f ), vec4( 0.0_f ), vec4( 0.0_f ) ) );
 				case ast::type::Kind::eMat4x2F:
-					return makeExpr( mat4x2( vec4( 0.0_f ), vec4( 0.0_f ) ) );
+					return makeExpr( mat4x2( vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ) ) );
 				case ast::type::Kind::eMat4x3F:
-					return makeExpr( mat4x3( vec4( 0.0_f ), vec4( 0.0_f ), vec4( 0.0_f ) ) );
+					return makeExpr( mat4x3( vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ) ) );
 				case ast::type::Kind::eMat4x4F:
 					return makeExpr( mat4x4( vec4( 0.0_f ), vec4( 0.0_f ), vec4( 0.0_f ), vec4( 0.0_f ) ) );
 				case ast::type::Kind::eMat2x2D:
 					return makeExpr( dmat2x2( dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
 				case ast::type::Kind::eMat2x3D:
-					return makeExpr( dmat2x3( dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
+					return makeExpr( dmat2x3( dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
 				case ast::type::Kind::eMat2x4D:
-					return makeExpr( dmat2x4( dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
+					return makeExpr( dmat2x4( dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
 				case ast::type::Kind::eMat3x2D:
-					return makeExpr( dmat3x2( dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
+					return makeExpr( dmat3x2( dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
 				case ast::type::Kind::eMat3x3D:
 					return makeExpr( dmat3x3( dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
 				case ast::type::Kind::eMat3x4D:
-					return makeExpr( dmat3x4( dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
+					return makeExpr( dmat3x4( dvec4( 0.0_d ), dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
 				case ast::type::Kind::eMat4x2D:
-					return makeExpr( dmat4x2( dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
+					return makeExpr( dmat4x2( dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
 				case ast::type::Kind::eMat4x3D:
-					return makeExpr( dmat4x3( dvec4( 0.0_d ), dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
+					return makeExpr( dmat4x3( dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
 				case ast::type::Kind::eMat4x4D:
 					return makeExpr( dmat4x4( dvec4( 0.0_d ), dvec4( 0.0_d ), dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
 				default:

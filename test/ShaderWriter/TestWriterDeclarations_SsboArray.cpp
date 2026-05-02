@@ -48,6 +48,7 @@ namespace
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto boArray = writer.declStorageBufferArray< SsboType >( "SSBO", 1u, 1u, 32u );
+			auto boArray2 = writer.declStorageBufferArray< SsboType >( "SSBO", 1u, 1u, 32u );
 			auto bo = boArray[0];
 			auto retrieved = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
@@ -66,6 +67,7 @@ namespace
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto boArray = writer.declStorageBufferArray< SsboType >( "SSBO", { .binding = 1u, .set = 1u }, 32u );
+			auto boArray2 = writer.declStorageBufferArray< SsboType >( "SSBO", { .binding = 1u, .set = 1u }, 32u );
 			auto bo = boArray[0];
 			auto retrieved = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
@@ -95,6 +97,7 @@ namespace
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto boArray = writer.declStorageBufferArray< SsboType >( "SSBO", 1u, 1u, 32u );
+			auto boArray2 = writer.declStorageBufferArray< SsboType >( "SSBO", 1u, 1u, 32u );
 			auto bo = boArray[0];
 			auto retrieved = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
@@ -113,6 +116,7 @@ namespace
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto boArray = writer.declStorageBufferArray< SsboType >( "SSBO", { .binding = 1u, .set = 1u }, 32u );
+			auto boArray2 = writer.declStorageBufferArray< SsboType >( "SSBO", { .binding = 1u, .set = 1u }, 32u );
 			auto bo = boArray[0];
 			auto retrieved = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
@@ -142,6 +146,7 @@ namespace
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto boArray = writer.declStorageBufferArray< SsboType >( "SSBO", 1u, 1u, 32u );
+			auto boArray2 = writer.declStorageBufferArray< SsboType >( "SSBO", 1u, 1u, 32u );
 			auto bo = boArray[0];
 			auto retrieved = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
@@ -161,6 +166,7 @@ namespace
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto boArray = writer.declStorageBufferArray< SsboType >( "SSBO", { .binding = 1u, .set = 1u }, 32u );
+			auto boArray2 = writer.declStorageBufferArray< SsboType >( "SSBO", { .binding = 1u, .set = 1u }, 32u );
 			auto bo = boArray[0];
 			auto retrieved = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );

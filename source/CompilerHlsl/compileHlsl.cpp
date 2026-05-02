@@ -129,7 +129,7 @@ namespace hlsl
 
 			if ( intrinsicsConfig.requiresInt8 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported byte type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
+				throw UnsupportedExtensionException{ "Unsupported int8/uint8 type" };
 			}
 
 			if ( intrinsicsConfig.requiresAtomicAddFloat )
@@ -139,17 +139,17 @@ namespace hlsl
 
 			if ( intrinsicsConfig.requiresInt16 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported short type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
+				throw UnsupportedExtensionException{ "Unsupported int16/uint16 type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresSInt64 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported int64_t type" };
+				throw UnsupportedExtensionException{ "Unsupported int64 type" };
 			}
 
 			if ( intrinsicsConfig.requiresUInt64 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw UnsupportedExtensionException{ "Unsupported uint64_t type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
+				throw UnsupportedExtensionException{ "Unsupported uint64 type for shader model " + printShaderModel( writerConfig.shaderModel, writerConfig.shaderStage ) };
 			}
 
 			if ( intrinsicsConfig.requiresUAV && writerConfig.shaderModel <= hlsl::v4_1 )

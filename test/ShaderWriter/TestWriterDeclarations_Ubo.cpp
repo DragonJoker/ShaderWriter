@@ -47,6 +47,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_member";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -69,6 +70,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_member";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -97,6 +99,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -119,6 +122,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -147,6 +151,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -171,6 +176,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -201,6 +207,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -225,6 +232,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			astCheck( !value.isEnabled() );
@@ -255,6 +263,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -279,6 +288,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -309,6 +319,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", 1u, 1u ) };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -333,6 +344,7 @@ namespace
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray";
 			sdw::UniformBuffer bo{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
+			sdw::UniformBuffer bo2{ writer.declUniformBuffer( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			astCheck( value.isEnabled() );
@@ -365,6 +377,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", 1u, 1u ) };
+			UboType bo2{ writer.declUniformBuffer< UboType >( "UBO", 1u, 1u ) };
 			auto value = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -381,6 +394,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", { .binding = 1u, .set = 1u } ) };
+			UboType bo2{ writer.declUniformBuffer< UboType >( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -408,6 +422,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", 1u, 1u ) };
+			UboType bo2{ writer.declUniformBuffer< UboType >( "UBO", 1u, 1u ) };
 			auto value = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == 4u );
@@ -424,6 +439,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			UboType bo{ writer.declUniformBuffer< UboType >( "UBO", { .binding = 1u, .set = 1u } ) };
+			UboType bo2{ writer.declUniformBuffer< UboType >( "UBO", { .binding = 1u, .set = 1u } ) };
 			auto value = bo.template getMember< "member" >();
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == 4u );

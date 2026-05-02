@@ -42,6 +42,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto ssboIn = writer.declArrayStorageBuffer< T >( "ssboIn", 1u, 1u, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer< T >( "ssboIn", 1u, 1u, true );
 			auto valueIn = ssboIn[0];
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
@@ -67,6 +68,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto ssboIn = writer.declArrayStorageBuffer< T >( "ssboIn", { .binding = 1u, .set = 1u }, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer< T >( "ssboIn", { .binding = 1u, .set = 1u }, true );
 			auto valueIn = ssboIn[0];
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
@@ -101,7 +103,8 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
-			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, ast::type::MemoryLayout::eStd140, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, ast::type::MemoryLayout::eStd140, true );
 			auto valueIn = ssboIn[0].getMember< T >( name );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
@@ -130,7 +133,8 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
-			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
+			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, ast::type::MemoryLayout::eStd140, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, ast::type::MemoryLayout::eStd140, true );
 			auto valueIn = ssboIn[0].getMember< T >( name );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
@@ -168,6 +172,7 @@ namespace
 			type.declMember< T >( name2 );
 			type.end();
 			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
 			auto valueIn = ssboIn[0].getMember< T >( name1 );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
@@ -199,6 +204,7 @@ namespace
 			type.declMember< T >( name2 );
 			type.end();
 			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
 			auto valueIn = ssboIn[0].getMember< T >( name1 );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == sdw::type::NotArray );
@@ -234,6 +240,7 @@ namespace
 			type.declMember< T >( name, 4u );
 			type.end();
 			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer( "ssboIn", 1u, 1u, type, true );
 			auto valueIn = ssboIn[0].getMemberArray< T >( name );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == 4u );
@@ -263,6 +270,7 @@ namespace
 			type.declMember< T >( name, 4u );
 			type.end();
 			auto ssboIn = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
+			auto ssboIn2 = writer.declArrayStorageBuffer( "ssboIn", { .binding = 1u, .set = 1u }, type, true );
 			auto valueIn = ssboIn[0].getMemberArray< T >( name );
 			astCheck( getNonArrayKind( valueIn.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( valueIn.getType() ) == 4u );

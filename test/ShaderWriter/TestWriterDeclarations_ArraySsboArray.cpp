@@ -42,6 +42,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto ssboArrayIn = writer.declArrayStorageBufferArray< T >( "ssboArrayIn", 0u, 0u, 32u, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray< T >( "ssboArrayIn", 0u, 0u, 32u, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];
@@ -69,6 +70,7 @@ namespace
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto ssboArrayIn = writer.declArrayStorageBufferArray< T >( "ssboArrayIn", { .binding = 0u, .set = 0u }, 32u, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray< T >( "ssboArrayIn", { .binding = 0u, .set = 0u }, 32u, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];
@@ -106,6 +108,7 @@ namespace
 			type.declMember< T >( name );
 			type.end();
 			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", 0u, 0u, type, 32u, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray( "ssboArrayIn", 0u, 0u, type, 32u, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];
@@ -137,6 +140,7 @@ namespace
 			type.declMember< T >( name );
 			type.end();
 			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", { .binding = 0u, .set = 0u }, type, 32u, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray( "ssboArrayIn", { .binding = 0u, .set = 0u }, type, 32u, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];
@@ -175,7 +179,8 @@ namespace
 			type.declMember< T >( name1 );
 			type.declMember< T >( name2 );
 			type.end();
-			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", 0u, 0u, type, 32u, true );
+			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", 0u, 0u, type, 32u, ast::type::MemoryLayout::eStd140, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray( "ssboArrayIn", 0u, 0u, type, 32u, ast::type::MemoryLayout::eStd140, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];
@@ -208,7 +213,8 @@ namespace
 			type.declMember< T >( name1 );
 			type.declMember< T >( name2 );
 			type.end();
-			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", { .binding = 0u, .set = 0u }, type, 32u, true );
+			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", { .binding = 0u, .set = 0u }, type, 32u, ast::type::MemoryLayout::eStd140, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray( "ssboArrayIn", { .binding = 0u, .set = 0u }, type, 32u, ast::type::MemoryLayout::eStd140, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];
@@ -246,6 +252,7 @@ namespace
 			type.declMember< T >( name, 4u );
 			type.end();
 			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", 0u, 0u, type, 32u, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray( "ssboArrayIn", 0u, 0u, type, 32u, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];
@@ -277,6 +284,7 @@ namespace
 			type.declMember< T >( name, 4u );
 			type.end();
 			auto ssboArrayIn = writer.declArrayStorageBufferArray( "ssboArrayIn", { .binding = 0u, .set = 0u }, type, 32u, true );
+			auto ssboArrayIn2 = writer.declArrayStorageBufferArray( "ssboArrayIn", { .binding = 0u, .set = 0u }, type, 32u, true );
 			auto & stmtIn = *shader.getStatements()->back();
 			astRequire( stmtIn.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			auto ssboIn = ssboArrayIn[0];

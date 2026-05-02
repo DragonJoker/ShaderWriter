@@ -20,15 +20,14 @@ namespace sdw
 		SDW_API RayQuery( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled = true );
-		SDW_API explicit RayQuery( Value rhs );
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache, uint32_t baseFlags );
 
-		SDW_API ReturnWrapperT< Boolean > isCommittedStatusNone( UInt32 const & value )const;
-		SDW_API ReturnWrapperT< Boolean > isCommittedStatusTriangle( UInt32 const & value )const;
-		SDW_API ReturnWrapperT< Boolean > isCommittedStatusProceduralPrimitive( UInt32 const & value )const;
-		SDW_API ReturnWrapperT< Boolean > isCandidateTypeNonOpaqueTriangle( UInt32 const & value )const;
-		SDW_API ReturnWrapperT< Boolean > isCandidateTypeProceduralPrimitive( UInt32 const & value )const;
+		SDW_API ReturnWrapperT< Boolean > isCommittedStatusNone()const;
+		SDW_API ReturnWrapperT< Boolean > isCommittedStatusTriangle()const;
+		SDW_API ReturnWrapperT< Boolean > isCommittedStatusProceduralPrimitive()const;
+		SDW_API ReturnWrapperT< Boolean > isCandidateTypeNonOpaqueTriangle()const;
+		SDW_API ReturnWrapperT< Boolean > isCandidateTypeProceduralPrimitive()const;
 
 		SDW_API void traceRay( AccelerationStructure const & topLevel, uint32_t rayFlags, UInt32 const & cullMask, RayDesc const & rayDesc )const;
 		SDW_API ReturnWrapperT< Boolean > proceed()const;
