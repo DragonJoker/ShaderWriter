@@ -225,10 +225,16 @@ namespace test
 			return retrieveIsHLSLInitialised( *this, infoIndex );
 		}
 
-		bool TestCounts::isHlslRequested( uint32_t infoIndex, uint32_t requestedVersion )const
+		bool TestCounts::isHlslModelRequested( uint32_t infoIndex, uint32_t requestedVersion )const
 		{
 			return requestedVersion == 0u
 				|| retrieveHLSLVersion( *this, infoIndex ) == requestedVersion;
+		}
+
+		bool TestCounts::isHlslRaytracingTierRequested( uint32_t infoIndex, uint32_t requestedVersion )const
+		{
+			return requestedVersion == ~0u
+				|| retrieveHLSLRaytracingTier( *this, infoIndex ) == requestedVersion;
 		}
 
 		uint32_t TestCounts::getHlslVersion( uint32_t infoIndex )const

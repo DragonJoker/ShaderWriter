@@ -6,9 +6,10 @@ namespace test::sdw_test
 {
 	namespace hlsl_test
 	{
-		static std::string printHlslModel( uint32_t version )
+		static std::string printHlslModel( uint32_t mdlVersion, uint32_t rttVersion )
 		{
-			return "HLSL Shader Model " + std::to_string( version / 10u ) + "_" + std::to_string( version % 10u );
+			return "HLSL Shader Model " + std::to_string( mdlVersion / 10u ) + "_" + std::to_string( mdlVersion % 10u )
+				+ " - Raytracing Tier " + std::to_string( rttVersion / 10u ) + "_" + std::to_string( rttVersion % 10u );
 		}
 
 		static std::string generateHlsl( ::ast::Shader const & shader
@@ -36,7 +37,8 @@ namespace test::sdw_test
 		{
 #if SDW_HasCompilerHlsl
 
-			if ( !testCounts.isHlslRequested( infoIndex, compilers.hlsl.requestedModel ) )
+			if ( !testCounts.isHlslModelRequested( infoIndex, compilers.hlsl.requestedModel )
+				|| !testCounts.isHlslRaytracingTierRequested( infoIndex, compilers.hlsl.requestedRaytracingTier ) )
 				return;
 
 			auto validate = [&]()
@@ -65,11 +67,11 @@ namespace test::sdw_test
 						, testCounts
 						, infoIndex );
 					astCheck( isCompiled )
-					displayShader( printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, testCounts, compilers.forceDisplay || !isCompiled, true );
+					displayShader( printHlslModel( testCounts.getHlslVersion( infoIndex ), testCounts.getHlslRaytracingTier( infoIndex ) ), hlsl, testCounts, compilers.forceDisplay || !isCompiled, true );
 					if ( !isCompiled )
 						testCounts.printError( errors );
 				};
-			astOn( printHlslModel( testCounts.getHlslVersion( infoIndex ) ) );
+			astOn( printHlslModel( testCounts.getHlslVersion( infoIndex ), testCounts.getHlslRaytracingTier( infoIndex ) ) );
 			astCheckNoThrow( validate() )
 #endif
 		}
