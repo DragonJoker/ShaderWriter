@@ -1,17 +1,16 @@
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/BaseTypes/RayQuery.hpp>
+#include <ShaderWriter/TraditionalGraphicsWriter.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
 namespace
 {
-	using Compute = SDWTest;
-
-	TEST_F( SDWTest, base )
+	TEST_F( SDWTest, baseCompute )
 	{
-		sdwTestBegin( "base" );
+		sdwTestBegin( "baseCompute" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMain( 32u, [&writer]( sdw::ComputeIn const & in )
@@ -31,9 +30,9 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, simpleTriangleHitMiss )
+	TEST_F( SDWTest, simpleTriangleHitMissCompute )
 	{
-		sdwTestBegin( "simpleTriangleHitMiss" );
+		sdwTestBegin( "simpleTriangleHitMissCompute" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 		{
 			auto as = writer.declAccelerationStructure( "as", 0u, 0u );
@@ -86,9 +85,9 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, fullControlFlow )
+	TEST_F( SDWTest, fullControlFlowCompute )
 	{
-		sdwTestBegin( "fullControlFlow" );
+		sdwTestBegin( "fullControlFlowCompute" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 		{
 			auto as = writer.declAccelerationStructure( "as", 0u, 0u );
@@ -181,9 +180,9 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, fullControlFlowIfs )
+	TEST_F( SDWTest, fullControlFlowIfsCompute )
 	{
-		sdwTestBegin( "fullControlFlowIfs" );
+		sdwTestBegin( "fullControlFlowIfsCompute" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 		{
 			auto as = writer.declAccelerationStructure( "as", 0u, 0u );
@@ -283,6 +282,214 @@ namespace
 		test::writeShader( writer.getShader()
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		sdwTestEnd()
+	}
+
+	template< sdw::var::Flag FlagT >
+	struct TexT
+		: sdw::StructInstance
+	{
+		TexT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , TexT );
+
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
+		{
+			auto result = cache.getIOStruct( "PosTex"
+				, entryPoint
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec2F
+					, sdw::type::NotArray
+					, 1u );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "PosTex" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec2F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::Vec2 texcoord;
+	};
+
+	template< sdw::var::Flag FlagT >
+	struct ColT
+		: sdw::StructInstance
+	{
+		ColT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, colour{ getMember< sdw::Vec4 >( "colour" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , ColT );
+
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
+		{
+			auto result = cache.getIOStruct( "Colour"
+				, entryPoint
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colour"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray
+					, 0u );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Colour" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colour"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::Vec4 colour;
+	};
+
+	TEST_F( SDWTest, basicTraditional )
+	{
+		sdwTestBegin( "basicTraditional" );
+		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
+		{
+			auto as = writer.declAccelerationStructure( "as", 0u, 0u );
+
+			writer.implementEntryPointT< sdw::VoidT, TexT >( []( sdw::VertexIn const & in
+				, sdw::VertexOutT< TexT > out )
+				{
+					out.texcoord = vec2( i32vec2( ( in.vertexIndex << 1 ) & 2, in.vertexIndex & 2 ) );
+					out.vtx.position = vec4( out.texcoord * vec2( 2.0_f, -2.0_f ) + vec2( -1.0_f, 1.0_f ), 0.0f, 1.0f );
+				} );
+
+			writer.implementEntryPointT< TexT, ColT >( [&writer, &as]( sdw::FragmentInT< TexT > const & in
+				, sdw::FragmentOutT< ColT > out )
+				{
+					auto rayDesc = writer.declLocale< sdw::RayDesc >( "rayDesc" );
+					rayDesc.origin = vec3( 0.0_f, 0.0_f, 0.0_f );
+					rayDesc.direction = vec3( 0.0_f, 0.0_f, 1.0_f );
+					rayDesc.tMin = 0.001_f;
+					rayDesc.tMax = 1000.0_f;
+
+					auto q = writer.declRayQuery( "q", sdw::type::RayFlag::eNone );
+					q.traceRay( as, 0u, 0xFF_u, rayDesc );
+
+					auto result = writer.declLocale( "result", 0.0_f );
+					sdwIF( writer, q.isCommittedStatusTriangle() )
+					{
+						result = 1.0_f;
+					}
+					sdwELSEIF( q.isCommittedStatusProceduralPrimitive() )
+					{
+						result = 0.5_f;
+					}
+					sdwELSEIF( q.isCommittedStatusNone() )
+					{
+						result = 0.0_f;
+					}
+					sdwFI
+					out.colour = vec4( result );
+				} );
+		}
+		test::writeProgram( writer.getShader()
+			, testCounts, CurrentCompilers );
+		test::validateProgram( writer.getShader()
+			, testCounts, CurrentCompilers );
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, basicFragment )
+	{
+		sdwTestBegin( "basicFragment" );
+		sdw::ShaderPtrArray shaders{};
+		{
+			sdw::VertexWriter writer{ &testCounts.allocator };
+			writer.implementMainT< sdw::VoidT, TexT >( []( sdw::VertexIn const & in
+				, sdw::VertexOutT< TexT > out )
+				{
+					out.texcoord = vec2( i32vec2( ( in.vertexIndex << 1 ) & 2, in.vertexIndex & 2 ) );
+					out.vtx.position = vec4( out.texcoord * vec2( 2.0_f, -2.0_f ) + vec2( -1.0_f, 1.0_f ), 0.0f, 1.0f );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( writer.getBuilder().releaseShader() );
+		}
+		{
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+
+			auto as = writer.declAccelerationStructure( "as", 0u, 0u );
+
+			writer.implementMainT< TexT, ColT >( [&writer, &as]( sdw::FragmentInT< TexT > const & in
+				, sdw::FragmentOutT< ColT > out )
+				{
+					auto rayDesc = writer.declLocale< sdw::RayDesc >( "rayDesc" );
+					rayDesc.origin = vec3( 0.0_f, 0.0_f, 0.0_f );
+					rayDesc.direction = vec3( 0.0_f, 0.0_f, 1.0_f );
+					rayDesc.tMin = 0.001_f;
+					rayDesc.tMax = 1000.0_f;
+
+					auto q = writer.declRayQuery( "q", sdw::type::RayFlag::eNone );
+					q.traceRay( as, 0u, 0xFF_u, rayDesc );
+
+					auto result = writer.declLocale( "result", 0.0_f );
+					sdwIF( writer, q.isCommittedStatusTriangle() )
+					{
+						result = 1.0_f;
+					}
+					sdwELSEIF( q.isCommittedStatusProceduralPrimitive() )
+					{
+						result = 0.5_f;
+					}
+					sdwELSEIF( q.isCommittedStatusNone() )
+					{
+						result = 0.0_f;
+					}
+					sdwFI
+						out.colour = vec4( result );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( writer.getBuilder().releaseShader() );
+		}
+		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
 		sdwTestEnd()
 	}

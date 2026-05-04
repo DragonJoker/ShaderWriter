@@ -787,7 +787,7 @@ namespace glsl
 					{
 						args.emplace_back( doSubmit( *arg ) );
 					}
-					args.emplace_back( m_exprCache.makeLiteral( m_typesCache, 0u ) );
+					args.emplace_back( m_exprCache.makeLiteral( m_typesCache, false ) );
 					m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 						, expr->getIntrinsic()
 						, std::move( args ) );
@@ -806,7 +806,7 @@ namespace glsl
 						args.emplace_back( doSubmit( *arg ) );
 					}
 
-					args.emplace_back( m_exprCache.makeLiteral( m_typesCache, 1u ) );
+					args.emplace_back( m_exprCache.makeLiteral( m_typesCache, true ) );
 					m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 						, expr->getIntrinsic()
 						, std::move( args ) );
