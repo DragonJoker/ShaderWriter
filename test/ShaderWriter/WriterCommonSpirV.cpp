@@ -23,6 +23,7 @@
 #	include "spirv_hlsl.hpp"
 #endif
 #if SDW_Test_HasSpirVTools
+#	pragma warning( disable: 4251 )
 #	include "spirv-tools/libspirv.hpp"
 #endif
 #pragma GCC diagnostic pop

@@ -325,72 +325,72 @@ namespace ast
 						expr->getOuterExpr()->accept( this );
 					}
 
-					void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
+					[[noreturn]] void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 					{
 						AST_Exception( "Unexpected AddAssign expression" );
 					}
 
-					void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
+					[[noreturn]] void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 					{
 						AST_Exception( "Unexpected AndAssign expression" );
 					}
 
-					void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
+					[[noreturn]] void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 					{
 						AST_Exception( "Unexpected DivideAssign expression" );
 					}
 
-					void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
+					[[noreturn]] void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 					{
 						AST_Exception( "Unexpected LShiftAssign expression" );
 					}
 
-					void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
+					[[noreturn]] void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 					{
 						AST_Exception( "Unexpected MinusAssign expression" );
 					}
 
-					void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
+					[[noreturn]] void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 					{
 						AST_Exception( "Unexpected ModuloAssign expression" );
 					}
 
-					void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
+					[[noreturn]] void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 					{
 						AST_Exception( "Unexpected OrAssign expression" );
 					}
 
-					void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
+					[[noreturn]] void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 					{
 						AST_Exception( "Unexpected RShiftAssign expression" );
 					}
 
-					void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
+					[[noreturn]] void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 					{
 						AST_Exception( "Unexpected TimesAssign expression" );
 					}
 
-					void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
+					[[noreturn]] void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 					{
 						AST_Exception( "Unexpected XorAssign expression" );
 					}
 
-					void visitPostDecrementExpr(expr::PostDecrement const * expr )override
+					[[noreturn]] void visitPostDecrementExpr(expr::PostDecrement const * expr )override
 					{
 						AST_Exception( "Unexpected PostDecrement expression" );
 					}
 
-					void visitPostIncrementExpr(expr::PostIncrement const * expr )override
+					[[noreturn]] void visitPostIncrementExpr(expr::PostIncrement const * expr )override
 					{
 						AST_Exception( "Unexpected PostIncrement expression" );
 					}
 
-					void visitPreDecrementExpr(expr::PreDecrement const * expr )override
+					[[noreturn]] void visitPreDecrementExpr(expr::PreDecrement const * expr )override
 					{
 						AST_Exception( "Unexpected PreDecrement expression" );
 					}
 
-					void visitPreIncrementExpr(expr::PreIncrement const * expr )override
+					[[noreturn]] void visitPreIncrementExpr(expr::PreIncrement const * expr )override
 					{
 						AST_Exception( "Unexpected PreIncrement expression" );
 					}

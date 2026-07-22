@@ -543,13 +543,10 @@ namespace glsl
 					if ( isImageType( var.getType()->getKind() ) )
 					{
 						auto & imageType = static_cast< ast::type::Image const & >( *var.getType() );
-						return getAccessQualifierName( imageType.getConfig() );
+						result = getAccessQualifierName( imageType.getConfig() );
 					}
-
-					return result;
 				}
-
-				if ( var.isInputParam()
+				else  if ( var.isInputParam()
 					&& var.isOutputParam() )
 				{
 					result = "inout";
@@ -3242,7 +3239,7 @@ namespace glsl
 					decl += m_indents.back() + "\tfloat gl_ClipDistance[];\n";
 					decl += m_indents.back() + "\tfloat gl_CullDistance[];\n";
 					decl += m_indents.back() + "}";
-					m_currentLine += m_currentLine += 6u;
+					m_currentLine += 6u;
 
 					switch ( stmt->getSource() )
 					{
