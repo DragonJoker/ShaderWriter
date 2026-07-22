@@ -450,7 +450,7 @@ namespace hlsl
 				m_adaptationData.updateCurrentEntryPoint( nullptr );
 			}
 
-			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl const * stmt )override
+			[[noreturn]] void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl const * stmt )override
 			{
 				throw UnsupportedExtensionException{ "ast::stmt::BufferReferenceDecl are not supported in HLSL" };
 			}

@@ -1473,19 +1473,23 @@ namespace hlsl
 			if ( !isInput
 				&& stage == ast::ShaderStage::eTessellationControl )
 			{
-				return "BEZIERPOS";
+				result = "BEZIERPOS";
 			}
-
-			return "SV_Position";
+			else
+			{
+				result = "SV_Position";
+			}
 		}
 		else if ( builtin == ast::Builtin::eInvocationID )
 		{
 			if ( stage == ast::ShaderStage::eGeometry )
 			{
-				return "SV_GSInstanceID";
+				result = "SV_GSInstanceID";
 			}
-
-			return "SV_OutputControlPointID";
+			else
+			{
+				result = "SV_OutputControlPointID";
+			}
 		}
 		else if ( it != NamesMap.end() )
 		{
@@ -1881,39 +1885,40 @@ namespace hlsl
 			return nullptr;
 		}
 
+		ast::expr::ExprPtr result{};
 		auto ident = ast::findIdentifier( outer );
 
-		if ( !ident )
+		if ( ident )
 		{
-			return nullptr;
+			std::vector< PendingMbrIO >::iterator it;
+			result = processPendingMbrOuter( ident->getVariable()
+				, mbrIndex
+				, it );
+
+			if ( it != m_pendingMbr.end() )
+			{
+				auto const & mbr = *it;
+
+				if ( outer.getKind() != ast::expr::Kind::eArrayAccess )
+				{
+					result = exprCache.makeMbrSelect( std::move( result )
+						, mbr.io.result.mbrIndex
+						, mbr.io.result.flags );
+				}
+				else
+				{
+					auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( outer );
+					auto type = getNonArrayType( result->getType() );
+					result = exprCache.makeMbrSelect( exprCache.makeArrayAccess( type
+							, std::move( result )
+							, adapter.doSubmit( arrayAccess.getRHS() ) )
+						, mbr.io.result.mbrIndex
+						, mbr.io.result.flags );
+				}
+			}
 		}
 
-		std::vector< PendingMbrIO >::iterator it;
-		auto result = processPendingMbrOuter( ident->getVariable()
-			, mbrIndex
-			, it );
-
-		if ( it == m_pendingMbr.end() )
-		{
-			return result;
-		}
-
-		auto const & mbr = *it;
-
-		if ( outer.getKind() != ast::expr::Kind::eArrayAccess )
-		{
-			return exprCache.makeMbrSelect( std::move( result )
-				, mbr.io.result.mbrIndex
-				, mbr.io.result.flags );
-		}
-
-		auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( outer );
-		auto type = getNonArrayType( result->getType() );
-		return exprCache.makeMbrSelect( exprCache.makeArrayAccess( type
-				, std::move( result )
-				, adapter.doSubmit( arrayAccess.getRHS() ) )
-			, mbr.io.result.mbrIndex
-			, mbr.io.result.flags );
+		return result;
 	}
 
 	ast::expr::ExprPtr IOMapping::processPending( std::string const & name )
@@ -1953,13 +1958,14 @@ namespace hlsl
 
 	ast::expr::ExprPtr IOMapping::processPending( ast::var::VariablePtr srcVar )
 	{
-		if ( auto result = processPending( srcVar->getName() ) )
+		auto result = processPending( srcVar->getName() );
+
+		if ( !result )
 		{
-			return result;
+			result = exprCache.makeIdentifier( shader->getTypesCache(), srcVar );
 		}
 
-		return exprCache.makeIdentifier( shader->getTypesCache()
-				, srcVar );
+		return result;
 	}
 
 	bool IOMapping::isValid( ast::Builtin builtin )const

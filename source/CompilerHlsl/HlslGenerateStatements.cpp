@@ -197,32 +197,30 @@ namespace hlsl
 					}
 				}
 
-				if ( semantic.empty() )
-				{
-					return semantic;
-				}
-
 				std::string result;
 
-				if ( isMeshStage( stage )
-					&& ( builtin == ast::Builtin::ePrimitiveIndicesNV
-						|| builtin == ast::Builtin::ePrimitivePointIndices
-						|| builtin == ast::Builtin::ePrimitiveLineIndices
-						|| builtin == ast::Builtin::ePrimitiveTriangleIndices ) )
+				if ( !semantic.empty() )
 				{
-					result += "indices ";
-				}
+					if ( isMeshStage( stage )
+						&& ( builtin == ast::Builtin::ePrimitiveIndicesNV
+							|| builtin == ast::Builtin::ePrimitivePointIndices
+							|| builtin == ast::Builtin::ePrimitiveLineIndices
+							|| builtin == ast::Builtin::ePrimitiveTriangleIndices ) )
+					{
+						result += "indices ";
+					}
 
-				result += getTypeName( type ) + " ";
-				result += adaptName( name );
-				result += getTypeArraySize( type );
+					result += getTypeName( type ) + " ";
+					result += adaptName( name );
+					result += getTypeArraySize( type );
 
-				if ( builtin != ast::Builtin::ePrimitiveIndicesNV
-					&& builtin != ast::Builtin::ePrimitivePointIndices
-					&& builtin != ast::Builtin::ePrimitiveLineIndices
-					&& builtin != ast::Builtin::ePrimitiveTriangleIndices )
-				{
-					result += semantic;
+					if ( builtin != ast::Builtin::ePrimitiveIndicesNV
+						&& builtin != ast::Builtin::ePrimitivePointIndices
+						&& builtin != ast::Builtin::ePrimitiveLineIndices
+						&& builtin != ast::Builtin::ePrimitiveTriangleIndices )
+					{
+						result += semantic;
+					}
 				}
 
 				return result;

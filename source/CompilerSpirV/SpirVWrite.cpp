@@ -1293,32 +1293,6 @@ namespace spirv
 #endif
 		}
 
-		static std::string getName( spv::Scope value )
-		{
-			auto stream = getStream();
-
-			switch ( value )
-			{
-			case spv::ScopeCrossDevice:
-				return "CrossDevice";
-			case spv::ScopeDevice:
-				return "Device";
-			case spv::ScopeWorkgroup:
-				return "Workgroup";
-			case spv::ScopeSubgroup:
-				return "Subgroup";
-			case spv::ScopeInvocation:
-				return "Invocation";
-			case spv::ScopeQueueFamily:
-				return "QueueFamily";
-			case spv::ScopeShaderCallKHR:
-				return "ShaderCall";
-			default:
-				//AST_Failure( "Unsupported Scope" );
-				return "Undefined";
-			}
-		}
-
 		static void join( std::string & lhs, std::string_view rhs, std::string_view sep )
 		{
 			if ( lhs.empty() )
@@ -1572,88 +1546,6 @@ namespace spirv
 			}
 
 			if ( value == uint32_t( spv::ImageOperandsMaskNone ) )
-			{
-				content = "None";
-			}
-
-			return "[" + content + "]";
-		}
-
-		static std::string getMemorySemanticsName( uint32_t value )
-		{
-			std::string content;
-
-			if ( value & uint32_t( spv::MemorySemanticsAcquireMask ) )
-			{
-				join( content, "Acquire", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsReleaseMask ) )
-			{
-				join( content, "Release", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsAcquireReleaseMask ) )
-			{
-				join( content, "AcquireRelease", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsSequentiallyConsistentMask ) )
-			{
-				join( content, "SequentiallyConsistent", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsUniformMemoryMask ) )
-			{
-				join( content, "UniformMemory", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsSubgroupMemoryMask ) )
-			{
-				join( content, "SubgroupMemory", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsWorkgroupMemoryMask ) )
-			{
-				join( content, "WorkgroupMemory", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsCrossWorkgroupMemoryMask ) )
-			{
-				join( content, "CrossWorkgroupMemory", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsAtomicCounterMemoryMask ) )
-			{
-				join( content, "AtomicCounterMemory", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsImageMemoryMask ) )
-			{
-				join( content, "ImageMemory", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsOutputMemoryMask ) )
-			{
-				join( content, "OutputMemory", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsMakeAvailableMask ) )
-			{
-				join( content, "MakeAvailable", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsMakeVisibleMask ) )
-			{
-				join( content, "MakeVisible", "|" );
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsVolatileMask ) )
-			{
-				join( content, "Volatile", "|" );
-			}
-
-			if ( value == uint32_t( spv::MemorySemanticsMaskNone ) )
 			{
 				content = "None";
 			}

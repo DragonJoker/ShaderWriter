@@ -8,6 +8,7 @@
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 #pragma GCC diagnostic ignored "-Wtype-limits"
 #if SDW_Test_HasSpirVTools
+#	pragma warning( disable: 4251 )
 #	include "spirv-tools/libspirv.hpp"
 #endif
 #pragma GCC diagnostic pop
