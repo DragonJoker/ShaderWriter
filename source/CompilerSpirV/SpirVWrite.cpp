@@ -2964,8 +2964,8 @@ namespace spirv
 		{
 			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
-			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
-			stream << " " << getMemorySemanticsName( instruction.operands[2] );
+			stream << " " << writeId( instruction.operands[1] );
+			stream << " " << writeId( instruction.operands[2] );
 			writeStream( instruction.operands[3], stream, names );
 			return stream;
 		}
@@ -2976,8 +2976,8 @@ namespace spirv
 		{
 			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
-			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
-			stream << " " << getMemorySemanticsName( instruction.operands[2] );
+			stream << " " << writeId( instruction.operands[1] );
+			stream << " " << writeId( instruction.operands[2] );
 			writeStream( instruction.operands[3], stream, names );
 			return stream;
 		}
@@ -2988,8 +2988,8 @@ namespace spirv
 		{
 			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
-			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
-			stream << " " << getMemorySemanticsName( instruction.operands[2] );
+			stream << " " << writeId( instruction.operands[1] );
+			stream << " " << writeId( instruction.operands[2] );
 			writeStream( instruction.operands[3], stream, names );
 			return stream;
 		}
@@ -3000,8 +3000,8 @@ namespace spirv
 		{
 			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
-			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
-			stream << " " << getMemorySemanticsName( instruction.operands[2] );
+			stream << " " << writeId( instruction.operands[1] );
+			stream << " " << writeId( instruction.operands[2] );
 			writeStream( instruction.operands[3], stream, names );
 			return stream;
 		}
@@ -3012,9 +3012,9 @@ namespace spirv
 		{
 			AST_Assert( instruction.operands.size() == 6u );
 			writeStream( instruction.operands[0], stream, names );
-			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
-			stream << " " << getMemorySemanticsName( instruction.operands[2] );
-			stream << " " << getMemorySemanticsName( instruction.operands[3] );
+			stream << " " << writeId( instruction.operands[1] );
+			stream << " " << writeId( instruction.operands[2] );
+			stream << " " << writeId( instruction.operands[3] );
 			writeStream( instruction.operands[4], stream, names );
 			writeStream( instruction.operands[5], stream, names );
 			return stream;

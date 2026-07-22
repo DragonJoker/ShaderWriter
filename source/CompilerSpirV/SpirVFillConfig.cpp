@@ -355,8 +355,10 @@ namespace spirv
 					doSubmit( *arg );
 				}
 
-				if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eAtomicAddI
-					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eAtomicCompSwapU )
+				IntrinsicConfig config;
+				getSpirVConfig( expr->getIntrinsic(), config );
+
+				if ( config.isAtomic )
 				{
 					if ( auto ident = ast::findIdentifier( *expr->getArgList()[0] ) )
 					{
