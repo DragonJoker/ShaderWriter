@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "SpirVGetSwizzleComponents.hpp"
 #include "SpirVCombinedImageAccessConfig.hpp"
 #include "SpirVCombinedImageAccessNames.hpp"
+#include "SpirVIntrinsicConfig.hpp"
 #include "SpirVMakeAccessChain.hpp"
 
 #include <ShaderAST/ShaderLog.hpp>

@@ -1697,7 +1697,29 @@ namespace spirv
 				}
 
 				auto scopeId = registerLiteral( uint32_t( spv::ScopeDevice ) );
-				auto memorySemanticsId = registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
+				auto memorySemanticsMask = uint32_t( spv::MemorySemanticsAcquireReleaseMask );
+				switch ( getStorageClass( m_moduleConfig.getSpirVVersion(), *expr->getArgList()[0] ) )
+				{
+				case ast::type::Storage::eUniform:
+				case ast::type::Storage::eStorageBuffer:
+					memorySemanticsMask |= uint32_t( spv::MemorySemanticsUniformMemoryMask );
+					break;
+				case ast::type::Storage::eImage:
+					memorySemanticsMask |= uint32_t( spv::MemorySemanticsImageMemoryMask );
+					break;
+				case ast::type::Storage::eAtomicCounter:
+					memorySemanticsMask |= uint32_t( spv::MemorySemanticsAtomicCounterMemoryMask );
+					break;
+				case ast::type::Storage::eWorkgroup:
+					memorySemanticsMask |= uint32_t( spv::MemorySemanticsWorkgroupMemoryMask );
+					break;
+				case ast::type::Storage::eCrossWorkgroup:
+					memorySemanticsMask |= uint32_t( spv::MemorySemanticsCrossWorkgroupMemoryMask );
+					break;
+				default:
+					break;
+				}
+				auto memorySemanticsId = registerLiteral( memorySemanticsMask );
 				params.push_back( scopeId );
 				params.push_back( memorySemanticsId );
 
